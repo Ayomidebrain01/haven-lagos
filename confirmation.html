@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmed — HAVEN Lagos</title>
+<meta name="description" content="Your HAVEN Lagos booking is confirmed. View your receipt, check-in instructions and smart lock access code.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+  --shadow-s:0 2px 12px rgba(0,0,0,0.06);--shadow-m:0 8px 32px rgba(0,0,0,0.10);--shadow-l:0 20px 60px rgba(0,0,0,0.13);
+  --radius:8px;--max:760px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;line-height:1.6;min-height:100vh;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+
+/* ── NAV ── */
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px;max-width:var(--max);margin:0 auto;}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;align-items:center;gap:16px;}
+.nav-link{font-size:0.78rem;font-weight:700;color:var(--muted);transition:color 0.2s;}
+.nav-link:hover{color:var(--accent);}
+.nav-btn{padding:8px 18px;background:var(--accent);color:#fff;border-radius:var(--radius);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;}
+.nav-btn:hover{background:var(--accent-h);}
+
+/* ── MAIN ── */
+.page{max-width:var(--max);margin:0 auto;padding:28px 20px 80px;}
+@media(min-width:640px){.page{padding:40px 20px 80px;}}
+
+/* ── SUCCESS BANNER ── */
+.success-banner{background:linear-gradient(135deg,var(--green) 0%,#15803d 100%);border-radius:var(--radius);padding:28px 28px 24px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden;}
+.sb-pattern{position:absolute;inset:0;opacity:0.08;background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:24px 24px;}
+.sb-inner{position:relative;z-index:1;}
+.sb-ico{font-size:2.8rem;margin-bottom:10px;animation:pop 0.5s ease;}
+.sb-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:6px;}
+.sb-sub{font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.65;max-width:380px;margin:0 auto 16px;}
+.sb-ref{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:7px 18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;color:#fff;letter-spacing:0.06em;}
+.sb-copy{background:none;border:none;color:rgba(255,255,255,0.7);font-size:0.8rem;cursor:pointer;transition:color 0.2s;margin-left:4px;}
+.sb-copy:hover{color:#fff;}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-head-ico{font-size:1.1rem;}
+.card-head h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:800;color:var(--heading);}
+.card-body{padding:20px;}
+
+/* ── BOOKING SUMMARY ── */
+.apt-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.apt-img{width:90px;height:68px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.apt-info h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--heading);margin-bottom:3px;}
+.apt-info .apt-loc{font-size:0.74rem;color:var(--muted);font-weight:600;margin-bottom:6px;}
+.apt-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.64rem;font-weight:700;background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);border-radius:100px;padding:2px 9px;}
+
+.dates-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.date-cell{background:var(--off);border-radius:6px;padding:12px 14px;}
+.date-cell-lbl{font-size:0.62rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.date-cell-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:800;color:var(--heading);}
+.date-cell-sub{font-size:0.72rem;color:var(--muted);margin-top:1px;}
+
+.detail-rows{display:flex;flex-direction:column;gap:0;}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:0.84rem;}
+.detail-row:last-child{border-bottom:none;}
+.dr-label{color:var(--muted);font-weight:600;}
+.dr-val{font-weight:700;color:var(--heading);}
+
+/* ── PRICE BREAKDOWN ── */
+.price-rows{display:flex;flex-direction:column;gap:0;}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:0.84rem;}
+.price-row:last-child{border-bottom:none;}
+.pr-label{color:var(--muted);font-weight:600;}
+.pr-val{font-weight:700;color:var(--heading);}
+.price-total{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--accent);border-radius:6px;margin-top:12px;}
+.pt-label{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:rgba(255,255,255,0.8);}
+.pt-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;}
+
+/* ── ACCESS CODE ── */
+.access-card{background:var(--accent);border-radius:var(--radius);padding:22px;margin-bottom:14px;}
+.ac-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ac-ico{width:40px;height:40px;background:rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ac-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:800;color:#fff;}
+.ac-sub{font-size:0.76rem;color:rgba(255,255,255,0.6);margin-top:2px;}
+.access-code-display{background:var(--heading);border-radius:8px;padding:18px 20px;text-align:center;margin-bottom:14px;position:relative;}
+.acd-label{font-size:0.62rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:8px;}
+.acd-code{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;color:#fff;letter-spacing:0.2em;}
+.acd-copy{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;border-radius:6px;padding:6px 12px;font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;transition:all 0.2s;}
+.acd-copy:hover{background:rgba(255,255,255,0.2);color:#fff;}
+.acd-copied{color:#4ade80!important;}
+.access-steps{display:flex;flex-direction:column;gap:8px;}
+.as-step{display:flex;align-items:center;gap:10px;font-size:0.8rem;color:rgba(255,255,255,0.75);}
+.as-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:#fff;flex-shrink:0;}
+.ac-note{margin-top:12px;font-size:0.74rem;color:rgba(255,255,255,0.5);line-height:1.55;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);}
+
+/* ── CHECKIN INFO ── */
+.checkin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.ci-cell{background:var(--off);border-radius:6px;padding:14px;}
+.ci-ico{font-size:1.2rem;margin-bottom:6px;}
+.ci-label{font-size:0.62rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.ci-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);}
+.ci-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+.rules-list{display:flex;flex-direction:column;gap:8px;}
+.rule-item{display:flex;align-items:flex-start;gap:9px;font-size:0.82rem;line-height:1.5;}
+.rule-item.ok{color:var(--green);}
+.rule-item.no{color:#dc2626;}
+.rule-item.info{color:var(--text);}
+.rule-ico{flex-shrink:0;margin-top:1px;}
+
+/* ── LOCATION ── */
+.location-card{background:var(--off);border-radius:6px;overflow:hidden;margin-bottom:14px;}
+.loc-map-img{width:100%;height:160px;object-fit:cover;opacity:0.75;}
+.loc-body{padding:14px 16px;}
+.loc-addr{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--heading);margin-bottom:3px;}
+.loc-sub{font-size:0.76rem;color:var(--muted);}
+.loc-link{display:inline-flex;align-items:center;gap:5px;font-size:0.76rem;font-weight:700;color:var(--accent);margin-top:8px;}
+.loc-link:hover{text-decoration:underline;}
+
+/* ── ACTIONS ── */
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+@media(min-width:440px){.actions{grid-template-columns:repeat(4,1fr);}}
+.action-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all 0.2s;text-align:center;}
+.action-btn:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-s);}
+.ab-ico{font-size:1.4rem;}
+.ab-label{font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text);}
+
+/* ── CONCIERGE ── */
+.concierge-card{background:var(--off);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;display:flex;align-items:flex-start;gap:14px;}
+.cc-ico-wrap{width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.cc-text h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--heading);margin-bottom:4px;}
+.cc-text p{font-size:0.78rem;color:var(--muted);line-height:1.55;margin-bottom:10px;}
+.cc-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.cc-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:0.74rem;font-weight:700;transition:all 0.2s;}
+.cc-btn-wa{background:#25D366;color:#fff;}
+.cc-btn-wa:hover{background:#1db954;}
+.cc-btn-call{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent);}
+.cc-btn-call:hover{background:var(--accent);color:#fff;}
+
+/* ── SIMILAR PROPERTIES ── */
+.similar-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.sim-card{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;}
+.sim-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-m);}
+.sim-img{width:100%;height:100px;object-fit:cover;}
+.sim-body{padding:10px 12px;}
+.sim-loc{font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.sim-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;color:var(--heading);margin-bottom:6px;}
+.sim-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;color:var(--accent);}
+.sim-price small{font-size:0.65rem;color:var(--muted);font-weight:400;}
+
+/* ── PRINT ── */
+.print-btn{display:flex;align-items:center;gap:7px;padding:11px 18px;border:1.5px solid var(--border);border-radius:var(--radius);background:#fff;font-size:0.78rem;font-weight:700;color:var(--text);cursor:pointer;transition:all 0.2s;margin-bottom:14px;width:100%;justify-content:center;}
+.print-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:10px 20px;font-size:0.8rem;font-weight:700;box-shadow:var(--shadow-l);transition:transform 0.3s ease;z-index:400;white-space:nowrap;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@keyframes pop{0%{transform:scale(0.5);opacity:0;}80%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+@media print{
+  .nav,.actions,.concierge-card,.similar-section,.print-btn,.toast{display:none!important;}
+  body{background:#fff;}
+  .card{box-shadow:none;border:1px solid #ccc;}
+  .access-card{background:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">HAVEN<span>.</span></a>
+    <div class="nav-links">
+      <a href="properties.html" class="nav-link">Properties</a>
+      <a href="dashboard.html" class="nav-link">My Bookings</a>
+      <a href="dashboard.html" class="nav-btn">Dashboard →</a>
+    </div>
+  </div>
+</header>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<main>
+<div class="page">
+
+  <!-- Success Banner -->
+  <div class="success-banner">
+    <div class="sb-pattern"></div>
+    <div class="sb-inner">
+      <div class="sb-ico">🎉</div>
+      <h1 class="sb-title">Booking Confirmed!</h1>
+      <p class="sb-sub">Your reservation is confirmed. A copy of this receipt has been sent to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9efffafffbe4fbdefbf3fff7f2b0fdf1f3">[email&#160;protected]</a></strong>. Your check-in details and access code are below.</p>
+      <div class="sb-ref">
+        Booking Ref: HAVEN-2025-4821
+        <button class="sb-copy" onclick="copyRef()" title="Copy reference">📋</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="actions">
+    <button class="action-btn" onclick="window.print()">
+      <span class="ab-ico">🖨️</span><span class="ab-label">Print / Save</span>
+    </button>
+    <button class="action-btn" onclick="addToCalendar()">
+      <span class="ab-ico">📅</span><span class="ab-label">Add to Calendar</span>
+    </button>
+    <button class="action-btn" onclick="shareBooking()">
+      <span class="ab-ico">↗️</span><span class="ab-label">Share</span>
+    </button>
+    <a href="dashboard.html" class="action-btn">
+      <span class="ab-ico">📋</span><span class="ab-label">View Dashboard</span>
+    </a>
+  </div>
+
+  <!-- Booking Summary -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-ico">🏠</span>
+      <h2>Booking Summary</h2>
+    </div>
+    <div class="card-body">
+      <div class="apt-row">
+        <img class="apt-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&q=80" alt="The Signature Suite" loading="lazy">
+        <div class="apt-info">
+          <h3>The Signature Suite</h3>
+          <div class="apt-loc">📍 Lekki Phase 1, Lagos</div>
+          <span class="apt-badge">✓ Verified Apartment</span>
+        </div>
+      </div>
+
+      <div class="dates-grid">
+        <div class="date-cell">
+          <div class="date-cell-lbl">Check In</div>
+          <div class="date-cell-val">Fri, 17 Jan 2025</div>
+          <div class="date-cell-sub">From 2:00 PM</div>
+        </div>
+        <div class="date-cell">
+          <div class="date-cell-lbl">Check Out</div>
+          <div class="date-cell-val">Mon, 20 Jan 2025</div>
+          <div class="date-cell-sub">By 12:00 PM</div>
+        </div>
+      </div>
+
+      <div class="detail-rows">
+        <div class="detail-row"><span class="dr-label">Duration</span><span class="dr-val">3 nights</span></div>
+        <div class="detail-row"><span class="dr-label">Guests</span><span class="dr-val">2 Adults</span></div>
+        <div class="detail-row"><span class="dr-label">Bedrooms</span><span class="dr-val">3 Bedrooms</span></div>
+        <div class="detail-row"><span class="dr-label">Guest Name</span><span class="dr-val">Adaeze Okonkwo</span></div>
+        <div class="detail-row"><span class="dr-label">Booking Date</span><span class="dr-val">Wed, 8 Jan 2025</span></div>
+        <div class="detail-row"><span class="dr-label">Payment Method</span><span class="dr-val">Debit Card ···4821</span></div>
+        <div class="detail-row"><span class="dr-label">Status</span><span class="dr-val" style="color:var(--green);">✓ Confirmed & Paid</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Price Receipt -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-ico">🧾</span>
+      <h2>Payment Receipt</h2>
+    </div>
+    <div class="card-body">
+      <div class="price-rows">
+        <div class="price-row"><span class="pr-label">₦120,000 × 3 nights</span><span class="pr-val">₦360,000</span></div>
+        <div class="price-row"><span class="pr-label">Cleaning fee</span><span class="pr-val">₦15,000</span></div>
+        <div class="price-row"><span class="pr-label">Service charge (5%)</span><span class="pr-val">₦18,000</span></div>
+      </div>
+      <div class="price-total">
+        <span class="pt-label">Total Paid</span>
+        <span class="pt-val">₦393,000</span>
+      </div>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;line-height:1.5;">
+        HAVEN Properties Ltd · RC: 1234567 · VAT: 12345678-0001<br>
+        This receipt is valid for business expense claims and reimbursement.
+      </p>
+    </div>
+  </div>
+
+  <!-- Smart Lock Access Code -->
+  <div class="access-card">
+    <div class="ac-header">
+      <div class="ac-ico">🔐</div>
+      <div>
+        <div class="ac-title">Your Smart Lock Access Code</div>
+        <div class="ac-sub">Valid from 2:00 PM on 17 Jan — expires 12:00 PM on 20 Jan</div>
+      </div>
+    </div>
+    <div class="access-code-display">
+      <div class="acd-label">Door Access Code</div>
+      <div class="acd-code" id="accessCode">4821</div>
+      <button class="acd-copy" id="copyCodeBtn" onclick="copyCode()">📋 Copy</button>
+    </div>
+    <div class="access-steps">
+      <div class="as-step"><div class="as-num">1</div>Arrive at The Signature Suite, Lekki Phase 1</div>
+      <div class="as-step"><div class="as-num">2</div>Locate the keypad on the front door of your apartment</div>
+      <div class="as-step"><div class="as-num">3</div>Enter your 4-digit code and press the # key to confirm</div>
+      <div class="as-step"><div class="as-num">4</div>The door will unlock within 3 seconds</div>
+    </div>
+    <p class="ac-note">Your code is unique to your stay and automatically deactivates at check-out time. Do not share it with anyone outside your party. If you have trouble with the code, call our concierge immediately: +234 800 000 0000</p>
+  </div>
+
+  <!-- Check-In Information -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-ico">🔑</span>
+      <h2>Check-In Information</h2>
+    </div>
+    <div class="card-body">
+      <div class="checkin-grid">
+        <div class="ci-cell"><div class="ci-ico">⏰</div><div class="ci-label">Check-In Time</div><div class="ci-val">2:00 PM</div><div class="ci-sub">Friday, 17 Jan 2025</div></div>
+        <div class="ci-cell"><div class="ci-ico">🚪</div><div class="ci-label">Check-Out Time</div><div class="ci-val">12:00 PM</div><div class="ci-sub">Monday, 20 Jan 2025</div></div>
+        <div class="ci-cell"><div class="ci-ico">🏢</div><div class="ci-label">Floor</div><div class="ci-val">8th Floor</div><div class="ci-sub">Apartment 8B</div></div>
+        <div class="ci-cell"><div class="ci-ico">🅿️</div><div class="ci-label">Parking</div><div class="ci-val">Space B-08</div><div class="ci-sub">Basement level 1</div></div>
+        <div class="ci-cell"><div class="ci-ico">🛜</div><div class="ci-label">WiFi Network</div><div class="ci-val">HAVEN-8B</div><div class="ci-sub">Password below</div></div>
+        <div class="ci-cell" style="cursor:pointer;" onclick="copyWifi()"><div class="ci-ico">🔑</div><div class="ci-label">WiFi Password</div><div class="ci-val" id="wifiPwd">Haven@8B21</div><div class="ci-sub">Tap to copy</div></div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:800;color:var(--heading);margin-bottom:10px;">House Rules</p>
+        <div class="rules-list">
+          <div class="rule-item ok"><span class="rule-ico">✓</span>Check-in from 2:00 PM · Check-out by 12:00 PM</div>
+          <div class="rule-item ok"><span class="rule-ico">✓</span>Up to 6 guests permitted</div>
+          <div class="rule-item ok"><span class="rule-ico">✓</span>Self check-in via smart lock — no need to meet anyone</div>
+          <div class="rule-item no"><span class="rule-ico">✕</span>No smoking inside the apartment</div>
+          <div class="rule-item no"><span class="rule-ico">✕</span>No pets allowed</div>
+          <div class="rule-item no"><span class="rule-ico">✕</span>No parties or events</div>
+          <div class="rule-item info"><span class="rule-ico">ℹ️</span>Quiet hours: 11:00 PM – 7:00 AM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Location -->
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-ico">📍</span>
+      <h2>Getting There</h2>
+    </div>
+    <div class="card-body" style="padding-bottom:0;">
+      <div class="location-card" style="margin-bottom:0;">
+        <img class="loc-map-img" src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=700&q=80" alt="Lekki Phase 1 map" loading="lazy">
+        <div class="loc-body">
+          <div class="loc-addr">15B Admiralty Way, Lekki Phase 1, Lagos</div>
+          <div class="loc-sub">The Signature Suite — Apartment 8B, 8th Floor</div>
+          <a href="https://maps.google.com/?q=Lekki+Phase+1+Lagos" target="_blank" class="loc-link">Open in Google Maps →</a>
+        </div>
+      </div>
+      <div style="padding:14px 0 4px;">
+        <div class="detail-rows">
+          <div class="detail-row"><span class="dr-label">From Airport (MMIA)</span><span class="dr-val">~45 mins by car</span></div>
+          <div class="detail-row"><span class="dr-label">From VI / Lekki</span><span class="dr-val">~10–15 mins</span></div>
+          <div class="detail-row"><span class="dr-label">Nearest Landmark</span><span class="dr-val">The Palms Mall</span></div>
+          <div class="detail-row"><span class="dr-label">Airport Pickup</span><span class="dr-val"><a href="https://wa.me/2348000000000" style="color:var(--accent);font-weight:700;">Arrange via WhatsApp →</a></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concierge -->
+  <div class="concierge-card">
+    <div class="cc-ico-wrap">🛎️</div>
+    <div class="cc-text">
+      <h3>24/7 Concierge Support</h3>
+      <p>A real person is available around the clock throughout your stay. Airport pickup, grocery delivery, restaurant reservations, maintenance — just reach out.</p>
+      <div class="cc-btns">
+        <a href="https://wa.me/2348000000000?text=Hi!%20My%20booking%20ref%20is%20HAVEN-2025-4821.%20I%20need%20help%20with..." target="_blank" class="cc-btn cc-btn-wa">💬 WhatsApp</a>
+        <a href="tel:+2348000000000" class="cc-btn cc-btn-call">📞 Call Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print Receipt -->
+  <button class="print-btn" onclick="window.print()">🖨️ Print or Save as PDF</button>
+
+  <!-- Similar Properties -->
+  <div class="similar-section">
+    <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;color:var(--heading);margin-bottom:12px;">You might also like for your next visit</p>
+    <div class="similar-grid">
+      <a href="property-detail.html" class="sim-card">
+        <img class="sim-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=80" alt="VI Executive" loading="lazy">
+        <div class="sim-body">
+          <div class="sim-loc">Victoria Island</div>
+          <div class="sim-name">The VI Executive</div>
+          <div class="sim-price">₦85,000 <small>/ night</small></div>
+        </div>
+      </a>
+      <a href="property-detail.html" class="sim-card">
+        <img class="sim-img" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&q=80" alt="Ikoyi Penthouse" loading="lazy">
+        <div class="sim-body">
+          <div class="sim-loc">Ikoyi</div>
+          <div class="sim-name">Ikoyi Penthouse</div>
+          <div class="sim-price">₦200,000 <small>/ night</small></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── LOAD BOOKING FROM API ──
+let _booking = null;
+let _property = null;
+
+async function loadConfirmation() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  if (!ref) return;
+
+  try {
+    // Verify payment first
+    const token = localStorage.getItem('haven_token');
+    if (token) {
+      const verifyRes = await fetch(API_BASE + '/payments/verify/' + ref, {
+        method: 'POST', headers: authHeaders()
+      });
+      const verifyData = await verifyRes.json();
+      if (verifyData.booking) {
+        _booking = verifyData.booking;
+        _property = verifyData.booking;
+        populateConfirmation(_booking);
+      }
+    }
+  } catch (err) {
+    console.error('Confirmation load error:', err);
+  }
+}
+
+function populateConfirmation(b) {
+  // Update booking reference
+  document.querySelectorAll('[id*="Ref"], .booking-ref').forEach(el => {
+    if (el.textContent.includes('HAVEN')) el.textContent = b.booking_ref;
+  });
+  // Update access code
+  if (b.access_code) {
+    document.querySelectorAll('.access-code, [id*="accessCode"]').forEach(el => {
+      el.textContent = b.access_code;
+    });
+  }
+}
+
+// ── COPY REF ──
+function copyRef() {
+  const ref = _booking?.booking_ref || 'HAVEN-REF';
+  navigator.clipboard.writeText(ref).then(() => showToast('Booking reference copied!'));
+}
+
+// ── COPY ACCESS CODE ──
+function copyCode() {
+  const code = _booking?.access_code || '';
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('copyCodeBtn');
+    if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('acd-copied'); setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('acd-copied'); }, 2500); }
+    showToast('Access code copied!');
+  });
+}
+
+// ── COPY WIFI ──
+function copyWifi() {
+  const pwd = _property?.wifi_password || '';
+  navigator.clipboard.writeText(pwd).then(() => showToast('WiFi password copied!'));
+}
+
+// ── ADD TO CALENDAR ──
+function addToCalendar() {
+  if (!_booking) return;
+  const checkin = new Date(_booking.checkin_date);
+  const checkout = new Date(_booking.checkout_date);
+  const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0];
+  const start = fmt(checkin) ;
+  const end = fmt(checkout);
+  const title = encodeURIComponent('HAVEN Lagos — ' + (_booking.property_name || 'Stay'));
+  const loc = encodeURIComponent(_booking.address || 'Lagos');
+  const desc = encodeURIComponent('Booking Ref: ' + _booking.booking_ref + '. Access code: ' + (_booking.access_code || 'See email'));
+  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&location=${loc}&details=${desc}`;
+  window.open(url, '_blank');
+}
+
+// ── SHARE ──
+function shareBooking() {
+  if (navigator.share) {
+    navigator.share({ title: 'My HAVEN Lagos Booking', text: 'I have booked via HAVEN Lagos!', url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copied to clipboard!'));
+  }
+}
+
+// ── DOWNLOAD RECEIPT ──
+async function downloadReceipt() {
+  if (!_booking) return;
+  try {
+    showToast('Generating receipt…');
+    const res = await fetch(API_BASE + '/bookings/' + _booking.id + '/receipt', { headers: authHeaders() });
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'HAVEN-Receipt-' + _booking.booking_ref + '.pdf'; a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) { showToast('Could not download receipt.'); }
+}
+
+loadConfirmation();
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guests — HAVEN Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --red:#dc2626;--red-bg:#fef2f2;--red-bd:#fecaca;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --sh-s:0 2px 12px rgba(0,0,0,0.06);--sh-m:0 8px 32px rgba(0,0,0,0.12);--sh-l:0 20px 60px rgba(0,0,0,0.18);
+  --r:8px;--sb:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;min-height:100vh;line-height:1.6;padding-bottom:60px;}
+@media(min-width:780px){body{padding-bottom:0;}}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ── TOP NAV ── */
+.tnav{background:var(--accent);position:sticky;top:0;z-index:300;height:54px;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.tnav-ham{display:flex;flex-direction:column;gap:4px;padding:6px;background:none;border:none;cursor:pointer;flex-shrink:0;}
+@media(min-width:780px){.tnav-ham{display:none;}}
+.tnav-ham span{display:block;width:18px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.3s;}
+.tnav-ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tnav-ham.open span:nth-child(2){opacity:0;}
+.tnav-ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.tnav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.tnav-logo span{color:var(--accent-lite);}
+.tnav-badge{font-size:0.58rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);border-radius:100px;padding:3px 9px;border:1px solid rgba(255,255,255,0.18);}
+.tnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.tnav-icon{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:0.88rem;cursor:pointer;transition:background 0.2s;}
+.tnav-icon:hover{background:rgba(255,255,255,0.18);}
+.tnav-user{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,0.18);border-radius:100px;cursor:pointer;}
+.tnav-av{width:24px;height:24px;border-radius:50%;background:var(--accent-lite);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:var(--accent);}
+.tnav-name{font-size:0.74rem;font-weight:700;color:#fff;display:none;}
+@media(min-width:480px){.tnav-name{display:block;}}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+.sidebar{width:var(--sb);background:var(--heading);flex-direction:column;flex-shrink:0;display:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+@media(min-width:780px){.sidebar{display:flex;}}
+.mob-overlay{display:none;position:fixed;inset:0;top:54px;background:rgba(0,0,0,0.5);z-index:198;}
+.mob-overlay.open{display:block;}
+.mob-sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sb);background:var(--heading);z-index:199;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;display:flex;}
+.mob-sidebar.open{transform:translateX(0);}
+.sb-user{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.sb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:#fff;}
+.sb-role{font-size:0.68rem;font-weight:700;background:var(--accent);color:var(--accent-lite);border-radius:100px;padding:2px 8px;display:inline-block;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-lbl{font-size:0.58rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:6px;display:block;}
+.slink{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;margin-bottom:1px;}
+.slink:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.slink.active{background:var(--accent);color:#fff;}
+.slink-ico{font-size:0.88rem;width:16px;text-align:center;flex-shrink:0;}
+.slink-cnt{margin-left:auto;font-size:0.6rem;font-weight:800;background:var(--orange);color:#fff;border-radius:100px;padding:1px 7px;}
+.slink-cnt.g{background:var(--green);}
+.sb-div{height:1px;background:rgba(255,255,255,0.08);margin:8px 12px;}
+.sb-bottom{padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-btn:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.sb-btn.danger:hover{color:#f87171;background:rgba(239,68,68,0.1);}
+
+/* ── MAIN ── */
+.main{flex:1;min-width:0;padding:20px 16px 32px;}
+@media(min-width:640px){.main{padding:24px 24px 40px;}}
+
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.pg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--heading);}
+.pg-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+.pg-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);transform:translateY(-1px);}
+.btn-o{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+.btn-o:hover{background:var(--accent);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:0.7rem;}
+.btn-wa{background:#25D366;color:#fff;}
+.btn-wa:hover{background:#1db954;}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:560px){.kpi-strip{grid-template-columns:repeat(4,1fr);}}
+.ks{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;}
+.ks-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);line-height:1;margin-bottom:3px;}
+.ks-lbl{font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.search-box{display:flex;align-items:center;gap:7px;border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;background:#fff;transition:border-color 0.2s;flex:1;min-width:180px;}
+.search-box:focus-within{border-color:var(--accent);}
+.search-box svg{width:13px;height:13px;fill:var(--muted);flex-shrink:0;}
+.search-box input{border:none;outline:none;font-size:0.82rem;font-weight:600;color:var(--heading);background:transparent;width:100%;}
+.search-box input::placeholder{color:var(--muted);}
+.filter-select{border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:0.78rem;font-weight:700;color:var(--heading);background:#fff;outline:none;cursor:pointer;transition:border-color 0.2s;flex-shrink:0;}
+.filter-select:hover,.filter-select:focus{border-color:var(--accent);}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.ftab{padding:6px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--muted);background:#fff;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.ftab:hover{border-color:var(--accent);color:var(--accent);}
+.ftab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* ── GUESTS TABLE ── */
+.tbl-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tbl-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);}
+.tbl-head-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:800;color:var(--heading);}
+.tbl-count{font-size:0.74rem;font-weight:700;color:var(--muted);}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:640px;}
+thead th{font-size:0.63rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:9px 14px;background:var(--off);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;cursor:pointer;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#fafbff;}
+
+/* Guest avatar cell */
+.td-guest{display:flex;align-items:center;gap:10px;}
+.g-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:800;flex-shrink:0;}
+.g-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;color:var(--heading);}
+.g-email{font-size:0.68rem;color:var(--muted);}
+td{padding:11px 14px;vertical-align:middle;font-size:0.8rem;}
+.td-loc{font-size:0.78rem;font-weight:600;color:var(--text);}
+.td-stays{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:var(--heading);text-align:center;}
+.td-spent{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:var(--heading);}
+.td-last{font-size:0.76rem;color:var(--muted);font-weight:600;}
+.sp{display:inline-block;font-size:0.6rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;}
+.sp-new{background:var(--purple-bg);color:var(--purple);border:1px solid #ddd6fe;}
+.sp-reg{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.sp-vip{background:#fef9c3;color:#92400e;border:1px solid #fde68a;}
+.sp-corp{background:var(--accent-bg);color:var(--accent);border:1px solid #bcd4f8;}
+.td-actions{display:flex;gap:4px;}
+.ra-btn{font-size:0.66rem;font-weight:700;padding:4px 9px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.ra-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+.pg-info{font-size:0.74rem;color:var(--muted);font-weight:600;}
+.pg-btns{display:flex;gap:4px;}
+.pg-btn{width:32px;height:32px;border-radius:var(--r);border:1.5px solid var(--border);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+.pg-btn:hover{border-color:var(--accent);color:var(--accent);}
+.pg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pg-btn.nav{width:auto;padding:0 10px;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:56px 20px;display:none;}
+.empty-state.show{display:block;}
+
+/* ── GUEST PROFILE MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:400;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:10px;width:100%;max-width:620px;box-shadow:var(--sh-l);margin:auto;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);border-radius:10px 10px 0 0;}
+.modal-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--heading);}
+.modal-close{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.9rem;cursor:pointer;color:var(--muted);}
+.modal-close:hover{background:var(--off);}
+.modal-body{padding:22px;}
+
+/* Profile header */
+.prof-head{display:flex;gap:16px;align-items:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.prof-av{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800;flex-shrink:0;border:3px solid var(--border);}
+.prof-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:var(--heading);margin-bottom:3px;}
+.prof-meta{font-size:0.76rem;color:var(--muted);margin-bottom:6px;}
+.prof-badges{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* Stats row */
+.prof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
+.ps{background:var(--off);border-radius:var(--r);padding:12px;text-align:center;}
+.ps-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:var(--heading);line-height:1;margin-bottom:3px;}
+.ps-lbl{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* Info grid */
+.info-section{margin-bottom:20px;}
+.is-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.info-cell{background:var(--off);border-radius:6px;padding:10px 12px;}
+.ic-lbl{font-size:0.62rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.ic-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);}
+
+/* Booking history */
+.bk-list{display:flex;flex-direction:column;gap:8px;}
+.bk-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--off);border-radius:var(--r);border:1px solid var(--border);}
+.bk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bk-body{flex:1;min-width:0;}
+.bk-apt{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:var(--heading);}
+.bk-dates{font-size:0.7rem;color:var(--muted);}
+.bk-right{text-align:right;flex-shrink:0;}
+.bk-amt{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;color:var(--heading);}
+.bk-ref{font-size:0.66rem;color:var(--muted);}
+
+/* Notes */
+.note-textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;font-size:0.84rem;font-weight:600;color:var(--heading);background:#fff;outline:none;resize:vertical;min-height:80px;transition:border-color 0.2s;line-height:1.6;}
+.note-textarea:focus{border-color:var(--accent);}
+.flag-toggle{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--off);border-radius:var(--r);margin-top:10px;cursor:pointer;}
+.ft-label{font-size:0.82rem;font-weight:600;flex:1;}
+.toggle{position:relative;width:36px;height:20px;}
+.toggle input{opacity:0;width:0;height:0;}
+.tslider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:background 0.25s;}
+.tslider::before{content:'';position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.25s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle input:checked + .tslider{background:var(--red);}
+.toggle input:checked + .tslider::before{transform:translateX(16px);}
+
+.modal-foot{display:flex;gap:8px;flex-wrap:wrap;padding:16px 22px;border-top:1px solid var(--border);border-radius:0 0 10px 10px;background:#fff;}
+.modal-foot .btn{justify-content:center;}
+
+/* Mobile bottom nav */
+.mob-bnav{display:flex;background:var(--heading);border-top:1px solid rgba(255,255,255,0.08);position:fixed;bottom:0;left:0;right:0;z-index:200;}
+@media(min-width:780px){.mob-bnav{display:none;}}
+.mbn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;}
+.mbn.active,.mbn:hover{color:#fff;}
+.mbn-ico{font-size:1rem;}
+
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:600;white-space:nowrap;pointer-events:none;}
+@media(min-width:780px){.toast{bottom:24px;}}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Guest Profile Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Guest Profile</div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<!-- Top Nav -->
+<header class="tnav">
+  <button class="tnav-ham" id="hamBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="tnav-logo">HAVEN<span>.</span><span class="tnav-badge">Admin</span></div>
+  <div class="tnav-right">
+    <button class="tnav-icon" onclick="showToast('3 alerts')" aria-label="Alerts">🔔</button>
+    <button class="tnav-icon" onclick="window.open('../index.html','_blank')" aria-label="View site">🌐</button>
+    <div class="tnav-user"><div class="tnav-av">T</div><span class="tnav-name">Tunde · Admin</span></div>
+  </div>
+</header>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="layout">
+
+  <!-- Desktop Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <span class="sb-lbl">Overview</span>
+      <a href="index.html" class="slink"><span class="slink-ico">📊</span>Dashboard</a>
+      <div class="sb-div"></div>
+      <span class="sb-lbl">Management</span>
+      <a href="bookings.html" class="slink"><span class="slink-ico">📅</span>Bookings<span class="slink-cnt">4</span></a>
+      <a href="properties.html" class="slink"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink"><span class="slink-ico">🗓️</span>Calendar</a>
+      <button class="slink active"><span class="slink-ico">👥</span>Guests</button>
+      <a href="reviews.html" class="slink"><span class="slink-ico">⭐</span>Reviews<span class="slink-cnt g">2</span></a>
+      <div class="sb-div"></div>
+      <a href="settings.html" class="slink"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside class="mob-sidebar" id="mobSidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <a href="index.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📊</span>Dashboard</a>
+      <a href="bookings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📅</span>Bookings</a>
+      <a href="properties.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🗓️</span>Calendar</a>
+      <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">👥</span>Guests</button>
+      <a href="reviews.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⭐</span>Reviews</a>
+      <a href="settings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="pg-head">
+      <div><div class="pg-title">Guest Database</div><div class="pg-sub">All registered guests and booking history</div></div>
+      <div class="pg-actions">
+        <button class="btn btn-o btn-sm" onclick="exportGuests()">↓ Export CSV</button>
+        <button class="btn btn-p btn-sm" onclick="showToast('Invite sent!')">+ Invite Guest</button>
+      </div>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="kpi-strip">
+      <div class="ks"><div class="ks-val">120</div><div class="ks-lbl">Total Guests</div></div>
+      <div class="ks"><div class="ks-val" style="color:var(--green)">38</div><div class="ks-lbl">New This Month</div></div>
+      <div class="ks"><div class="ks-val" style="color:var(--orange)">34%</div><div class="ks-lbl">Repeat Guests</div></div>
+      <div class="ks"><div class="ks-val">₦786k</div><div class="ks-lbl">Avg Lifetime Value</div></div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <div class="filter-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by name, email or phone…" oninput="filterGuests()">
+        </div>
+        <select class="filter-select" id="locFilter" onchange="filterGuests()">
+          <option value="">All Locations</option>
+          <option value="Lagos">Lagos</option>
+          <option value="Abuja">Abuja</option>
+          <option value="Port Harcourt">Port Harcourt</option>
+          <option value="UK">United Kingdom</option>
+          <option value="US">United States</option>
+          <option value="Canada">Canada</option>
+        </select>
+        <select class="filter-select" id="sortFilter" onchange="filterGuests()">
+          <option value="recent">Most Recent</option>
+          <option value="stays">Most Stays</option>
+          <option value="spent">Highest Spend</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+      <div class="filter-tabs">
+        <button class="ftab active" data-type="all" onclick="setTypeFilter('all',this)">All Guests</button>
+        <button class="ftab" data-type="vip" onclick="setTypeFilter('vip',this)">VIP</button>
+        <button class="ftab" data-type="corporate" onclick="setTypeFilter('corporate',this)">Corporate</button>
+        <button class="ftab" data-type="repeat" onclick="setTypeFilter('repeat',this)">Repeat</button>
+        <button class="ftab" data-type="new" onclick="setTypeFilter('new',this)">New</button>
+        <button class="ftab" data-type="flagged" onclick="setTypeFilter('flagged',this)">⚑ Flagged</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="tbl-card">
+      <div class="tbl-head">
+        <span class="tbl-head-title">All Guests</span>
+        <span class="tbl-count" id="tblCount">Showing 15 guests</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Guest</th>
+              <th>Location</th>
+              <th>Stays</th>
+              <th>Total Spent</th>
+              <th>Last Stay</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="guestsTbody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="emptyState">
+        <div style="font-size:2.5rem;margin-bottom:12px;">👥</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.96rem;font-weight:800;color:var(--heading);margin-bottom:6px;">No guests found</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Try adjusting your search or filters.</div>
+      </div>
+      <div class="pagination">
+        <span class="pg-info" id="pgInfo">Showing 1–15 of 15</span>
+        <div class="pg-btns">
+          <button class="pg-btn nav">‹ Prev</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn nav">Next ›</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bnav">
+  <button class="mbn" onclick="window.location.href='index.html'"><span class="mbn-ico">📊</span>Dashboard</button>
+  <button class="mbn" onclick="window.location.href='bookings.html'"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
+  <button class="mbn active"><span class="mbn-ico">👥</span>Guests</button>
+  <button class="mbn" onclick="window.location.href='settings.html'"><span class="mbn-ico">⚙️</span>Settings</button>
+</nav>
+
+<script>
+// ── GUEST DATA ──
+const GUESTS = [
+  {id:1,name:'Adaeze Okonkwo',email:'adaeze@email.com',phone:'+234 801 234 5678',loc:'Lagos',joined:'Jan 2025',lastStay:'17–20 Jan 2025',stays:3,spent:1386000,type:'repeat',flagged:false,note:'Prefers Lekki Phase 1. Usually books for business.',color:'#7c3aed',bookings:[
+    {apt:'Signature Suite',dates:'17–20 Jan 2025',amt:'₦393,000',ref:'HAVEN-4821',status:'confirmed'},
+    {apt:'VI Executive',dates:'3–7 Nov 2024',amt:'₦355,000',ref:'HAVEN-3214',status:'completed'},
+    {apt:'Ikoyi Penthouse',dates:'15–18 Aug 2024',amt:'₦638,000',ref:'HAVEN-1847',status:'completed'},
+  ]},
+  {id:2,name:'Emeka Nwachukwu',email:'emeka@email.com',phone:'+234 810 123 4567',loc:'Abuja',joined:'Oct 2024',lastStay:'15–18 Dec 2024',stays:7,spent:2940000,type:'vip',flagged:false,note:'Monthly business traveller. Always pays by bank transfer. VIP treatment.',color:'#0f2a5e',bookings:[
+    {apt:'VI Executive',dates:'15–18 Dec 2024',amt:'₦255,000',ref:'HAVEN-4812',status:'completed'},
+    {apt:'Signature Suite',dates:'10–13 Nov 2024',amt:'₦393,000',ref:'HAVEN-3890',status:'completed'},
+    {apt:'Lekki Palms',dates:'8–11 Oct 2024',amt:'₦270,000',ref:'HAVEN-3100',status:'completed'},
+  ]},
+  {id:3,name:'Tunde Adeyemi',email:'tunde@email.com',phone:'+234 811 234 5678',loc:'UK',joined:'Sep 2024',lastStay:'10–14 Dec 2024',stays:4,spent:2548000,type:'vip',flagged:false,note:'Flies in from London regularly. Always requests airport pickup.',color:'#16a34a',bookings:[
+    {apt:'Ikoyi Penthouse',dates:'10–14 Dec 2024',amt:'₦800,000',ref:'HAVEN-4811',status:'completed'},
+    {apt:'Ikoyi Penthouse',dates:'5–8 Oct 2024',amt:'₦600,000',ref:'HAVEN-3050',status:'completed'},
+  ]},
+  {id:4,name:'Chioma Okafor',email:'chioma@email.com',phone:'+234 812 345 6789',loc:'Lagos',joined:'Nov 2024',lastStay:'1–5 Dec 2024',stays:2,spent:903000,type:'repeat',flagged:false,note:'',color:'#f97316',bookings:[
+    {apt:'Signature Suite',dates:'1–5 Dec 2024',amt:'₦510,000',ref:'HAVEN-4810',status:'completed'},
+    {apt:'Lekki Skyview',dates:'12–15 Nov 2024',amt:'₦393,000',ref:'HAVEN-3700',status:'completed'},
+  ]},
+  {id:5,name:'Kemi Fashola',email:'kemi@email.com',phone:'+234 802 345 6789',loc:'Abuja',joined:'Jan 2025',lastStay:'15–19 Jan 2025',stays:1,spent:360000,type:'new',flagged:false,note:'First time guest. Corporate booking.',color:'#dc2626',bookings:[
+    {apt:'Lekki Palms',dates:'15–19 Jan 2025',amt:'₦360,000',ref:'HAVEN-4820',status:'confirmed'},
+  ]},
+  {id:6,name:'Sola Martins',email:'sola@email.com',phone:'+234 804 567 8901',loc:'Canada',joined:'Dec 2024',lastStay:'5–9 Jan 2025',stays:2,spent:1276000,type:'repeat',flagged:false,note:'Diaspora guest. Books for family reunions. Group of 6–10 always.',color:'#7c3aed',bookings:[
+    {apt:'Ikoyi Penthouse',dates:'5–9 Jan 2025',amt:'₦638,000',ref:'HAVEN-4818',status:'completed'},
+    {apt:'Lekki Premium Villa',dates:'22–27 Dec 2024',amt:'₦638,000',ref:'HAVEN-4750',status:'completed'},
+  ]},
+  {id:7,name:'David Olu',email:'david@email.com',phone:'+234 803 456 7890',loc:'US',joined:'Jan 2025',lastStay:'10–14 Jan 2025',stays:1,spent:340000,type:'new',flagged:false,note:'Business trip. Had payment issues — follow up if books again.',color:'#f97316',bookings:[
+    {apt:'VI Executive',dates:'10–14 Jan 2025',amt:'₦340,000',ref:'HAVEN-4819',status:'pending'},
+  ]},
+  {id:8,name:'Funke Balogun',email:'funke@email.com',phone:'+234 807 890 1234',loc:'Lagos',joined:'Aug 2024',lastStay:'28–31 Dec 2024',stays:3,spent:1179000,type:'repeat',flagged:false,note:'Books for special occasions. Loves the Signature Suite.',color:'#16a34a',bookings:[
+    {apt:'Signature Suite',dates:'28–31 Dec 2024',amt:'₦393,000',ref:'HAVEN-4815',status:'completed'},
+    {apt:'Signature Suite',dates:'14–17 Oct 2024',amt:'₦393,000',ref:'HAVEN-3200',status:'completed'},
+    {apt:'Lekki Palms',dates:'20–22 Aug 2024',amt:'₦393,000',ref:'HAVEN-2000',status:'completed'},
+  ]},
+  {id:9,name:'Bola Adeleke',email:'bola@email.com',phone:'+234 808 901 2345',loc:'Lagos',joined:'Dec 2024',lastStay:'22–25 Dec 2024',stays:1,spent:225000,type:'new',flagged:false,note:'Family stay. Quiet, no issues.',color:'#0f2a5e',bookings:[
+    {apt:'Chevron Gardens',dates:'22–25 Dec 2024',amt:'₦225,000',ref:'HAVEN-4814',status:'completed'},
+  ]},
+  {id:10,name:'Ria Okonkwo',email:'ria@email.com',phone:'+234 809 012 3456',loc:'Lagos',joined:'Dec 2024',lastStay:'20–27 Dec 2024',stays:2,spent:915000,type:'repeat',flagged:false,note:'Remote worker. Prefers quiet estates.',color:'#7c3aed',bookings:[
+    {apt:'Lekki Palms',dates:'20–27 Dec 2024',amt:'₦595,000',ref:'HAVEN-4813',status:'completed'},
+    {apt:'Chevron Comfort',dates:'1–8 Nov 2024',amt:'₦320,000',ref:'HAVEN-3600',status:'completed'},
+  ]},
+  {id:11,name:'Marcus Obi',email:'marcus@email.com',phone:'+234 806 789 0123',loc:'Lagos',joined:'Jan 2025',lastStay:'3–6 Jan 2025',stays:1,spent:195000,type:'new',flagged:false,note:'Solo traveller on a budget. Left 4-star review.',color:'#f97316',bookings:[
+    {apt:'Lekki Skyview',dates:'3–6 Jan 2025',amt:'₦195,000',ref:'HAVEN-4816',status:'checkedin'},
+  ]},
+  {id:12,name:'Ngozi Eze',email:'ngozi@email.com',phone:'+234 805 678 9012',loc:'Port Harcourt',joined:'Sep 2024',lastStay:'1–4 Jan 2025',stays:2,spent:570000,type:'repeat',flagged:true,note:'⚑ Cancelled a booking within 24hrs. Refund disputed. Monitor future bookings.',color:'#dc2626',bookings:[
+    {apt:'Ikoyi Manor',dates:'1–4 Jan 2025',amt:'₦285,000',ref:'HAVEN-4817',status:'cancelled'},
+    {apt:'VI Executive',dates:'15–18 Sep 2024',amt:'₦285,000',ref:'HAVEN-2400',status:'completed'},
+  ]},
+  {id:13,name:'Kola Abiodun',email:'kola@corpmail.com',phone:'+234 813 456 7890',loc:'Lagos',joined:'Nov 2024',lastStay:'5–10 Dec 2024',stays:5,spent:2100000,type:'corporate',flagged:false,note:'Corporate account — Zenith Bank. Books for visiting executives. Requires VAT invoice each time.',color:'#0f2a5e',bookings:[
+    {apt:'Ikoyi Penthouse',dates:'5–10 Dec 2024',amt:'₦1,000,000',ref:'HAVEN-4780',status:'completed'},
+    {apt:'Signature Suite',dates:'1–5 Nov 2024',amt:'₦510,000',ref:'HAVEN-3680',status:'completed'},
+  ]},
+  {id:14,name:'Amaka Osei',email:'amaka@email.com',phone:'+234 814 567 8901',loc:'UK',joined:'Oct 2024',lastStay:'8–12 Nov 2024',stays:2,spent:816000,type:'repeat',flagged:false,note:'London-based. Books during school holidays.',color:'#16a34a',bookings:[
+    {apt:'Lekki Palms',dates:'8–12 Nov 2024',amt:'₦360,000',ref:'HAVEN-3720',status:'completed'},
+    {apt:'Chevron Gardens',dates:'10–13 Aug 2024',amt:'₦456,000',ref:'HAVEN-1980',status:'completed'},
+  ]},
+  {id:15,name:'Yemi Bankole',email:'yemi@bankole.com',phone:'+234 815 678 9012',loc:'Abuja',joined:'Aug 2024',lastStay:'22–26 Oct 2024',stays:4,spent:1728000,type:'vip',flagged:false,note:'High-value repeat guest. Always books Ikoyi or VI. Prefers penthouse.',color:'#7c3aed',bookings:[
+    {apt:'Ikoyi Penthouse',dates:'22–26 Oct 2024',amt:'₦800,000',ref:'HAVEN-3300',status:'completed'},
+    {apt:'Ikoyi Penthouse',dates:'5–9 Aug 2024',amt:'₦800,000',ref:'HAVEN-1860',status:'completed'},
+    {apt:'VI Executive',dates:'12–15 Jun 2024',amt:'₦128,000',ref:'HAVEN-1200',status:'completed'},
+  ]},
+];
+
+const TYPE_MAP = {
+  new:{cls:'sp-new',label:'New'},
+  repeat:{cls:'sp-reg',label:'Repeat'},
+  vip:{cls:'sp-vip',label:'VIP'},
+  corporate:{cls:'sp-corp',label:'Corporate'},
+};
+const AVATAR_COLORS = ['#0f2a5e','#16a34a','#7c3aed','#f97316','#dc2626','#0891b2'];
+
+let activeType = 'all';
+
+// ── RENDER ──
+function renderGuests(data) {
+  const tbody = document.getElementById('guestsTbody');
+  tbody.innerHTML = '';
+  if (!data.length) {
+    document.getElementById('emptyState').classList.add('show');
+    document.getElementById('tblCount').textContent = 'No guests found';
+    return;
+  }
+  document.getElementById('emptyState').classList.remove('show');
+  document.getElementById('tblCount').textContent = `Showing ${data.length} guest${data.length!==1?'s':''}`;
+
+  data.forEach(g => {
+    const t = TYPE_MAP[g.type] || TYPE_MAP.new;
+    const initials = g.name.split(' ').map(n=>n[0]).join('').slice(0,2);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="td-guest">
+          <div class="g-av" style="background:${g.color}20;color:${g.color};border:2px solid ${g.color}30;">${initials}</div>
+          <div>
+            <div class="g-name">${g.name}${g.flagged?' <span style="color:var(--red);font-size:0.7rem;">⚑</span>':''}</div>
+            <div class="g-email">${g.email}</div>
+          </div>
+        </div>
+      </td>
+      <td class="td-loc">${g.loc}</td>
+      <td style="text-align:center;"><span class="td-stays">${g.stays}</span></td>
+      <td><span class="td-spent">₦${(g.spent/1000).toFixed(0)}k</span></td>
+      <td class="td-last">${g.lastStay.split('–')[0].trim().slice(-6)}</td>
+      <td><span class="sp ${t.cls}">${t.label}</span></td>
+      <td>
+        <div class="td-actions">
+          <button class="ra-btn" onclick="event.stopPropagation();openGuestModal(${g.id})">Profile</button>
+          <button class="ra-btn" onclick="event.stopPropagation();showToast('Opening WhatsApp...');window.open('https://wa.me/${g.phone.replace(/[^0-9]/g,'')}','_blank')">WA</button>
+        </div>
+      </td>`;
+    tr.addEventListener('click', () => openGuestModal(g.id));
+    tbody.appendChild(tr);
+  });
+  document.getElementById('pgInfo').textContent = `Showing 1–${data.length} of ${data.length}`;
+}
+
+// ── FILTER ──
+function filterGuests() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const loc = document.getElementById('locFilter').value;
+  const sort = document.getElementById('sortFilter').value;
+  let data = GUESTS.filter(g => {
+    const mq = !q || g.name.toLowerCase().includes(q) || g.email.toLowerCase().includes(q) || g.phone.includes(q);
+    const ml = !loc || g.loc.includes(loc);
+    const mt = activeType==='all' || (activeType==='flagged'?g.flagged:g.type===activeType);
+    return mq && ml && mt;
+  });
+  if (sort==='stays') data.sort((a,b)=>b.stays-a.stays);
+  else if (sort==='spent') data.sort((a,b)=>b.spent-a.spent);
+  else if (sort==='name') data.sort((a,b)=>a.name.localeCompare(b.name));
+  renderGuests(data);
+}
+
+function setTypeFilter(type, btn) {
+  activeType = type;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  filterGuests();
+}
+
+// ── GUEST MODAL ──
+function openGuestModal(id) {
+  const g = GUESTS.find(x=>x.id===id);
+  const t = TYPE_MAP[g.type] || TYPE_MAP.new;
+  const initials = g.name.split(' ').map(n=>n[0]).join('').slice(0,2);
+
+  const bkHtml = g.bookings.map(b => {
+    const stCls = {confirmed:'var(--green)',completed:'var(--muted)',pending:'var(--orange)',checkedin:'var(--green)',cancelled:'var(--red)'}[b.status] || 'var(--muted)';
+    return `
+      <div class="bk-item">
+        <div class="bk-dot" style="background:${stCls}"></div>
+        <div class="bk-body">
+          <div class="bk-apt">${b.apt}</div>
+          <div class="bk-dates">${b.dates}</div>
+        </div>
+        <div class="bk-right">
+          <div class="bk-amt">${b.amt}</div>
+          <div class="bk-ref">${b.ref}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="prof-head">
+      <div class="prof-av" style="background:${g.color}18;color:${g.color};border-color:${g.color}30;">${initials}</div>
+      <div>
+        <div class="prof-name">${g.name}${g.flagged?' <span style="color:var(--red);">⚑ Flagged</span>':''}</div>
+        <div class="prof-meta">${g.email} · ${g.phone}</div>
+        <div class="prof-badges">
+          <span class="sp ${t.cls}">${t.label}</span>
+          <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">Member since ${g.joined}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prof-stats">
+      <div class="ps"><div class="ps-val">${g.stays}</div><div class="ps-lbl">Total Stays</div></div>
+      <div class="ps"><div class="ps-val">₦${(g.spent/1000).toFixed(0)}k</div><div class="ps-lbl">Total Spent</div></div>
+      <div class="ps"><div class="ps-val" style="color:var(--green);">4.8★</div><div class="ps-lbl">Avg Rating Given</div></div>
+    </div>
+
+    <div class="info-section">
+      <div class="is-title">Contact & Location</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="ic-lbl">Email</div><div class="ic-val" style="font-size:0.76rem;">${g.email}</div></div>
+        <div class="info-cell"><div class="ic-lbl">Phone</div><div class="ic-val">${g.phone}</div></div>
+        <div class="info-cell"><div class="ic-lbl">Location</div><div class="ic-val">${g.loc}</div></div>
+        <div class="info-cell"><div class="ic-lbl">Last Stay</div><div class="ic-val" style="font-size:0.76rem;">${g.lastStay}</div></div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <div class="is-title">Booking History</div>
+      <div class="bk-list">${bkHtml}</div>
+    </div>
+
+    <div class="info-section" style="margin-bottom:0;">
+      <div class="is-title">Internal Notes</div>
+      <textarea class="note-textarea" id="guestNote" placeholder="Add internal notes about this guest…">${g.note}</textarea>
+      <label class="flag-toggle">
+        <span class="ft-label">⚑ Flag this guest (monitor future bookings)</span>
+        <label class="toggle"><input type="checkbox" id="flagToggle" ${g.flagged?'checked':''}><span class="tslider"></span></label>
+      </label>
+    </div>`;
+
+  document.getElementById('modalFoot').innerHTML = `
+    <a href="https://wa.me/${g.phone.replace(/[^0-9]/g,'')}" target="_blank" class="btn btn-wa btn-sm" style="flex:1;">💬 WhatsApp</a>
+    <a href="mailto:${g.email}" class="btn btn-o btn-sm" style="flex:1;">✉ Email</a>
+    <button class="btn btn-p btn-sm" style="flex:2;" onclick="saveGuestNotes(${g.id})">Save Notes</button>`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function saveGuestNotes(id) {
+  const note = document.getElementById('guestNote').value;
+  const flagged = document.getElementById('flagToggle').checked;
+  const g = GUESTS.find(x=>x.id===id);
+  if (g) { g.note=note; g.flagged=flagged; }
+  showToast('Guest notes saved!');
+  closeModalDirect();
+  filterGuests();
+}
+
+function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+// ── SIDEBAR ──
+function toggleSidebar() {
+  const mob=document.getElementById('mobSidebar'),ov=document.getElementById('mobOverlay'),ham=document.getElementById('hamBtn');
+  const open=mob.classList.toggle('open');
+  ov.classList.toggle('open',open); ham.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar() {
+  document.getElementById('mobSidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function exportGuests() { showToast('CSV exported — 15 guests!'); }
+
+// ── TOAST ──
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
+
+// Init
+renderGuests(GUESTS);
+
+// ── LOAD GUESTS FROM API ──
+async function loadGuestsFromAPI() {
+  try {
+    const search = document.getElementById('searchInput')?.value || '';
+    const res = await fetch(API_BASE + '/users?limit=50&search=' + encodeURIComponent(search), {
+      headers: authHeaders()
+    });
+    const data = await res.json();
+    if (data.users) {
+      const COLORS = ['#0f2a5e','#16a34a','#7c3aed','#f97316','#dc2626','#0891b2'];
+      const mapped = data.users.map((u, i) => ({
+        id: u.id,
+        name: u.first_name + ' ' + u.last_name,
+        email: u.email,
+        phone: u.phone || '',
+        loc: u.city || u.country || 'Nigeria',
+        stays: parseInt(u.booking_count) || 0,
+        spent: parseInt(u.total_spent) || 0,
+        lastStay: u.created_at ? new Date(u.created_at).toLocaleDateString('en-NG') : 'N/A',
+        type: parseInt(u.booking_count) >= 3 ? 'vip' : parseInt(u.booking_count) >= 1 ? 'returning' : 'new',
+        flagged: u.is_flagged,
+        color: COLORS[i % COLORS.length]
+      }));
+      window.GUESTS = mapped;
+      renderGuests(mapped);
+    }
+  } catch (err) {
+    console.error('Guests load error:', err);
+  }
+}
+
+// ── SAVE GUEST NOTE ──
+async function saveGuestNotes(id) {
+  const note = document.getElementById('guestNotes')?.value || '';
+  try {
+    const res = await fetch(API_BASE + '/users/' + id + '/note', {
+      method: 'PUT', headers: authHeaders(),
+      body: JSON.stringify({ note })
+    });
+    if (!res.ok) throw new Error('Failed to save note');
+    showToast('Notes saved!');
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+loadGuestsFromAPI();
+
+// ── ADMIN AUTH CHECK ──
+function checkAdminAuth() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (!token || !['admin','staff','concierge'].includes(user.role)) {
+    window.location.href = '../login.html';
+  }
+}
+checkAdminAuth();
+
+</script>
+</body>
+</html>

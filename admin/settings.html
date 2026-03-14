@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — HAVEN Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --red:#dc2626;--red-bg:#fef2f2;--red-bd:#fecaca;
+  --sh-s:0 2px 12px rgba(0,0,0,0.06);--sh-m:0 8px 32px rgba(0,0,0,0.12);--sh-l:0 20px 60px rgba(0,0,0,0.18);
+  --r:8px;--sb:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;min-height:100vh;line-height:1.6;padding-bottom:60px;}
+@media(min-width:780px){body{padding-bottom:0;}}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ── TOP NAV ── */
+.tnav{background:var(--accent);position:sticky;top:0;z-index:300;height:54px;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.tnav-ham{display:flex;flex-direction:column;gap:4px;padding:6px;background:none;border:none;cursor:pointer;flex-shrink:0;}
+@media(min-width:780px){.tnav-ham{display:none;}}
+.tnav-ham span{display:block;width:18px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.3s;}
+.tnav-ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tnav-ham.open span:nth-child(2){opacity:0;}
+.tnav-ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.tnav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.tnav-logo span{color:var(--accent-lite);}
+.tnav-badge{font-size:0.58rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);border-radius:100px;padding:3px 9px;border:1px solid rgba(255,255,255,0.18);}
+.tnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.tnav-icon{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:0.88rem;cursor:pointer;transition:background 0.2s;}
+.tnav-icon:hover{background:rgba(255,255,255,0.18);}
+.tnav-user{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,0.18);border-radius:100px;cursor:pointer;}
+.tnav-av{width:24px;height:24px;border-radius:50%;background:var(--accent-lite);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:var(--accent);}
+.tnav-name{font-size:0.74rem;font-weight:700;color:#fff;display:none;}
+@media(min-width:480px){.tnav-name{display:block;}}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+.sidebar{width:var(--sb);background:var(--heading);flex-direction:column;flex-shrink:0;display:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+@media(min-width:780px){.sidebar{display:flex;}}
+.mob-overlay{display:none;position:fixed;inset:0;top:54px;background:rgba(0,0,0,0.5);z-index:198;}
+.mob-overlay.open{display:block;}
+.mob-sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sb);background:var(--heading);z-index:199;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;display:flex;}
+.mob-sidebar.open{transform:translateX(0);}
+.sb-user{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.sb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:#fff;}
+.sb-role{font-size:0.68rem;font-weight:700;background:var(--accent);color:var(--accent-lite);border-radius:100px;padding:2px 8px;display:inline-block;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-lbl{font-size:0.58rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:6px;display:block;}
+.slink{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;margin-bottom:1px;}
+.slink:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.slink.active{background:var(--accent);color:#fff;}
+.slink-ico{font-size:0.88rem;width:16px;text-align:center;flex-shrink:0;}
+.slink-cnt{margin-left:auto;font-size:0.6rem;font-weight:800;background:var(--orange);color:#fff;border-radius:100px;padding:1px 7px;}
+.slink-cnt.g{background:var(--green);}
+.sb-div{height:1px;background:rgba(255,255,255,0.08);margin:8px 12px;}
+.sb-bottom{padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-btn:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.sb-btn.danger:hover{color:#f87171;background:rgba(239,68,68,0.1);}
+
+/* ── MAIN ── */
+.main{flex:1;min-width:0;padding:20px 16px 32px;}
+@media(min-width:640px){.main{padding:24px 24px 40px;}}
+
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.pg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--heading);}
+.pg-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+
+/* ── SETTINGS LAYOUT ── */
+.settings-layout{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:900px){.settings-layout{grid-template-columns:200px 1fr;gap:24px;align-items:start;}}
+
+/* Settings nav */
+.settings-nav{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:sticky;top:70px;}
+.sn-item{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:0.8rem;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:1px solid var(--border);transition:all 0.18s;border:none;background:none;width:100%;text-align:left;}
+.sn-item:last-child{border-bottom:none;}
+.sn-item:hover{background:var(--off);color:var(--heading);}
+.sn-item.active{background:var(--accent-bg);color:var(--accent);}
+.sn-item .sn-ico{font-size:0.9rem;flex-shrink:0;}
+
+/* Mobile settings tabs (horizontal scroll) */
+.settings-tabs-mob{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;padding-bottom:2px;}
+.settings-tabs-mob::-webkit-scrollbar{display:none;}
+@media(min-width:900px){.settings-tabs-mob{display:none;}}
+.stm{padding:7px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--muted);background:#fff;cursor:pointer;white-space:nowrap;transition:all 0.18s;flex-shrink:0;}
+.stm.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* Settings panels */
+.settings-panel{display:none;}
+.settings-panel.active{display:block;}
+
+/* Section card */
+.sc{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.sc-head{padding:14px 18px;border-bottom:1px solid var(--border);}
+.sc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);}
+.sc-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+.sc-body{padding:18px;}
+.sc-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:var(--off);}
+
+/* Form */
+.form-row{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+@media(min-width:520px){.form-row{grid-template-columns:1fr 1fr;}}
+.form-row.tri{grid-template-columns:1fr;}
+@media(min-width:520px){.form-row.tri{grid-template-columns:1fr 1fr 1fr;}}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:0.66rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.form-label .req{color:var(--red);}
+.form-input,.form-select,.form-textarea{border:1.5px solid var(--border);border-radius:var(--r);padding:10px 13px;font-size:0.86rem;font-weight:600;color:var(--heading);background:#fff;outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+.form-hint{font-size:0.7rem;color:var(--muted);line-height:1.5;}
+.form-prefix-wrap{display:flex;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color 0.2s;}
+.form-prefix-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.form-prefix{padding:10px 12px;background:var(--off);border-right:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--muted);flex-shrink:0;}
+.form-prefix-input{border:none;outline:none;padding:10px 13px;font-size:0.86rem;font-weight:600;color:var(--heading);background:#fff;width:100%;}
+
+/* Toggle row */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border);}
+.toggle-row:last-child{border-bottom:none;padding-bottom:0;}
+.tr-text h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);margin-bottom:2px;}
+.tr-text p{font-size:0.74rem;color:var(--muted);max-width:380px;}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.tslider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:background 0.25s;}
+.tslider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.25s;box-shadow:0 1px 4px rgba(0,0,0,0.15);}
+.toggle input:checked + .tslider{background:var(--accent);}
+.toggle input:checked + .tslider::before{transform:translateX(18px);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);transform:translateY(-1px);}
+.btn-o{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+.btn-o:hover{background:var(--accent);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:0.7rem;}
+.btn-red{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red-bd);}
+.btn-red:hover{background:var(--red);color:#fff;}
+.btn-green{background:var(--green-bg);color:var(--green);border:1.5px solid var(--green-bd);}
+.btn-green:hover{background:var(--green);color:#fff;}
+
+/* Team members */
+.team-list{display:flex;flex-direction:column;gap:0;}
+.team-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.team-row:last-child{border-bottom:none;}
+.team-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;flex-shrink:0;}
+.team-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);}
+.team-email{font-size:0.7rem;color:var(--muted);}
+.team-role{margin-left:auto;font-size:0.66rem;font-weight:800;padding:3px 9px;border-radius:100px;flex-shrink:0;}
+.role-admin{background:var(--accent-bg);color:var(--accent);border:1px solid #bcd4f8;}
+.role-staff{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.team-remove{font-size:0.7rem;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;margin-left:8px;padding:4px 8px;border-radius:4px;transition:background 0.15s;}
+.team-remove:hover{background:var(--red-bg);}
+
+/* Integration cards */
+.int-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+@media(min-width:480px){.int-grid{grid-template-columns:1fr 1fr;}}
+.int-card{border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
+.int-card.connected{border-color:var(--green-bd);background:var(--green-bg);}
+.int-ico{font-size:1.5rem;flex-shrink:0;}
+.int-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);margin-bottom:2px;}
+.int-desc{font-size:0.72rem;color:var(--muted);line-height:1.45;}
+.int-status{font-size:0.64rem;font-weight:700;margin-top:6px;}
+.int-status.on{color:var(--green);}
+.int-status.off{color:var(--muted);}
+.int-btn{margin-left:auto;font-size:0.68rem;font-weight:700;padding:5px 11px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.15s;flex-shrink:0;}
+.int-btn:hover{border-color:var(--accent);color:var(--accent);}
+.int-btn.disconnect{border-color:var(--red-bd);color:var(--red);}
+.int-btn.disconnect:hover{background:var(--red);color:#fff;}
+
+/* Activity log */
+.log-list{display:flex;flex-direction:column;max-height:320px;overflow-y:auto;}
+.log-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:0.78rem;}
+.log-item:last-child{border-bottom:none;}
+.log-ico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.78rem;flex-shrink:0;background:var(--off);}
+.log-body{flex:1;}
+.log-action{font-weight:700;color:var(--heading);}
+.log-detail{color:var(--muted);font-size:0.72rem;}
+.log-time{font-size:0.66rem;color:var(--muted);flex-shrink:0;white-space:nowrap;}
+
+/* Danger zone */
+.danger-zone{border:1.5px solid var(--red-bd);border-radius:var(--r);padding:16px;background:var(--red-bg);}
+.dz-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:var(--red);margin-bottom:4px;}
+.dz-sub{font-size:0.76rem;color:var(--red);line-height:1.55;margin-bottom:12px;}
+
+/* Colour picker */
+.colour-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.colour-opt{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all 0.18s;}
+.colour-opt.active{border-color:var(--heading);}
+.colour-opt:hover{transform:scale(1.1);}
+
+/* Mobile bottom nav */
+.mob-bnav{display:flex;background:var(--heading);border-top:1px solid rgba(255,255,255,0.08);position:fixed;bottom:0;left:0;right:0;z-index:200;}
+@media(min-width:780px){.mob-bnav{display:none;}}
+.mbn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;}
+.mbn.active,.mbn:hover{color:#fff;}
+.mbn-ico{font-size:1rem;}
+
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:600;white-space:nowrap;pointer-events:none;}
+@media(min-width:780px){.toast{bottom:24px;}}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Top Nav -->
+<header class="tnav">
+  <button class="tnav-ham" id="hamBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="tnav-logo">HAVEN<span>.</span><span class="tnav-badge">Admin</span></div>
+  <div class="tnav-right">
+    <button class="tnav-icon" onclick="showToast('3 alerts')" aria-label="Alerts">🔔</button>
+    <button class="tnav-icon" onclick="window.open('../index.html','_blank')" aria-label="View site">🌐</button>
+    <div class="tnav-user"><div class="tnav-av">T</div><span class="tnav-name">Tunde · Admin</span></div>
+  </div>
+</header>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="layout">
+
+  <!-- Desktop Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <span class="sb-lbl">Overview</span>
+      <a href="index.html" class="slink"><span class="slink-ico">📊</span>Dashboard</a>
+      <div class="sb-div"></div>
+      <span class="sb-lbl">Management</span>
+      <a href="bookings.html" class="slink"><span class="slink-ico">📅</span>Bookings<span class="slink-cnt">4</span></a>
+      <a href="properties.html" class="slink"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink"><span class="slink-ico">⭐</span>Reviews<span class="slink-cnt g">5</span></a>
+      <div class="sb-div"></div>
+      <button class="slink active"><span class="slink-ico">⚙️</span>Settings</button>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside class="mob-sidebar" id="mobSidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <a href="index.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📊</span>Dashboard</a>
+      <a href="bookings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📅</span>Bookings</a>
+      <a href="properties.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⭐</span>Reviews</a>
+      <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</button>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="pg-head">
+      <div><div class="pg-title">Settings</div><div class="pg-sub">Configure your platform, pricing, team and integrations</div></div>
+    </div>
+
+    <!-- Mobile tabs -->
+    <div class="settings-tabs-mob" id="mobTabs">
+      <button class="stm active" onclick="showSection('general',this)">General</button>
+      <button class="stm" onclick="showSection('pricing',this)">Pricing</button>
+      <button class="stm" onclick="showSection('notifications',this)">Notifications</button>
+      <button class="stm" onclick="showSection('team',this)">Team</button>
+      <button class="stm" onclick="showSection('integrations',this)">Integrations</button>
+      <button class="stm" onclick="showSection('security',this)">Security</button>
+      <button class="stm" onclick="showSection('advanced',this)">Advanced</button>
+    </div>
+
+    <div class="settings-layout">
+
+      <!-- Desktop nav -->
+      <nav class="settings-nav" id="settingsNav">
+        <button class="sn-item active" onclick="showSection('general',this)"><span class="sn-ico">🏢</span>General</button>
+        <button class="sn-item" onclick="showSection('pricing',this)"><span class="sn-ico">💰</span>Pricing</button>
+        <button class="sn-item" onclick="showSection('notifications',this)"><span class="sn-ico">🔔</span>Notifications</button>
+        <button class="sn-item" onclick="showSection('team',this)"><span class="sn-ico">👥</span>Team & Access</button>
+        <button class="sn-item" onclick="showSection('integrations',this)"><span class="sn-ico">🔌</span>Integrations</button>
+        <button class="sn-item" onclick="showSection('security',this)"><span class="sn-ico">🔐</span>Security</button>
+        <button class="sn-item" onclick="showSection('advanced',this)"><span class="sn-ico">⚙️</span>Advanced</button>
+      </nav>
+
+      <div id="settingsContent">
+
+        <!-- ═══ GENERAL ═══ -->
+        <div class="settings-panel active" id="panel-general">
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Brand & Identity</div><div class="sc-sub">How your platform appears to guests</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group full">
+                  <label class="form-label">Business Name <span class="req">*</span></label>
+                  <input class="form-input" type="text" value="HAVEN Lagos">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Tagline</label>
+                  <input class="form-input" type="text" value="Where Lagos feels like home.">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Website URL</label>
+                  <input class="form-input" type="text" value="www.havenshortlets.com">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group full">
+                  <label class="form-label">Brand Colour</label>
+                  <div class="colour-opts">
+                    <div class="colour-opt active" style="background:#0f2a5e;" onclick="selectColour(this)" title="HAVEN Navy"></div>
+                    <div class="colour-opt" style="background:#1e40af;" onclick="selectColour(this)" title="Royal Blue"></div>
+                    <div class="colour-opt" style="background:#7c3aed;" onclick="selectColour(this)" title="Purple"></div>
+                    <div class="colour-opt" style="background:#0f766e;" onclick="selectColour(this)" title="Teal"></div>
+                    <div class="colour-opt" style="background:#b45309;" onclick="selectColour(this)" title="Amber"></div>
+                    <div class="colour-opt" style="background:#0d1526;" onclick="selectColour(this)" title="Midnight"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-o btn-sm">Discard</button><button class="btn btn-p btn-sm" onclick="save('Brand settings')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Contact Information</div><div class="sc-sub">Displayed on the guest-facing website</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Support Phone</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">🇳🇬 +234</span><input class="form-prefix-input" type="text" value="800 000 0000"></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">WhatsApp Number</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">🇳🇬 +234</span><input class="form-prefix-input" type="text" value="800 000 0000"></div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Support Email</label>
+                  <input class="form-input" type="email" value="hello@havenshortlets.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Corporate Email</label>
+                  <input class="form-input" type="email" value="corporate@havenshortlets.com">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group full">
+                  <label class="form-label">Office Address</label>
+                  <input class="form-input" type="text" placeholder="e.g. Lekki Phase 1, Lagos — By Appointment Only">
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Contact settings')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Operating Hours</div></div>
+            <div class="sc-body">
+              <div class="form-row tri">
+                <div class="form-group">
+                  <label class="form-label">Mon – Fri</label>
+                  <input class="form-input" type="text" value="8:00 AM – 10:00 PM">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Saturday</label>
+                  <input class="form-input" type="text" value="9:00 AM – 9:00 PM">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sunday</label>
+                  <input class="form-input" type="text" value="10:00 AM – 8:00 PM">
+                </div>
+              </div>
+              <div class="toggle-row">
+                <div class="tr-text"><h4>24/7 WhatsApp & Phone Support</h4><p>Mark phone and WhatsApp as available 24 hours on the contact page</p></div>
+                <label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label>
+              </div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Operating hours')">Save Changes</button></div>
+          </div>
+
+        </div>
+
+        <!-- ═══ PRICING ═══ -->
+        <div class="settings-panel" id="panel-pricing">
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Platform Fees</div><div class="sc-sub">Applied automatically to all guest bookings</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Service Charge (%)</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">%</span><input class="form-prefix-input" type="number" value="5" min="0" max="20"></div>
+                  <span class="form-hint">Added to every booking. Currently 5% of subtotal.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">VAT Rate (%)</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">%</span><input class="form-prefix-input" type="number" value="7.5" min="0" max="30"></div>
+                  <span class="form-hint">Nigerian standard VAT rate: 7.5%</span>
+                </div>
+              </div>
+              <div class="toggle-row">
+                <div class="tr-text"><h4>Show VAT separately on receipts</h4><p>Display VAT as a separate line item on guest receipts and invoices</p></div>
+                <label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label>
+              </div>
+              <div class="toggle-row">
+                <div class="tr-text"><h4>Include service charge in displayed price</h4><p>When on, quoted prices already include the service charge. When off, it's added at checkout.</p></div>
+                <label class="toggle"><input type="checkbox"><span class="tslider"></span></label>
+              </div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Pricing settings')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Default Discount Rules</div><div class="sc-sub">Applied automatically based on stay length unless overridden per property</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Weekly Discount (7+ nights)</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">%</span><input class="form-prefix-input" type="number" value="15"></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Monthly Discount (30+ nights)</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">%</span><input class="form-prefix-input" type="number" value="25"></div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Min Booking Duration (nights)</label>
+                  <input class="form-input" type="number" value="2" min="1">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Max Advance Booking (months)</label>
+                  <input class="form-input" type="number" value="12" min="1">
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Discount rules')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Cancellation & Refunds</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Default Cancellation Policy</label>
+                  <select class="form-select">
+                    <option selected>Flexible — Full refund 48hrs before check-in</option>
+                    <option>Moderate — Full refund 5 days before</option>
+                    <option>Strict — 50% refund 7 days before</option>
+                    <option>Non-refundable</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Refund Processing Time</label>
+                  <select class="form-select">
+                    <option>3–5 business days</option>
+                    <option>1–3 business days</option>
+                    <option>Same day</option>
+                    <option>7–10 business days</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Cancellation policy')">Save Changes</button></div>
+          </div>
+
+        </div>
+
+        <!-- ═══ NOTIFICATIONS ═══ -->
+        <div class="settings-panel" id="panel-notifications">
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Admin Notifications</div><div class="sc-sub">What triggers an alert for the admin team</div></div>
+            <div class="sc-body">
+              <div class="toggle-row"><div class="tr-text"><h4>New Booking</h4><p>Notify when a guest completes a booking and payment is confirmed</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Booking Cancellation</h4><p>Notify when a booking is cancelled by a guest</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>New Review Submitted</h4><p>Notify when a guest submits a review awaiting moderation</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Low-Star Review (3★ or below)</h4><p>Immediate alert for any review rated 3 stars or lower</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Check-in Reminder (day before)</h4><p>Daily 8 AM summary of tomorrow's check-ins</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Check-out Reminder (day of)</h4><p>Morning reminder of today's check-outs</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Pending Payment (24hrs+)</h4><p>Flag bookings where payment hasn't cleared after 24 hours</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>New Guest Registration</h4><p>Notify when a new account is created on the platform</p></div><label class="toggle"><input type="checkbox"><span class="tslider"></span></label></div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Notification settings')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Notification Channels</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Admin Email</label>
+                  <input class="form-input" type="email" value="tunde@havenshortlets.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Admin WhatsApp</label>
+                  <div class="form-prefix-wrap"><span class="form-prefix">🇳🇬 +234</span><input class="form-prefix-input" type="text" value="816 789 0000"></div>
+                </div>
+              </div>
+              <div class="toggle-row"><div class="tr-text"><h4>Send notifications via WhatsApp</h4><p>Get booking and alert summaries on WhatsApp</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Send notifications via Email</h4><p>All admin alerts also delivered to your email inbox</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Daily summary digest</h4><p>Receive a combined 7 AM summary of all activity from the previous day</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Notification channels')">Save Changes</button></div>
+          </div>
+        </div>
+
+        <!-- ═══ TEAM ═══ -->
+        <div class="settings-panel" id="panel-team">
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Team Members</div><div class="sc-sub">Who has access to this admin dashboard</div></div>
+            <div class="sc-body">
+              <div class="team-list">
+                <div class="team-row">
+                  <div class="team-av" style="background:#e8eef9;color:#0f2a5e;">TA</div>
+                  <div><div class="team-name">Tunde Adesanya</div><div class="team-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1266677c7677527a7364777c617a7d60667e7766613c717d7f">[email&#160;protected]</a></div></div>
+                  <span class="team-role role-admin">Super Admin</span>
+                </div>
+                <div class="team-row">
+                  <div class="team-av" style="background:#f0fdf4;color:#16a34a;">AO</div>
+                  <div><div class="team-name">Amaka Ojo</div><div class="team-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="12737f737973527a7364777c617a7d60667e7766613c717d7f">[email&#160;protected]</a></div></div>
+                  <span class="team-role role-staff">Staff</span>
+                  <button class="team-remove" onclick="showToast('Team member removed')">Remove</button>
+                </div>
+                <div class="team-row">
+                  <div class="team-av" style="background:#fff7ed;color:#f97316;">EO</div>
+                  <div><div class="team-name">Emeka Okafor</div><div class="team-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86e3ebe3ede7a8e9c6eee7f0e3e8f5eee9f4f2eae3f2f5a8e5e9eb">[email&#160;protected]</a></div></div>
+                  <span class="team-role role-staff">Staff</span>
+                  <button class="team-remove" onclick="showToast('Team member removed')">Remove</button>
+                </div>
+                <div class="team-row">
+                  <div class="team-av" style="background:#f5f3ff;color:#7c3aed;">FA</div>
+                  <div><div class="team-name">Fatima Abubakar</div><div class="team-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="771116031e1a16371f16011219041f1805031b1203045914181a">[email&#160;protected]</a></div></div>
+                  <span class="team-role role-staff">Concierge</span>
+                  <button class="team-remove" onclick="showToast('Team member removed')">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot">
+              <button class="btn btn-p btn-sm" onclick="showToast('Invite sent!')">+ Invite Team Member</button>
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Role Permissions</div><div class="sc-sub">What each role can access in the admin dashboard</div></div>
+            <div class="sc-body">
+              <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;min-width:400px;font-size:0.8rem;">
+                  <thead>
+                    <tr>
+                      <th style="text-align:left;padding:8px 12px;background:var(--off);border-bottom:1px solid var(--border);font-size:0.64rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Feature</th>
+                      <th style="text-align:center;padding:8px 12px;background:var(--off);border-bottom:1px solid var(--border);font-size:0.64rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Super Admin</th>
+                      <th style="text-align:center;padding:8px 12px;background:var(--off);border-bottom:1px solid var(--border);font-size:0.64rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Staff</th>
+                      <th style="text-align:center;padding:8px 12px;background:var(--off);border-bottom:1px solid var(--border);font-size:0.64rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Concierge</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${[
+                      ['Dashboard & Analytics','✅','✅','❌'],
+                      ['Bookings (view)','✅','✅','✅'],
+                      ['Bookings (edit/cancel)','✅','✅','❌'],
+                      ['Properties (edit)','✅','❌','❌'],
+                      ['Guests','✅','✅','✅'],
+                      ['Reviews (approve)','✅','✅','❌'],
+                      ['Calendar','✅','✅','✅'],
+                      ['Settings','✅','❌','❌'],
+                    ].map(([f,sa,st,co])=>`<tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">${f}</td><td style="text-align:center;padding:9px 12px;">${sa}</td><td style="text-align:center;padding:9px 12px;">${st}</td><td style="text-align:center;padding:9px 12px;">${co}</td></tr>`).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ INTEGRATIONS ═══ -->
+        <div class="settings-panel" id="panel-integrations">
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Connected Integrations</div><div class="sc-sub">Payment, communication and analytics tools</div></div>
+            <div class="sc-body">
+              <div class="int-grid">
+                <div class="int-card connected">
+                  <div class="int-ico">💳</div>
+                  <div style="flex:1;">
+                    <div class="int-name">Paystack</div>
+                    <div class="int-desc">Card payments, bank transfer & USSD. Live mode active.</div>
+                    <div class="int-status on">✓ Connected · Live Mode</div>
+                  </div>
+                  <button class="int-btn disconnect" onclick="showToast('Paystack disconnected')">Disconnect</button>
+                </div>
+                <div class="int-card connected">
+                  <div class="int-ico">💬</div>
+                  <div style="flex:1;">
+                    <div class="int-name">WhatsApp Business</div>
+                    <div class="int-desc">Automated booking confirmations and guest support via WhatsApp.</div>
+                    <div class="int-status on">✓ Connected</div>
+                  </div>
+                  <button class="int-btn disconnect" onclick="showToast('WhatsApp disconnected')">Disconnect</button>
+                </div>
+                <div class="int-card">
+                  <div class="int-ico">📧</div>
+                  <div style="flex:1;">
+                    <div class="int-name">Mailchimp</div>
+                    <div class="int-desc">Guest email lists and marketing campaigns.</div>
+                    <div class="int-status off">Not connected</div>
+                  </div>
+                  <button class="int-btn" onclick="showToast('Connecting Mailchimp...')">Connect</button>
+                </div>
+                <div class="int-card connected">
+                  <div class="int-ico">📊</div>
+                  <div style="flex:1;">
+                    <div class="int-name">Google Analytics</div>
+                    <div class="int-desc">Website traffic, booking funnel and conversion tracking.</div>
+                    <div class="int-status on">✓ Connected · UA-XXXXXXX</div>
+                  </div>
+                  <button class="int-btn disconnect" onclick="showToast('GA disconnected')">Disconnect</button>
+                </div>
+                <div class="int-card">
+                  <div class="int-ico">📍</div>
+                  <div style="flex:1;">
+                    <div class="int-name">Google Maps</div>
+                    <div class="int-desc">Embed maps and show directions on property pages.</div>
+                    <div class="int-status off">Not connected</div>
+                  </div>
+                  <button class="int-btn" onclick="showToast('Connecting Maps...')">Connect</button>
+                </div>
+                <div class="int-card">
+                  <div class="int-ico">📸</div>
+                  <div style="flex:1;">
+                    <div class="int-name">Cloudinary</div>
+                    <div class="int-desc">Optimised image hosting and CDN for property photos.</div>
+                    <div class="int-status off">Not connected</div>
+                  </div>
+                  <button class="int-btn" onclick="showToast('Connecting Cloudinary...')">Connect</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">API Keys</div><div class="sc-sub">For developer integrations</div></div>
+            <div class="sc-body">
+              <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label">Live Secret Key</label>
+                <div class="form-prefix-wrap">
+                  <span class="form-prefix">sk_live_</span>
+                  <input class="form-prefix-input" type="password" value="••••••••••••••••••••" readonly>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Webhook URL</label>
+                <input class="form-input" type="text" value="https://www.havenshortlets.com/api/webhook" readonly>
+              </div>
+            </div>
+            <div class="sc-foot">
+              <button class="btn btn-o btn-sm" onclick="showToast('Key regenerated! Update all integrations.')">Regenerate Key</button>
+              <button class="btn btn-p btn-sm" onclick="showToast('Webhook test sent!')">Test Webhook</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ SECURITY ═══ -->
+        <div class="settings-panel" id="panel-security">
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Admin Account Security</div></div>
+            <div class="sc-body">
+              <div class="toggle-row"><div class="tr-text"><h4>Two-Factor Authentication (2FA)</h4><p>Require OTP on every admin login</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Login Notifications</h4><p>Email alert on every new admin login from a new device</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Session Timeout (1 hour)</h4><p>Auto sign out after 1 hour of inactivity</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>IP Allowlist</h4><p>Restrict admin access to specific IP addresses</p></div><label class="toggle"><input type="checkbox"><span class="tslider"></span></label></div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Security settings')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Admin Activity Log</div></div>
+            <div class="log-list">
+              <div class="log-item"><div class="log-ico">🔑</div><div class="log-body"><div class="log-action">Admin login</div><div class="log-detail">Tunde Adesanya · Chrome, Mac · Lagos, NG</div></div><div class="log-time">Just now</div></div>
+              <div class="log-item"><div class="log-ico">✅</div><div class="log-body"><div class="log-action">Review approved</div><div class="log-detail">Adaeze Okonkwo · Signature Suite · 5★</div></div><div class="log-time">2h ago</div></div>
+              <div class="log-item"><div class="log-ico">📅</div><div class="log-body"><div class="log-action">Booking confirmed</div><div class="log-detail">HAVEN-4821 · Adaeze Okonkwo · ₦393,000</div></div><div class="log-time">2h ago</div></div>
+              <div class="log-item"><div class="log-ico">🏠</div><div class="log-body"><div class="log-action">Property updated</div><div class="log-detail">Signature Suite — nightly rate changed to ₦120,000</div></div><div class="log-time">Yesterday</div></div>
+              <div class="log-item"><div class="log-ico">👥</div><div class="log-body"><div class="log-action">Team member invited</div><div class="log-detail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2c4c3d6cbcfc3e2cac3d4c7ccd1cacdd0d6cec7d6d18cc1cdcf">[email&#160;protected]</a> — Concierge role</div></div><div class="log-time">3 days ago</div></div>
+              <div class="log-item"><div class="log-ico">⚙️</div><div class="log-body"><div class="log-action">Settings updated</div><div class="log-detail">Pricing — service charge updated to 5%</div></div><div class="log-time">5 days ago</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ ADVANCED ═══ -->
+        <div class="settings-panel" id="panel-advanced">
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Platform Behaviour</div></div>
+            <div class="sc-body">
+              <div class="toggle-row"><div class="tr-text"><h4>Maintenance Mode</h4><p>Take the guest-facing website offline for maintenance. Admin dashboard stays accessible.</p></div><label class="toggle"><input type="checkbox"><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>New Registrations Open</h4><p>Allow new guests to create accounts. Turn off to freeze registrations.</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Guest Bookings Active</h4><p>Allow new bookings to be made. Turn off to pause all booking intake.</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Automatic Review Publishing</h4><p>When on, 4–5 star verified reviews are auto-approved within 24hrs. Manual moderation still required for 3★ and below.</p></div><label class="toggle"><input type="checkbox"><span class="tslider"></span></label></div>
+              <div class="toggle-row"><div class="tr-text"><h4>Smart Pricing (Peak Season +20%)</h4><p>Automatically apply a 20% rate increase during Lagos peak periods (Dec 20 – Jan 5, Easter week)</p></div><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            </div>
+            <div class="sc-foot"><button class="btn btn-p btn-sm" onclick="save('Platform settings')">Save Changes</button></div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-head"><div class="sc-title">Data & Backup</div></div>
+            <div class="sc-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Last Backup</label>
+                  <input class="form-input" type="text" value="14 March 2026, 3:00 AM" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Backup Frequency</label>
+                  <select class="form-select">
+                    <option selected>Daily at 3:00 AM</option>
+                    <option>Every 6 hours</option>
+                    <option>Weekly</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+                <button class="btn btn-o btn-sm" onclick="showToast('Backup triggered! Ready in ~2 min.')">↓ Download Backup</button>
+                <button class="btn btn-p btn-sm" onclick="showToast('Manual backup started!')">Run Manual Backup</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="danger-zone">
+            <div class="dz-title">⚠️ Danger Zone</div>
+            <div class="dz-sub">These actions are irreversible. Please be absolutely sure before proceeding.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-red btn-sm" onclick="showToast('All sessions signed out across all devices.')">Sign Out All Sessions</button>
+              <button class="btn btn-red btn-sm" onclick="if(confirm('This will permanently delete ALL data. Are you absolutely sure?'))showToast('Please contact your hosting provider to proceed.')">Reset Platform Data</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bnav">
+  <button class="mbn" onclick="window.location.href='index.html'"><span class="mbn-ico">📊</span>Dashboard</button>
+  <button class="mbn" onclick="window.location.href='bookings.html'"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
+  <button class="mbn" onclick="window.location.href='reviews.html'"><span class="mbn-ico">⭐</span>Reviews</button>
+  <button class="mbn active"><span class="mbn-ico">⚙️</span>Settings</button>
+</nav>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── SECTION SWITCHING ──
+function showSection(name, btn) {
+  document.querySelectorAll('.settings-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  // Desktop nav
+  document.querySelectorAll('.sn-item').forEach(b=>b.classList.remove('active'));
+  // Mobile tabs
+  document.querySelectorAll('.stm').forEach(b=>b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Also activate matching desktop nav item
+  document.querySelectorAll('.sn-item').forEach(b=>{
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+name+"'")) b.classList.add('active');
+  });
+}
+
+// ── COLOUR PICKER ──
+function selectColour(el) {
+  document.querySelectorAll('.colour-opt').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+
+// ── LOAD SETTINGS FROM API ──
+async function loadSettings() {
+  try {
+    const res = await fetch(API_BASE + '/settings', { headers: authHeaders() });
+    const data = await res.json();
+    if (data.settings) {
+      const s = data.settings;
+      if (document.getElementById('settPlatformName')) document.getElementById('settPlatformName').value = s.platform_name || '';
+      if (document.getElementById('settEmail')) document.getElementById('settEmail').value = s.platform_email || '';
+      if (document.getElementById('settPhone')) document.getElementById('settPhone').value = s.platform_phone || '';
+      if (document.getElementById('settCheckin')) document.getElementById('settCheckin').value = s.checkin_time_default || '14:00';
+      if (document.getElementById('settCheckout')) document.getElementById('settCheckout').value = s.checkout_time_default || '12:00';
+      if (document.getElementById('settServiceCharge')) document.getElementById('settServiceCharge').value = s.service_charge_pct || '5';
+    }
+  } catch (err) { console.error('Settings load error:', err); }
+}
+
+// ── SAVE SETTINGS ──
+async function save(section) {
+  const settings = {};
+  if (section === 'general' || section === 'General') {
+    if (document.getElementById('settPlatformName')) settings.platform_name = document.getElementById('settPlatformName').value;
+    if (document.getElementById('settEmail')) settings.platform_email = document.getElementById('settEmail').value;
+    if (document.getElementById('settPhone')) settings.platform_phone = document.getElementById('settPhone').value;
+  }
+  if (section === 'booking' || section === 'Booking') {
+    if (document.getElementById('settCheckin')) settings.checkin_time_default = document.getElementById('settCheckin').value;
+    if (document.getElementById('settCheckout')) settings.checkout_time_default = document.getElementById('settCheckout').value;
+    if (document.getElementById('settServiceCharge')) settings.service_charge_pct = document.getElementById('settServiceCharge').value;
+  }
+  if (Object.keys(settings).length === 0) { showToast(section + ' saved!'); return; }
+  try {
+    const res = await fetch(API_BASE + '/settings', {
+      method: 'PUT', headers: authHeaders(),
+      body: JSON.stringify({ settings })
+    });
+    if (!res.ok) throw new Error('Failed to save');
+    showToast(section + ' settings saved successfully!');
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+loadSettings();
+
+
+// ── SIDEBAR ──
+function toggleSidebar() {
+  const mob = document.getElementById('mobSidebar');
+  const ov = document.getElementById('mobOverlay');
+  const ham = document.getElementById('hamBtn');
+  const open = mob.classList.toggle('open');
+  ov.classList.toggle('open', open);
+  ham.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('mobSidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── ADMIN AUTH CHECK ──
+function checkAdminAuth() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (!token || !['admin','staff','concierge'].includes(user.role)) {
+    window.location.href = '../login.html';
+  }
+}
+checkAdminAuth();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookings — HAVEN Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --red:#dc2626;--red-bg:#fef2f2;--red-bd:#fecaca;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --sh-s:0 2px 12px rgba(0,0,0,0.06);--sh-m:0 8px 32px rgba(0,0,0,0.12);--sh-l:0 20px 60px rgba(0,0,0,0.18);
+  --r:8px;--sb:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;min-height:100vh;line-height:1.6;padding-bottom:60px;}
+@media(min-width:780px){body{padding-bottom:0;}}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select{font-family:inherit;}
+
+/* ── TOP NAV ── */
+.tnav{background:var(--accent);position:sticky;top:0;z-index:300;height:54px;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.tnav-ham{display:flex;flex-direction:column;gap:4px;padding:6px;background:none;border:none;cursor:pointer;flex-shrink:0;}
+@media(min-width:780px){.tnav-ham{display:none;}}
+.tnav-ham span{display:block;width:18px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.3s;}
+.tnav-ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tnav-ham.open span:nth-child(2){opacity:0;}
+.tnav-ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.tnav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.tnav-logo span{color:var(--accent-lite);}
+.tnav-badge{font-size:0.58rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);border-radius:100px;padding:3px 9px;border:1px solid rgba(255,255,255,0.18);}
+.tnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.tnav-icon{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:0.88rem;cursor:pointer;transition:background 0.2s;}
+.tnav-icon:hover{background:rgba(255,255,255,0.18);}
+.tnav-user{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,0.18);border-radius:100px;cursor:pointer;}
+.tnav-av{width:24px;height:24px;border-radius:50%;background:var(--accent-lite);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:var(--accent);}
+.tnav-name{font-size:0.74rem;font-weight:700;color:#fff;display:none;}
+@media(min-width:480px){.tnav-name{display:block;}}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sb);background:var(--heading);flex-direction:column;flex-shrink:0;display:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+@media(min-width:780px){.sidebar{display:flex;}}
+.mob-overlay{display:none;position:fixed;inset:0;top:54px;background:rgba(0,0,0,0.5);z-index:198;}
+.mob-overlay.open{display:block;}
+.mob-sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sb);background:var(--heading);z-index:199;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;display:flex;}
+.mob-sidebar.open{transform:translateX(0);}
+.sb-user{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.sb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:#fff;}
+.sb-role{font-size:0.68rem;font-weight:700;background:var(--accent);color:var(--accent-lite);border-radius:100px;padding:2px 8px;display:inline-block;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-lbl{font-size:0.58rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:6px;display:block;}
+.slink{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;margin-bottom:1px;}
+.slink:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.slink.active{background:var(--accent);color:#fff;}
+.slink-ico{font-size:0.88rem;width:16px;text-align:center;flex-shrink:0;}
+.slink-cnt{margin-left:auto;font-size:0.6rem;font-weight:800;background:var(--orange);color:#fff;border-radius:100px;padding:1px 7px;}
+.slink-cnt.g{background:var(--green);}
+.sb-div{height:1px;background:rgba(255,255,255,0.08);margin:8px 12px;}
+.sb-bottom{padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-btn:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.sb-btn.danger:hover{color:#f87171;background:rgba(239,68,68,0.1);}
+
+/* ── MAIN ── */
+.main{flex:1;min-width:0;padding:20px 16px 32px;}
+@media(min-width:640px){.main{padding:24px 24px 40px;}}
+
+/* Page header */
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.pg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--heading);}
+.pg-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+.pg-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);transform:translateY(-1px);}
+.btn-o{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+.btn-o:hover{background:var(--accent);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:0.7rem;}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:560px){.kpi-strip{grid-template-columns:repeat(4,1fr);}}
+.ks{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;}
+.ks-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);line-height:1;margin-bottom:3px;}
+.ks-lbl{font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.search-box{display:flex;align-items:center;gap:7px;border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;background:#fff;transition:border-color 0.2s;flex:1;min-width:180px;}
+.search-box:focus-within{border-color:var(--accent);}
+.search-box svg{width:13px;height:13px;fill:var(--muted);flex-shrink:0;}
+.search-box input{border:none;outline:none;font-size:0.82rem;font-weight:600;color:var(--heading);background:transparent;width:100%;}
+.search-box input::placeholder{color:var(--muted);}
+.filter-select{border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:0.78rem;font-weight:700;color:var(--heading);background:#fff;outline:none;cursor:pointer;transition:border-color 0.2s;flex-shrink:0;}
+.filter-select:focus,.filter-select:hover{border-color:var(--accent);}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.ftab{padding:6px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--muted);background:#fff;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.ftab:hover{border-color:var(--accent);color:var(--accent);}
+.ftab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.ftab .cnt{display:inline-block;margin-left:4px;opacity:0.75;}
+
+/* ── BOOKINGS TABLE CARD ── */
+.tbl-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tbl-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);}
+.tbl-head-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:800;color:var(--heading);}
+.tbl-count{font-size:0.74rem;font-weight:700;color:var(--muted);}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+thead th{font-size:0.63rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:9px 14px;background:var(--off);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+thead th input[type="checkbox"]{accent-color:var(--accent);width:14px;height:14px;cursor:pointer;}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;cursor:pointer;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#fafbff;}
+tbody tr.selected{background:var(--accent-bg);}
+td{padding:11px 14px;vertical-align:middle;font-size:0.8rem;}
+td input[type="checkbox"]{accent-color:var(--accent);width:14px;height:14px;cursor:pointer;}
+.td-ref{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.74rem;font-weight:800;color:var(--accent);}
+.td-apt{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:var(--heading);}
+.td-loc{font-size:0.66rem;color:var(--muted);}
+.td-guest-name{font-weight:700;color:var(--heading);}
+.td-guest-email{font-size:0.68rem;color:var(--muted);}
+.td-dates{font-size:0.76rem;font-weight:600;white-space:nowrap;}
+.td-nights{font-size:0.68rem;color:var(--muted);}
+.td-amt{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:var(--heading);white-space:nowrap;}
+.td-method{font-size:0.68rem;color:var(--muted);}
+
+/* Status badges */
+.sp{display:inline-block;font-size:0.6rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap;}
+.sp-c{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.sp-p{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);}
+.sp-d{background:var(--off);color:var(--muted);border:1px solid var(--border);}
+.sp-x{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.sp-ci{background:var(--purple-bg);color:var(--purple);border:1px solid #ddd6fe;}
+
+/* Row actions */
+.row-actions{display:flex;gap:4px;}
+.ra-btn{font-size:0.66rem;font-weight:700;padding:4px 9px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.ra-btn:hover{border-color:var(--accent);color:var(--accent);}
+.ra-btn.danger:hover{border-color:var(--red);color:var(--red);}
+
+/* Bulk action bar */
+.bulk-bar{background:var(--accent);border-radius:var(--r);padding:10px 16px;display:none;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+.bulk-bar.show{display:flex;}
+.bulk-count{font-size:0.8rem;font-weight:700;color:#fff;}
+.bulk-btn{font-size:0.72rem;font-weight:700;padding:5px 13px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.12);color:#fff;cursor:pointer;transition:background 0.18s;}
+.bulk-btn:hover{background:rgba(255,255,255,0.22);}
+.bulk-btn.danger{border-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.15);}
+.bulk-btn.danger:hover{background:rgba(239,68,68,0.3);}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+.pg-info{font-size:0.76rem;color:var(--muted);font-weight:600;}
+.pg-btns{display:flex;gap:4px;}
+.pg-btn{width:32px;height:32px;border-radius:var(--r);border:1.5px solid var(--border);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+.pg-btn:hover{border-color:var(--accent);color:var(--accent);}
+.pg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pg-btn.nav{width:auto;padding:0 10px;gap:4px;}
+
+/* ── BOOKING DETAIL MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:10px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-l);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1;}
+.modal-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--heading);}
+.modal-close{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.9rem;cursor:pointer;transition:all 0.2s;color:var(--muted);}
+.modal-close:hover{background:var(--off);color:var(--heading);}
+.modal-body{padding:20px 22px;}
+.modal-section{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.modal-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.ms-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(min-width:480px){.info-grid{grid-template-columns:1fr 1fr 1fr;}}
+.info-cell{}
+.ic-lbl{font-size:0.66rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.ic-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:700;color:var(--heading);}
+.ic-val.green{color:var(--green);}
+.ic-val.orange{color:var(--orange);}
+.price-rows{display:flex;flex-direction:column;gap:0;}
+.pr-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.82rem;}
+.pr-row:last-child{border-bottom:none;}
+.pr-lbl{color:var(--muted);font-weight:600;}
+.pr-val{font-weight:700;color:var(--heading);}
+.pr-total{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.95rem;}
+.status-select{border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:0.82rem;font-weight:700;color:var(--heading);background:#fff;outline:none;cursor:pointer;width:100%;transition:border-color 0.2s;}
+.status-select:focus{border-color:var(--accent);}
+.note-textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;font-size:0.82rem;font-weight:600;color:var(--heading);background:#fff;outline:none;resize:vertical;min-height:72px;transition:border-color 0.2s;font-family:inherit;line-height:1.6;}
+.note-textarea:focus{border-color:var(--accent);}
+.modal-foot{display:flex;gap:8px;flex-wrap:wrap;padding:16px 22px;border-top:1px solid var(--border);background:#fff;position:sticky;bottom:0;}
+.modal-foot .btn{flex:1;justify-content:center;}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:56px 20px;display:none;}
+.empty-state.show{display:block;}
+.es-ico{font-size:2.5rem;margin-bottom:12px;}
+.es-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.96rem;font-weight:800;color:var(--heading);margin-bottom:6px;}
+.es-sub{font-size:0.82rem;color:var(--muted);}
+
+/* ── MOBILE BOTTOM NAV ── */
+.mob-bnav{display:flex;background:var(--heading);border-top:1px solid rgba(255,255,255,0.08);position:fixed;bottom:0;left:0;right:0;z-index:200;}
+@media(min-width:780px){.mob-bnav{display:none;}}
+.mbn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;}
+.mbn.active,.mbn:hover{color:#fff;}
+.mbn-ico{font-size:1rem;}
+
+/* Toast */
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:600;white-space:nowrap;pointer-events:none;}
+@media(min-width:780px){.toast{bottom:24px;}}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Booking Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modalTitle">Booking HAVEN-2025-4821</div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="modal-section">
+        <div class="ms-title">Apartment & Dates</div>
+        <div class="info-grid">
+          <div class="info-cell"><div class="ic-lbl">Apartment</div><div class="ic-val" id="mApt">The Signature Suite</div></div>
+          <div class="info-cell"><div class="ic-lbl">Location</div><div class="ic-val" id="mLoc">Lekki Phase 1</div></div>
+          <div class="info-cell"><div class="ic-lbl">Status</div><div class="ic-val green" id="mStatus">Confirmed</div></div>
+          <div class="info-cell"><div class="ic-lbl">Check In</div><div class="ic-val" id="mCi">17 Jan 2025</div></div>
+          <div class="info-cell"><div class="ic-lbl">Check Out</div><div class="ic-val" id="mCo">20 Jan 2025</div></div>
+          <div class="info-cell"><div class="ic-lbl">Nights</div><div class="ic-val" id="mNights">3</div></div>
+          <div class="info-cell"><div class="ic-lbl">Guests</div><div class="ic-val" id="mGuests">2 Adults</div></div>
+          <div class="info-cell"><div class="ic-lbl">Booked On</div><div class="ic-val" id="mBooked">8 Jan 2025</div></div>
+          <div class="info-cell"><div class="ic-lbl">Reference</div><div class="ic-val" id="mRef" style="color:var(--accent)">HAVEN-4821</div></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="ms-title">Guest Details</div>
+        <div class="info-grid">
+          <div class="info-cell"><div class="ic-lbl">Name</div><div class="ic-val" id="mGuestName">Adaeze Okonkwo</div></div>
+          <div class="info-cell"><div class="ic-lbl">Email</div><div class="ic-val" id="mGuestEmail" style="font-size:0.76rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0d6c696c6877684d68606c6461236e6260">[email&#160;protected]</a></div></div>
+          <div class="info-cell"><div class="ic-lbl">Phone</div><div class="ic-val" id="mGuestPhone">+234 801 234 5678</div></div>
+          <div class="info-cell"><div class="ic-lbl">Payment</div><div class="ic-val" id="mPayment">Card ···4821</div></div>
+          <div class="info-cell"><div class="ic-lbl">Amount</div><div class="ic-val green" id="mAmount">₦393,000</div></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="ms-title">Price Breakdown</div>
+        <div class="price-rows">
+          <div class="pr-row"><span class="pr-lbl" id="mbNights">₦120,000 × 3 nights</span><span class="pr-val" id="mbBase">₦360,000</span></div>
+          <div class="pr-row"><span class="pr-lbl">Cleaning fee</span><span class="pr-val">₦15,000</span></div>
+          <div class="pr-row"><span class="pr-lbl">Service charge (5%)</span><span class="pr-val" id="mbSvc">₦18,000</span></div>
+          <div class="pr-row"><span class="pr-lbl pr-total">Total Paid</span><span class="pr-val pr-total" id="mbTotal">₦393,000</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="ms-title">Update Status</div>
+        <select class="status-select" id="statusSelect">
+          <option value="confirmed">✓ Confirmed</option>
+          <option value="checkedin">🔑 Checked In</option>
+          <option value="completed">✅ Completed</option>
+          <option value="pending">⏳ Pending Payment</option>
+          <option value="cancelled">✕ Cancelled</option>
+        </select>
+      </div>
+
+      <div class="modal-section">
+        <div class="ms-title">Internal Note</div>
+        <textarea class="note-textarea" id="noteTextarea" placeholder="Add an internal note about this booking (not visible to guest)…"></textarea>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-o btn-sm" onclick="showToast('Receipt downloaded!')">↓ Receipt</button>
+      <button class="btn btn-o btn-sm" onclick="sendGuestMessage()">✉ Message Guest</button>
+      <button class="btn btn-p btn-sm" onclick="saveBookingUpdate()" style="flex:2;">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Top Nav -->
+<header class="tnav">
+  <button class="tnav-ham" id="hamBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="tnav-logo">HAVEN<span>.</span><span class="tnav-badge">Admin</span></div>
+  <div class="tnav-right">
+    <button class="tnav-icon" onclick="showToast('3 alerts')" aria-label="Alerts">🔔</button>
+    <button class="tnav-icon" onclick="window.open('../index.html','_blank')" aria-label="View site">🌐</button>
+    <div class="tnav-user"><div class="tnav-av">T</div><span class="tnav-name">Tunde · Admin</span></div>
+  </div>
+</header>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="layout">
+
+  <!-- Desktop Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <span class="sb-lbl">Overview</span>
+      <a href="index.html" class="slink"><span class="slink-ico">📊</span>Dashboard</a>
+      <div class="sb-div"></div>
+      <span class="sb-lbl">Management</span>
+      <button class="slink active"><span class="slink-ico">📅</span>Bookings<span class="slink-cnt">4</span></button>
+      <a href="properties.html" class="slink"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink"><span class="slink-ico">⭐</span>Reviews<span class="slink-cnt g">2</span></a>
+      <div class="sb-div"></div>
+      <a href="settings.html" class="slink"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside class="mob-sidebar" id="mobSidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <a href="index.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📊</span>Dashboard</a>
+      <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">📅</span>Bookings</button>
+      <a href="properties.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⭐</span>Reviews</a>
+      <a href="settings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="pg-head">
+      <div>
+        <div class="pg-title">Bookings</div>
+        <div class="pg-sub">Manage all guest reservations</div>
+      </div>
+      <div class="pg-actions">
+        <button class="btn btn-o" onclick="exportBookings()">↓ Export CSV</button>
+        <button class="btn btn-p" onclick="openNewBooking()">+ New Booking</button>
+      </div>
+    </div>
+
+    <!-- KPI Strip -->
+    <div class="kpi-strip">
+      <div class="ks"><div class="ks-val" id="ksTotal">12</div><div class="ks-lbl">Total Bookings</div></div>
+      <div class="ks"><div class="ks-val" style="color:var(--green)" id="ksConfirmed">7</div><div class="ks-lbl">Confirmed</div></div>
+      <div class="ks"><div class="ks-val" style="color:var(--orange)" id="ksPending">2</div><div class="ks-lbl">Pending</div></div>
+      <div class="ks"><div class="ks-val" id="ksRevenue">₦4.2M</div><div class="ks-lbl">Revenue</div></div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by guest, apartment, or reference…" oninput="filterTable()">
+        </div>
+        <select class="filter-select" id="aptFilter" onchange="filterTable()">
+          <option value="">All Apartments</option>
+          <option value="Signature Suite">Signature Suite</option>
+          <option value="VI Executive">VI Executive</option>
+          <option value="Ikoyi Penthouse">Ikoyi Penthouse</option>
+          <option value="Lekki Palms">Lekki Palms</option>
+          <option value="Lekki Skyview">Lekki Skyview</option>
+          <option value="Ikoyi Manor">Ikoyi Manor</option>
+          <option value="Chevron Gardens">Chevron Gardens</option>
+        </select>
+        <select class="filter-select" id="dateFilter" onchange="filterTable()">
+          <option value="">All Dates</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+      <div class="filter-tabs">
+        <button class="ftab active" data-status="all" onclick="setStatusFilter('all',this)">All <span class="cnt">(12)</span></button>
+        <button class="ftab" data-status="confirmed" onclick="setStatusFilter('confirmed',this)">Confirmed <span class="cnt">(7)</span></button>
+        <button class="ftab" data-status="checkedin" onclick="setStatusFilter('checkedin',this)">Checked In <span class="cnt">(2)</span></button>
+        <button class="ftab" data-status="pending" onclick="setStatusFilter('pending',this)">Pending <span class="cnt">(1)</span></button>
+        <button class="ftab" data-status="completed" onclick="setStatusFilter('completed',this)">Completed <span class="cnt">(1)</span></button>
+        <button class="ftab" data-status="cancelled" onclick="setStatusFilter('cancelled',this)">Cancelled <span class="cnt">(1)</span></button>
+      </div>
+    </div>
+
+    <!-- Bulk action bar -->
+    <div class="bulk-bar" id="bulkBar">
+      <span class="bulk-count" id="bulkCount">0 selected</span>
+      <button class="bulk-btn" onclick="bulkAction('confirm')">✓ Confirm</button>
+      <button class="bulk-btn" onclick="bulkAction('receipt')">↓ Receipts</button>
+      <button class="bulk-btn" onclick="bulkAction('message')">✉ Message</button>
+      <button class="bulk-btn danger" onclick="bulkAction('cancel')">✕ Cancel</button>
+      <button class="bulk-btn" onclick="clearSelection()" style="margin-left:auto;">Clear</button>
+    </div>
+
+    <!-- Bookings Table -->
+    <div class="tbl-card">
+      <div class="tbl-head">
+        <span class="tbl-head-title">All Bookings</span>
+        <span class="tbl-count" id="tblCount">Showing 12 bookings</span>
+      </div>
+      <div class="tbl-wrap">
+        <table id="bookingsTable">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"></th>
+              <th>Reference</th>
+              <th>Apartment</th>
+              <th>Guest</th>
+              <th>Dates</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTbody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="emptyState">
+        <div class="es-ico">🔍</div>
+        <div class="es-title">No bookings found</div>
+        <div class="es-sub">Try adjusting your search or filter settings.</div>
+      </div>
+      <div class="pagination">
+        <span class="pg-info" id="pgInfo">Showing 1–12 of 12</span>
+        <div class="pg-btns">
+          <button class="pg-btn nav">‹ Prev</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn nav">Next ›</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bnav">
+  <button class="mbn" onclick="window.location.href='index.html'"><span class="mbn-ico">📊</span>Dashboard</button>
+  <button class="mbn active"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
+  <button class="mbn" onclick="window.location.href='calendar.html'"><span class="mbn-ico">🗓️</span>Calendar</button>
+  <button class="mbn" onclick="window.location.href='settings.html'"><span class="mbn-ico">⚙️</span>Settings</button>
+</nav>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── DATA ──
+const BOOKINGS = [
+  {id:'HAVEN-2025-4821',apt:'Signature Suite',loc:'Lekki Phase 1',guest:'Adaeze Okonkwo',email:'adaeze@email.com',phone:'+234 801 234 5678',ci:'17 Jan 2025',co:'20 Jan 2025',nights:3,guests:'2 Adults',booked:'8 Jan 2025',amount:393000,nightly:120000,method:'Card ···4821',status:'confirmed'},
+  {id:'HAVEN-2025-4820',apt:'Lekki Palms',loc:'Lekki Phase 1',guest:'Kemi Fashola',email:'kemi@email.com',phone:'+234 802 345 6789',ci:'15 Jan 2025',co:'19 Jan 2025',nights:4,guests:'3 Adults',booked:'7 Jan 2025',amount:360000,nightly:85000,method:'Bank Transfer',status:'confirmed'},
+  {id:'HAVEN-2025-4819',apt:'VI Executive',loc:'Victoria Island',guest:'David Olu',email:'david@email.com',phone:'+234 803 456 7890',ci:'10 Jan 2025',co:'14 Jan 2025',nights:4,guests:'1 Adult',booked:'5 Jan 2025',amount:340000,nightly:80000,method:'Card ···9902',status:'pending'},
+  {id:'HAVEN-2025-4818',apt:'Ikoyi Penthouse',loc:'Ikoyi',guest:'Sola Martins',email:'sola@email.com',phone:'+234 804 567 8901',ci:'5 Jan 2025',co:'9 Jan 2025',nights:4,guests:'6 Adults',booked:'28 Dec 2024',amount:638000,nightly:150000,method:'Bank Transfer',status:'completed'},
+  {id:'HAVEN-2025-4817',apt:'Ikoyi Manor',loc:'Ikoyi',guest:'Ngozi Eze',email:'ngozi@email.com',phone:'+234 805 678 9012',ci:'1 Jan 2025',co:'4 Jan 2025',nights:3,guests:'2 Adults',booked:'26 Dec 2024',amount:285000,nightly:90000,method:'Card ···5511',status:'cancelled'},
+  {id:'HAVEN-2025-4816',apt:'Lekki Skyview',loc:'Lekki Phase 1',guest:'Marcus Obi',email:'marcus@email.com',phone:'+234 806 789 0123',ci:'3 Jan 2025',co:'6 Jan 2025',nights:3,guests:'1 Adult',booked:'27 Dec 2024',amount:195000,nightly:65000,method:'USSD',status:'checkedin'},
+  {id:'HAVEN-2025-4815',apt:'Signature Suite',loc:'Lekki Phase 1',guest:'Funke Balogun',email:'funke@email.com',phone:'+234 807 890 1234',ci:'28 Dec 2024',co:'31 Dec 2024',nights:3,guests:'2 Adults',booked:'20 Dec 2024',amount:393000,nightly:120000,method:'Bank Transfer',status:'checkedin'},
+  {id:'HAVEN-2024-4814',apt:'Chevron Gardens',loc:'Chevron',guest:'Bola Adeleke',email:'bola@email.com',phone:'+234 808 901 2345',ci:'22 Dec 2024',co:'25 Dec 2024',nights:3,guests:'4 Adults',booked:'15 Dec 2024',amount:225000,nightly:75000,method:'Card ···3344',status:'confirmed'},
+  {id:'HAVEN-2024-4813',apt:'Lekki Palms',loc:'Lekki Phase 1',guest:'Ria Okonkwo',email:'ria@email.com',phone:'+234 809 012 3456',ci:'20 Dec 2024',co:'27 Dec 2024',nights:7,guests:'2 Adults',booked:'10 Dec 2024',amount:595000,nightly:90000,method:'Bank Transfer',status:'confirmed'},
+  {id:'HAVEN-2024-4812',apt:'VI Executive',loc:'Victoria Island',guest:'Emeka Nwachukwu',email:'emeka@email.com',phone:'+234 810 123 4567',ci:'15 Dec 2024',co:'18 Dec 2024',nights:3,guests:'1 Adult',booked:'8 Dec 2024',amount:255000,nightly:80000,method:'Card ···7788',status:'confirmed'},
+  {id:'HAVEN-2024-4811',apt:'Ikoyi Penthouse',loc:'Ikoyi',guest:'Tunde Adeyemi',email:'tunde@email.com',phone:'+234 811 234 5678',ci:'10 Dec 2024',co:'14 Dec 2024',nights:4,guests:'2 Adults',booked:'2 Dec 2024',amount:638000,nightly:150000,method:'Bank Transfer',status:'confirmed'},
+  {id:'HAVEN-2024-4810',apt:'Signature Suite',loc:'Lekki Phase 1',guest:'Chioma Okafor',email:'chioma@email.com',phone:'+234 812 345 6789',ci:'1 Dec 2024',co:'5 Dec 2024',nights:4,guests:'3 Adults',booked:'25 Nov 2024',amount:510000,nightly:120000,method:'Card ···2233',status:'confirmed'},
+];
+
+const STATUS_MAP = {
+  confirmed:{cls:'sp-c',label:'Confirmed'},
+  checkedin:{cls:'sp-ci',label:'Checked In'},
+  pending:{cls:'sp-p',label:'Pending'},
+  completed:{cls:'sp-d',label:'Completed'},
+  cancelled:{cls:'sp-x',label:'Cancelled'}
+};
+
+let activeStatus = 'all';
+let selectedRows = new Set();
+
+// ── RENDER TABLE ──
+function renderTable(data) {
+  const tbody = document.getElementById('bookingsTbody');
+  tbody.innerHTML = '';
+  if (!data.length) {
+    document.getElementById('emptyState').classList.add('show');
+    document.getElementById('tblCount').textContent = 'No bookings found';
+    return;
+  }
+  document.getElementById('emptyState').classList.remove('show');
+  document.getElementById('tblCount').textContent = `Showing ${data.length} booking${data.length!==1?'s':''}`;
+  data.forEach(b => {
+    const st = STATUS_MAP[b.status] || STATUS_MAP.confirmed;
+    const tr = document.createElement('tr');
+    if (selectedRows.has(b.id)) tr.classList.add('selected');
+    tr.innerHTML = `
+      <td><input type="checkbox" ${selectedRows.has(b.id)?'checked':''} onchange="toggleRow('${b.id}',this)" onclick="event.stopPropagation()"></td>
+      <td class="td-ref">${b.id}</td>
+      <td><div class="td-apt">${b.apt}</div><div class="td-loc">${b.loc}</div></td>
+      <td><div class="td-guest-name">${b.guest}</div><div class="td-guest-email">${b.email}</div></td>
+      <td><div class="td-dates">${b.ci} → ${b.co}</div><div class="td-nights">${b.nights} nights · ${b.guests}</div></td>
+      <td><div class="td-amt">₦${b.amount.toLocaleString()}</div><div class="td-method">${b.method}</div></td>
+      <td><span class="sp ${st.cls}">${st.label}</span></td>
+      <td><div class="row-actions">
+        <button class="ra-btn" onclick="event.stopPropagation();openModal('${b.id}')">View</button>
+        <button class="ra-btn" onclick="event.stopPropagation();showToast('Receipt downloaded!')">Receipt</button>
+        ${b.status!=='cancelled'?`<button class="ra-btn danger" onclick="event.stopPropagation();cancelBooking('${b.id}')">Cancel</button>`:''}
+      </div></td>`;
+    tr.addEventListener('click', () => openModal(b.id));
+    tbody.appendChild(tr);
+  });
+}
+
+// ── FILTER ──
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const apt = document.getElementById('aptFilter').value;
+  let data = BOOKINGS.filter(b => {
+    const matchQ = !q || b.id.toLowerCase().includes(q) || b.guest.toLowerCase().includes(q) || b.apt.toLowerCase().includes(q) || b.email.toLowerCase().includes(q);
+    const matchApt = !apt || b.apt.includes(apt);
+    const matchStatus = activeStatus === 'all' || b.status === activeStatus;
+    return matchQ && matchApt && matchStatus;
+  });
+  renderTable(data);
+  document.getElementById('pgInfo').textContent = `Showing 1–${data.length} of ${data.length}`;
+}
+
+function setStatusFilter(status, btn) {
+  activeStatus = status;
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  filterTable();
+}
+
+// ── SELECT ──
+function toggleRow(id, cb) {
+  if (cb.checked) selectedRows.add(id); else selectedRows.delete(id);
+  updateBulkBar();
+  filterTable();
+}
+function toggleSelectAll(cb) {
+  BOOKINGS.forEach(b => { if(cb.checked) selectedRows.add(b.id); else selectedRows.delete(b.id); });
+  updateBulkBar();
+  filterTable();
+}
+function clearSelection() { selectedRows.clear(); document.getElementById('selectAll').checked=false; updateBulkBar(); filterTable(); }
+function updateBulkBar() {
+  const bar = document.getElementById('bulkBar');
+  const n = selectedRows.size;
+  bar.classList.toggle('show', n > 0);
+  document.getElementById('bulkCount').textContent = n + ' selected';
+}
+function bulkAction(action) {
+  const msgs = {confirm:'Bookings confirmed!',receipt:'Receipts downloaded!',message:'Messages sent!',cancel:'Bookings cancelled!'};
+  showToast(msgs[action]);
+  clearSelection();
+}
+
+// ── MODAL ──
+function openModal(id) {
+  const b = BOOKINGS.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('modalTitle').textContent = 'Booking ' + b.id;
+  document.getElementById('mApt').textContent = b.apt;
+  document.getElementById('mLoc').textContent = b.loc;
+  const st = STATUS_MAP[b.status];
+  document.getElementById('mStatus').textContent = st.label;
+  document.getElementById('mStatus').style.color = b.status==='confirmed'||b.status==='checkedin' ? 'var(--green)' : b.status==='pending' ? 'var(--orange)' : b.status==='cancelled' ? 'var(--red)' : 'var(--muted)';
+  document.getElementById('mCi').textContent = b.ci;
+  document.getElementById('mCo').textContent = b.co;
+  document.getElementById('mNights').textContent = b.nights;
+  document.getElementById('mGuests').textContent = b.guests;
+  document.getElementById('mBooked').textContent = b.booked;
+  document.getElementById('mRef').textContent = b.id;
+  document.getElementById('mGuestName').textContent = b.guest;
+  document.getElementById('mGuestEmail').textContent = b.email;
+  document.getElementById('mGuestPhone').textContent = b.phone;
+  document.getElementById('mPayment').textContent = b.method;
+  document.getElementById('mAmount').textContent = '₦' + b.amount.toLocaleString();
+  document.getElementById('mbNights').textContent = '₦' + b.nightly.toLocaleString() + ' × ' + b.nights + ' nights';
+  const base = b.nightly * b.nights;
+  const svc = Math.round(base * 0.05);
+  document.getElementById('mbBase').textContent = '₦' + base.toLocaleString();
+  document.getElementById('mbSvc').textContent = '₦' + svc.toLocaleString();
+  document.getElementById('mbTotal').textContent = '₦' + b.amount.toLocaleString();
+  document.getElementById('statusSelect').value = b.status;
+  document.getElementById('noteTextarea').value = '';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function saveBookingUpdate() {
+  showToast('Booking updated successfully!');
+  closeModalDirect();
+}
+function sendGuestMessage() { showToast('Message sent to guest via WhatsApp!'); }
+function cancelBooking(id) { if(confirm('Cancel booking ' + id + '? This will trigger a refund.')) showToast('Booking ' + id + ' cancelled. Refund initiated.'); }
+function openNewBooking() { showToast('New booking form coming soon!'); }
+function exportBookings() { showToast('CSV exported!'); }
+
+// ── SIDEBAR ──
+function toggleSidebar() {
+  const mob = document.getElementById('mobSidebar');
+  const ov = document.getElementById('mobOverlay');
+  const ham = document.getElementById('hamBtn');
+  const open = mob.classList.toggle('open');
+  ov.classList.toggle('open', open);
+  ham.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('mobSidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  s
+
+// ── LOAD BOOKINGS FROM API ──
+async function loadBookingsFromAPI() {
+  try {
+    const search = document.getElementById('searchInput')?.value || '';
+    const res = await fetch(API_BASE + '/bookings?limit=50&search=' + encodeURIComponent(search), {
+      headers: authHeaders()
+    });
+    const data = await res.json();
+    if (data.bookings) {
+      const mapped = data.bookings.map(b => ({
+        id: b.booking_ref,
+        _id: b.id,
+        apt: b.property_name,
+        loc: b.property_location || '',
+        guest: b.first_name + ' ' + b.last_name,
+        email: b.email,
+        phone: b.phone || '',
+        ci: new Date(b.checkin_date).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}),
+        co: new Date(b.checkout_date).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}),
+        nights: b.nights,
+        guests: b.num_adults + ' adult' + (b.num_adults > 1 ? 's' : ''),
+        amount: b.total_amount / 100,
+        nightly: b.nightly_rate / 100,
+        method: b.payment_method || 'Card',
+        status: b.status,
+        booked: new Date(b.booked_at).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}),
+        access_code: b.access_code || ''
+      }));
+      window.BOOKINGS = mapped;
+      renderTable(mapped);
+    }
+  } catch (err) {
+    console.error('Bookings load error:', err);
+  }
+}
+
+// ── UPDATE BOOKING STATUS ──
+async function saveBookingUpdate() {
+  const b = window.BOOKINGS?.find(x => x.id === document.getElementById('mRef')?.textContent);
+  if (!b) { showToast('Booking updated!'); closeModalDirect(); return; }
+  const status = document.getElementById('statusSelect').value;
+  const note = document.getElementById('noteTextarea').value;
+  try {
+    const res = await fetch(API_BASE + '/bookings/' + b._id + '/status', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ status, internal_note: note })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showToast('Booking updated successfully!');
+    closeModalDirect();
+    loadBookingsFromAPI();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+// ── REAL CANCEL ──
+async function cancelBooking(ref) {
+  const b = window.BOOKINGS?.find(x => x.id === ref);
+  if (!b) return;
+  if (!confirm('Cancel booking ' + ref + '? This will trigger a refund if applicable.')) return;
+  try {
+    const res = await fetch(API_BASE + '/bookings/' + b._id + '/cancel', {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({ cancellation_reason: 'Cancelled by admin' })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showToast('Booking cancelled. Refund initiated.');
+    loadBookingsFromAPI();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+loadBookingsFromAPI();
+
+// ── ADMIN AUTH CHECK ──
+function checkAdminAuth() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (!token || !['admin','staff','concierge'].includes(user.role)) {
+    window.location.href = '../login.html';
+  }
+}
+checkAdminAuth();
+
+</script>
+</body>
+</html>

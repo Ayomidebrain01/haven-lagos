@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — HAVEN Lagos</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --red:#dc2626;--red-bg:#fef2f2;--red-bd:#fecaca;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --sh-s:0 2px 12px rgba(0,0,0,0.06);--sh-m:0 8px 32px rgba(0,0,0,0.10);
+  --r:8px;--sb:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;min-height:100vh;line-height:1.6;padding-bottom:60px;}
+@media(min-width:780px){body{padding-bottom:0;}}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+
+/* ────────────────── TOP NAV ────────────────── */
+.tnav{background:var(--accent);position:sticky;top:0;z-index:300;height:54px;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.tnav-ham{display:flex;flex-direction:column;gap:4px;padding:6px;background:none;border:none;cursor:pointer;flex-shrink:0;}
+@media(min-width:780px){.tnav-ham{display:none;}}
+.tnav-ham span{display:block;width:18px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.3s;}
+.tnav-ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tnav-ham.open span:nth-child(2){opacity:0;}
+.tnav-ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.tnav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.tnav-logo span{color:var(--accent-lite);}
+.tnav-badge{font-size:0.58rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);border-radius:100px;padding:3px 9px;border:1px solid rgba(255,255,255,0.18);}
+.tnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.tnav-icon{width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:0.88rem;cursor:pointer;transition:background 0.2s;position:relative;border:none;}
+.tnav-icon:hover{background:rgba(255,255,255,0.18);}
+.tnav-dot{position:absolute;top:4px;right:4px;width:7px;height:7px;background:#4ade80;border-radius:50%;border:1.5px solid var(--accent);}
+.tnav-user{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,0.18);border-radius:100px;cursor:pointer;}
+.tnav-av{width:24px;height:24px;border-radius:50%;background:var(--accent-lite);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:var(--accent);}
+.tnav-name{font-size:0.74rem;font-weight:700;color:#fff;display:none;}
+@media(min-width:480px){.tnav-name{display:block;}}
+
+/* ────────────────── LAYOUT ────────────────── */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+
+/* ────────────────── SIDEBAR ────────────────── */
+.sidebar{width:var(--sb);background:var(--heading);flex-direction:column;flex-shrink:0;display:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+@media(min-width:780px){.sidebar{display:flex;}}
+
+/* Mobile sidebar overlay */
+.mob-overlay{display:none;position:fixed;inset:0;top:54px;background:rgba(0,0,0,0.5);z-index:198;}
+.mob-overlay.open{display:block;}
+.mob-sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sb);background:var(--heading);z-index:199;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;display:flex;}
+.mob-sidebar.open{transform:translateX(0);}
+
+/* Shared sidebar content styles */
+.sb-user{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.sb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:#fff;}
+.sb-role{font-size:0.68rem;font-weight:700;background:var(--accent);color:var(--accent-lite);border-radius:100px;padding:2px 8px;display:inline-block;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-section-lbl{font-size:0.58rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:6px;display:block;}
+.slink{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;white-space:nowrap;margin-bottom:1px;}
+.slink:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.slink.active{background:var(--accent);color:#fff;}
+.slink-ico{font-size:0.88rem;width:16px;text-align:center;flex-shrink:0;}
+.slink-count{margin-left:auto;font-size:0.6rem;font-weight:800;background:var(--orange);color:#fff;border-radius:100px;padding:1px 7px;}
+.slink-count.green{background:var(--green);}
+.sb-divider{height:1px;background:rgba(255,255,255,0.08);margin:8px 12px;}
+.sb-bottom{padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-action{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-action:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.sb-action.danger:hover{color:#f87171;background:rgba(239,68,68,0.1);}
+
+/* ────────────────── MAIN ────────────────── */
+.main{flex:1;min-width:0;padding:20px 16px 32px;}
+@media(min-width:640px){.main{padding:24px 24px 40px;}}
+
+/* Page header */
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.pg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--heading);}
+.pg-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+.pg-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);transform:translateY(-1px);}
+.btn-o{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+.btn-o:hover{background:var(--accent);color:#fff;}
+
+/* Alerts */
+.alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.alert{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:var(--r);font-size:0.8rem;line-height:1.5;}
+.alert.warn{background:var(--orange-bg);border:1px solid var(--orange-bd);}
+.alert.info{background:var(--accent-bg);border:1px solid #bcd4f8;}
+.alert-ico{font-size:0.9rem;flex-shrink:0;margin-top:1px;}
+.alert strong{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;display:block;}
+.alert-x{margin-left:auto;background:none;border:none;font-size:0.9rem;color:var(--muted);cursor:pointer;flex-shrink:0;}
+
+/* KPI grid */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+@media(min-width:560px){.kpi-grid{grid-template-columns:repeat(4,1fr);}}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
+.kpi.rev::before{background:var(--accent);}
+.kpi.bk::before{background:var(--green);}
+.kpi.occ::before{background:var(--orange);}
+.kpi.gu::before{background:var(--purple);}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
+.kpi-ico{font-size:1rem;}
+.kpi-trend{font-size:0.66rem;font-weight:800;padding:2px 7px;border-radius:100px;}
+.kpi-trend.up{background:var(--green-bg);color:var(--green);}
+.kpi-trend.dn{background:var(--red-bg);color:var(--red);}
+.kpi-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.35rem;font-weight:800;color:var(--heading);line-height:1;margin-bottom:3px;}
+.kpi-lbl{font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.kpi-sub{font-size:0.68rem;color:var(--muted);margin-top:2px;}
+
+/* Section card */
+.sc{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.sc-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);}
+.sc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:800;color:var(--heading);}
+.sc-action{font-size:0.72rem;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;}
+.sc-action:hover{text-decoration:underline;}
+
+/* Revenue chart */
+.chart-periods{display:flex;gap:5px;}
+.cp{padding:4px 11px;border-radius:100px;font-size:0.7rem;font-weight:700;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all 0.18s;}
+.cp.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.chart-body{padding:16px;}
+.chart-container{display:flex;align-items:flex-end;gap:0;}
+.chart-y-axis{display:flex;flex-direction:column;justify-content:space-between;height:140px;margin-right:6px;flex-shrink:0;}
+@media(min-width:480px){.chart-y-axis{height:160px;}}
+.cy-lbl{font-size:0.58rem;font-weight:600;color:var(--muted);text-align:right;white-space:nowrap;}
+.chart-bars{display:flex;align-items:flex-end;gap:4px;flex:1;height:140px;}
+@media(min-width:480px){.chart-bars{height:160px;gap:6px;}}
+.cb-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;}
+.cb-track{flex:1;display:flex;align-items:flex-end;width:100%;}
+.cb{width:100%;border-radius:4px 4px 0 0;transition:height 0.7s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;min-height:3px;position:relative;}
+.cb.normal{background:var(--accent-bg);}
+.cb.accent{background:var(--accent);}
+.cb.current{background:linear-gradient(to top,var(--accent),var(--accent-lite));}
+.cb:hover::after{content:attr(data-tip);position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:var(--heading);color:#fff;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;z-index:10;}
+.cb-lbl{font-size:0.58rem;font-weight:700;color:var(--muted);}
+.chart-summary{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.cs{display:flex;flex-direction:column;gap:1px;}
+.cs-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:800;color:var(--heading);}
+.cs-lbl{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+
+/* Two-column grid */
+.two-col{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:860px){.two-col{grid-template-columns:1fr 1fr;}}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:520px;}
+thead th{font-size:0.64rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:9px 14px;background:var(--off);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--off);}
+td{padding:10px 14px;vertical-align:middle;}
+.td-apt{display:flex;align-items:center;gap:8px;}
+.td-img{width:36px;height:28px;object-fit:cover;border-radius:4px;flex-shrink:0;}
+.td-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);}
+.td-loc{font-size:0.65rem;color:var(--muted);}
+.td-guest{font-size:0.78rem;font-weight:700;color:var(--heading);}
+.td-ref{font-size:0.66rem;color:var(--muted);}
+.td-amt{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;color:var(--heading);white-space:nowrap;}
+.sp{display:inline-block;font-size:0.6rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;border-radius:100px;white-space:nowrap;}
+.sp-c{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.sp-p{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);}
+.sp-d{background:var(--off);color:var(--muted);border:1px solid var(--border);}
+.sp-x{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.tbl-btn{font-size:0.66rem;font-weight:700;padding:4px 10px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.tbl-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* Occupancy */
+.occ-list{padding:14px 16px;display:flex;flex-direction:column;gap:11px;}
+.occ-row-head{display:flex;justify-content:space-between;margin-bottom:4px;}
+.occ-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);}
+.occ-pct{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:800;color:var(--accent);}
+.occ-track{height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.occ-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(0.34,1.56,0.64,1);}
+.occ-fill.hi{background:var(--green);}
+.occ-fill.md{background:var(--orange);}
+.occ-fill.lo{background:var(--accent);}
+.occ-sub{font-size:0.65rem;color:var(--muted);margin-top:3px;}
+
+/* Activity */
+.act-list{display:flex;flex-direction:column;max-height:300px;overflow-y:auto;}
+.act-item{display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);align-items:flex-start;}
+.act-item:last-child{border-bottom:none;}
+.act-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;}
+.ai-bk{background:var(--green-bg);}
+.ai-pay{background:var(--accent-bg);}
+.ai-ci{background:var(--purple-bg);}
+.ai-rv{background:#fef9c3;}
+.ai-cx{background:var(--red-bg);}
+.act-body{flex:1;min-width:0;}
+.act-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);margin-bottom:1px;}
+.act-sub{font-size:0.7rem;color:var(--muted);line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.act-time{font-size:0.64rem;color:var(--muted);flex-shrink:0;white-space:nowrap;margin-top:2px;}
+
+/* Top properties */
+.tp-list{display:flex;flex-direction:column;}
+.tp-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);}
+.tp-row:last-child{border-bottom:none;}
+.tp-rank{width:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:800;color:var(--muted);text-align:center;flex-shrink:0;}
+.tp-img{width:42px;height:32px;object-fit:cover;border-radius:5px;flex-shrink:0;}
+.tp-body{flex:1;min-width:0;}
+.tp-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tp-loc{font-size:0.65rem;color:var(--muted);}
+.tp-right{text-align:right;flex-shrink:0;}
+.tp-rev{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:800;color:var(--heading);}
+.tp-occ{font-size:0.64rem;font-weight:700;color:var(--green);}
+
+/* Platform stats */
+.plat-rows{display:flex;flex-direction:column;}
+.plat-row{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--border);font-size:0.8rem;}
+.plat-row:last-child{border-bottom:none;}
+.plat-lbl{color:var(--muted);font-weight:600;}
+.plat-val{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;color:var(--heading);}
+
+/* Source bars */
+.source-bars{padding:14px 16px;display:flex;flex-direction:column;gap:10px;}
+.source-row{}
+.source-head{display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.78rem;}
+.source-lbl{font-weight:700;color:var(--heading);}
+.source-pct{font-weight:800;}
+.source-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.source-fill{height:100%;border-radius:3px;}
+
+/* Today stats */
+.today-rows{padding:12px 16px;display:flex;flex-direction:column;gap:0;}
+.today-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.8rem;}
+.today-row:last-child{border-bottom:none;}
+.today-lbl{color:var(--muted);font-weight:600;}
+.today-val{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;color:var(--heading);}
+
+/* Mobile bottom nav */
+.mob-bnav{display:flex;background:var(--heading);border-top:1px solid rgba(255,255,255,0.08);position:fixed;bottom:0;left:0;right:0;z-index:200;}
+@media(min-width:780px){.mob-bnav{display:none;}}
+.mbn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;transition:color 0.2s;}
+.mbn.active,.mbn:hover{color:#fff;}
+.mbn-ico{font-size:1rem;}
+
+/* Toast */
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:500;white-space:nowrap;pointer-events:none;}
+@media(min-width:780px){.toast{bottom:24px;}}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══ TOP NAV ══ -->
+<header class="tnav">
+  <button class="tnav-ham" id="hamBtn" onclick="toggleSidebar()" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="tnav-logo">HAVEN<span>.</span><span class="tnav-badge">Admin</span></div>
+  <div class="tnav-right">
+    <button class="tnav-icon" onclick="showToast('3 new alerts')" aria-label="Alerts">🔔<span class="tnav-dot"></span></button>
+    <button class="tnav-icon" onclick="window.open('../index.html','_blank')" aria-label="View live site">🌐</button>
+    <div class="tnav-user">
+      <div class="tnav-av">T</div>
+      <span class="tnav-name">Tunde · Admin</span>
+    </div>
+  </div>
+</header>
+
+<!-- Overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+
+  <!-- ══ DESKTOP SIDEBAR ══ -->
+  <aside class="sidebar" aria-label="Admin navigation">
+    <div class="sb-user">
+      <div class="sb-av">T</div>
+      <div class="sb-name">Tunde Adesanya</div>
+      <span class="sb-role">Super Admin</span>
+    </div>
+    <nav class="sb-nav">
+      <span class="sb-section-lbl">Overview</span>
+      <button class="slink active"><span class="slink-ico">📊</span>Dashboard</button>
+      <div class="sb-divider"></div>
+      <span class="sb-section-lbl">Management</span>
+      <a href="bookings.html" class="slink"><span class="slink-ico">📅</span>Bookings<span class="slink-count">4</span></a>
+      <a href="properties.html" class="slink"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink"><span class="slink-ico">⭐</span>Reviews<span class="slink-count green">2</span></a>
+      <div class="sb-divider"></div>
+      <span class="sb-section-lbl">Config</span>
+      <a href="settings.html" class="slink"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-action" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-action danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- ══ MOBILE SIDEBAR ══ -->
+  <aside class="mob-sidebar" id="mobSidebar" aria-label="Mobile admin navigation">
+    <div class="sb-user">
+      <div class="sb-av">T</div>
+      <div class="sb-name">Tunde Adesanya</div>
+      <span class="sb-role">Super Admin</span>
+    </div>
+    <nav class="sb-nav">
+      <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">📊</span>Dashboard</button>
+      <a href="bookings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📅</span>Bookings<span class="slink-count">4</span></a>
+      <a href="properties.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⭐</span>Reviews</a>
+      <a href="settings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-action" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-action danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <main class="main">
+
+    <!-- Page header -->
+    <div class="pg-head">
+      <div>
+        <div class="pg-title">Dashboard Overview</div>
+        <div class="pg-sub">Saturday, 14 March 2026 · Last updated just now</div>
+      </div>
+      <div class="pg-actions">
+        <button class="btn btn-o" onclick="showToast('Report exported!')">↓ Export</button>
+        <a href="bookings.html" class="btn btn-p">+ Booking</a>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="alerts" id="alerts">
+      <div class="alert warn">
+        <span class="alert-ico">⚠️</span>
+        <div><strong>Check-out today</strong>Adaeze Okonkwo — Signature Suite · Due 12:00 PM</div>
+        <button class="alert-x" onclick="this.closest('.alert').remove()">✕</button>
+      </div>
+      <div class="alert info">
+        <span class="alert-ico">🔑</span>
+        <div><strong>Check-in tomorrow</strong>Kemi Fashola — Lekki Palms Duplex · From 2:00 PM</div>
+        <button class="alert-x" onclick="this.closest('.alert').remove()">✕</button>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi rev">
+        <div class="kpi-top"><span class="kpi-ico">💰</span><span class="kpi-trend up">↑ 23%</span></div>
+        <div class="kpi-val">₦4.2M</div>
+        <div class="kpi-lbl">Revenue (Jan)</div>
+        <div class="kpi-sub">vs ₦3.4M last month</div>
+      </div>
+      <div class="kpi bk">
+        <div class="kpi-top"><span class="kpi-ico">📅</span><span class="kpi-trend up">↑ 18%</span></div>
+        <div class="kpi-val">34</div>
+        <div class="kpi-lbl">Bookings</div>
+        <div class="kpi-sub">vs 29 last month</div>
+      </div>
+      <div class="kpi occ">
+        <div class="kpi-top"><span class="kpi-ico">📊</span><span class="kpi-trend up">↑ 5%</span></div>
+        <div class="kpi-val">78%</div>
+        <div class="kpi-lbl">Occupancy</div>
+        <div class="kpi-sub">vs 73% last month</div>
+      </div>
+      <div class="kpi gu">
+        <div class="kpi-top"><span class="kpi-ico">👥</span><span class="kpi-trend up">↑ 12%</span></div>
+        <div class="kpi-val">120</div>
+        <div class="kpi-lbl">Total Guests</div>
+        <div class="kpi-sub">38 new this month</div>
+      </div>
+    </div>
+
+    <!-- Revenue Chart -->
+    <div class="sc">
+      <div class="sc-head">
+        <span class="sc-title">Revenue Overview</span>
+        <div class="chart-periods">
+          <button class="cp" onclick="setPeriod('3m',this)">3M</button>
+          <button class="cp active" onclick="setPeriod('6m',this)">6M</button>
+          <button class="cp" onclick="setPeriod('1y',this)">1Y</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div class="chart-container">
+          <div class="chart-y-axis" id="yAxis">
+            <span class="cy-lbl">₦5M</span>
+            <span class="cy-lbl">₦4M</span>
+            <span class="cy-lbl">₦3M</span>
+            <span class="cy-lbl">₦2M</span>
+            <span class="cy-lbl">₦1M</span>
+            <span class="cy-lbl">₦0</span>
+          </div>
+          <div class="chart-bars" id="chartBars"></div>
+        </div>
+        <div class="chart-summary">
+          <div class="cs"><div class="cs-val">₦19.8M</div><div class="cs-lbl">6M Total</div></div>
+          <div class="cs"><div class="cs-val">₦3.3M</div><div class="cs-lbl">Monthly Avg</div></div>
+          <div class="cs"><div class="cs-val">₦4.2M</div><div class="cs-lbl">Best Month</div></div>
+          <div class="cs"><div class="cs-val" style="color:var(--green)">+23%</div><div class="cs-lbl">MoM Growth</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two col: Recent Bookings + Occupancy -->
+    <div class="two-col">
+
+      <!-- Recent Bookings Table -->
+      <div class="sc">
+        <div class="sc-head">
+          <span class="sc-title">Recent Bookings</span>
+          <a href="bookings.html" class="sc-action">View all →</a>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>Apartment</th><th>Guest</th><th>Dates</th><th>Amount</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="td-apt"><img class="td-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=80&q=60" alt="" loading="lazy"><div><div class="td-name">Signature Suite</div><div class="td-loc">Lekki</div></div></div></td>
+                <td><div class="td-guest">Adaeze O.</div><div class="td-ref">HAVEN-4821</div></td>
+                <td style="font-size:0.74rem;white-space:nowrap;">17–20 Jan</td>
+                <td class="td-amt">₦393,000</td>
+                <td><span class="sp sp-c">Confirmed</span></td>
+                <td><button class="tbl-btn" onclick="showToast('Opening...')">View</button></td>
+              </tr>
+              <tr>
+                <td><div class="td-apt"><img class="td-img" src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=80&q=60" alt="" loading="lazy"><div><div class="td-name">Lekki Palms</div><div class="td-loc">Lekki</div></div></div></td>
+                <td><div class="td-guest">Kemi F.</div><div class="td-ref">HAVEN-4820</div></td>
+                <td style="font-size:0.74rem;white-space:nowrap;">15–19 Jan</td>
+                <td class="td-amt">₦360,000</td>
+                <td><span class="sp sp-c">Confirmed</span></td>
+                <td><button class="tbl-btn" onclick="showToast('Opening...')">View</button></td>
+              </tr>
+              <tr>
+                <td><div class="td-apt"><img class="td-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=80&q=60" alt="" loading="lazy"><div><div class="td-name">VI Executive</div><div class="td-loc">VI</div></div></div></td>
+                <td><div class="td-guest">David O.</div><div class="td-ref">HAVEN-4819</div></td>
+                <td style="font-size:0.74rem;white-space:nowrap;">10–14 Jan</td>
+                <td class="td-amt">₦340,000</td>
+                <td><span class="sp sp-p">Pending</span></td>
+                <td><button class="tbl-btn" onclick="showToast('Opening...')">View</button></td>
+              </tr>
+              <tr>
+                <td><div class="td-apt"><img class="td-img" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=80&q=60" alt="" loading="lazy"><div><div class="td-name">Ikoyi PH</div><div class="td-loc">Ikoyi</div></div></div></td>
+                <td><div class="td-guest">Sola M.</div><div class="td-ref">HAVEN-4818</div></td>
+                <td style="font-size:0.74rem;white-space:nowrap;">5–9 Jan</td>
+                <td class="td-amt">₦638,000</td>
+                <td><span class="sp sp-d">Completed</span></td>
+                <td><button class="tbl-btn" onclick="showToast('Opening...')">View</button></td>
+              </tr>
+              <tr>
+                <td><div class="td-apt"><img class="td-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=80&q=60" alt="" loading="lazy"><div><div class="td-name">Ikoyi Manor</div><div class="td-loc">Ikoyi</div></div></div></td>
+                <td><div class="td-guest">Ngozi E.</div><div class="td-ref">HAVEN-4817</div></td>
+                <td style="font-size:0.74rem;white-space:nowrap;">1–4 Jan</td>
+                <td class="td-amt">₦285,000</td>
+                <td><span class="sp sp-x">Cancelled</span></td>
+                <td><button class="tbl-btn" onclick="showToast('Opening...')">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <!-- Occupancy -->
+        <div class="sc" style="margin-bottom:14px;">
+          <div class="sc-head"><span class="sc-title">January Occupancy</span><span style="font-size:0.72rem;font-weight:700;color:var(--green);">Avg 78%</span></div>
+          <div class="occ-list">
+            <div><div class="occ-row-head"><span class="occ-name">Signature Suite</span><span class="occ-pct">95%</span></div><div class="occ-track"><div class="occ-fill hi" data-w="95"></div></div><div class="occ-sub">29/31 days booked</div></div>
+            <div><div class="occ-row-head"><span class="occ-name">Ikoyi Penthouse</span><span class="occ-pct">87%</span></div><div class="occ-track"><div class="occ-fill hi" data-w="87"></div></div><div class="occ-sub">27/31 days booked</div></div>
+            <div><div class="occ-row-head"><span class="occ-name">VI Executive</span><span class="occ-pct">74%</span></div><div class="occ-track"><div class="occ-fill md" data-w="74"></div></div><div class="occ-sub">23/31 days booked</div></div>
+            <div><div class="occ-row-head"><span class="occ-name">Lekki Palms</span><span class="occ-pct">68%</span></div><div class="occ-track"><div class="occ-fill md" data-w="68"></div></div><div class="occ-sub">21/31 days booked</div></div>
+            <div><div class="occ-row-head"><span class="occ-name">Chevron Gardens</span><span class="occ-pct">52%</span></div><div class="occ-track"><div class="occ-fill lo" data-w="52"></div></div><div class="occ-sub">16/31 days booked</div></div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="sc">
+          <div class="sc-head"><span class="sc-title">Live Activity</span><button class="sc-action" onclick="showToast('Refreshed!')">Refresh</button></div>
+          <div class="act-list">
+            <div class="act-item"><div class="act-ico ai-bk">✅</div><div class="act-body"><div class="act-title">Booking confirmed</div><div class="act-sub">Adaeze Okonkwo · Signature Suite · ₦393,000</div></div><div class="act-time">2h ago</div></div>
+            <div class="act-item"><div class="act-ico ai-pay">💳</div><div class="act-body"><div class="act-title">Payment received</div><div class="act-sub">₦360,000 · Kemi Fashola · Bank transfer</div></div><div class="act-time">4h ago</div></div>
+            <div class="act-item"><div class="act-ico ai-ci">🔑</div><div class="act-body"><div class="act-title">Guest checked in</div><div class="act-sub">David Olu · VI Executive · 2:14 PM</div></div><div class="act-time">Yesterday</div></div>
+            <div class="act-item"><div class="act-ico ai-rv">⭐</div><div class="act-body"><div class="act-title">New 5-star review</div><div class="act-sub">Chioma Okafor · Awaiting approval</div></div><div class="act-time">2 days ago</div></div>
+            <div class="act-item"><div class="act-ico ai-cx">❌</div><div class="act-body"><div class="act-title">Booking cancelled</div><div class="act-sub">Ngozi Eze · Ikoyi Manor · Refunded ₦285,000</div></div><div class="act-time">3 days ago</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom row: Top properties + Platform stats -->
+    <div class="two-col">
+
+      <!-- Top Properties -->
+      <div class="sc">
+        <div class="sc-head"><span class="sc-title">Top Properties by Revenue</span><span style="font-size:0.7rem;color:var(--muted)">Jan 2025</span></div>
+        <div class="tp-list">
+          <div class="tp-row"><div class="tp-rank">1</div><img class="tp-img" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=80&q=60" alt="" loading="lazy"><div class="tp-body"><div class="tp-name">Ikoyi Penthouse</div><div class="tp-loc">Ikoyi</div></div><div class="tp-right"><div class="tp-rev">₦1.27M</div><div class="tp-occ">87% occ.</div></div></div>
+          <div class="tp-row"><div class="tp-rank">2</div><img class="tp-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=80&q=60" alt="" loading="lazy"><div class="tp-body"><div class="tp-name">Signature Suite</div><div class="tp-loc">Lekki Phase 1</div></div><div class="tp-right"><div class="tp-rev">₦1.08M</div><div class="tp-occ">95% occ.</div></div></div>
+          <div class="tp-row"><div class="tp-rank">3</div><img class="tp-img" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=80&q=60" alt="" loading="lazy"><div class="tp-body"><div class="tp-name">Lekki Premium Villa</div><div class="tp-loc">Lekki Phase 1</div></div><div class="tp-right"><div class="tp-rev">₦900,000</div><div class="tp-occ">71% occ.</div></div></div>
+          <div class="tp-row"><div class="tp-rank">4</div><img class="tp-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=80&q=60" alt="" loading="lazy"><div class="tp-body"><div class="tp-name">VI Executive</div><div class="tp-loc">Victoria Island</div></div><div class="tp-right"><div class="tp-rev">₦595,000</div><div class="tp-occ">74% occ.</div></div></div>
+          <div class="tp-row"><div class="tp-rank">5</div><img class="tp-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=80&q=60" alt="" loading="lazy"><div class="tp-body"><div class="tp-name">Ikoyi Manor</div><div class="tp-loc">Ikoyi</div></div><div class="tp-right"><div class="tp-rev">₦440,000</div><div class="tp-occ">58% occ.</div></div></div>
+        </div>
+      </div>
+
+      <!-- Right: Platform health + sources + today -->
+      <div>
+        <div class="sc" style="margin-bottom:14px;">
+          <div class="sc-head"><span class="sc-title">Platform Health</span></div>
+          <div class="plat-rows">
+            <div class="plat-row"><span class="plat-lbl">Average Rating</span><span class="plat-val" style="color:var(--green)">4.9 ★</span></div>
+            <div class="plat-row"><span class="plat-lbl">On-Time Check-in</span><span class="plat-val">98%</span></div>
+            <div class="plat-row"><span class="plat-lbl">Avg Response Time</span><span class="plat-val" style="color:var(--green)">3 min</span></div>
+            <div class="plat-row"><span class="plat-lbl">Cancellation Rate</span><span class="plat-val">2.1%</span></div>
+          </div>
+        </div>
+
+        <div class="sc" style="margin-bottom:14px;">
+          <div class="sc-head"><span class="sc-title">Guest Sources</span></div>
+          <div class="source-bars">
+            <div class="source-row">
+              <div class="source-head"><span class="source-lbl">Direct (Website)</span><span class="source-pct" style="color:var(--accent)">72%</span></div>
+              <div class="source-track"><div class="source-fill" style="width:72%;background:var(--accent);"></div></div>
+            </div>
+            <div class="source-row">
+              <div class="source-head"><span class="source-lbl">WhatsApp Referral</span><span class="source-pct" style="color:var(--orange)">18%</span></div>
+              <div class="source-track"><div class="source-fill" style="width:18%;background:var(--orange);"></div></div>
+            </div>
+            <div class="source-row">
+              <div class="source-head"><span class="source-lbl">Instagram</span><span class="source-pct" style="color:var(--purple)">10%</span></div>
+              <div class="source-track"><div class="source-fill" style="width:10%;background:var(--purple);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc">
+          <div class="sc-head"><span class="sc-title">Today at a Glance</span></div>
+          <div class="today-rows">
+            <div class="today-row"><span class="today-lbl">Check-outs today</span><span class="today-val">2 guests</span></div>
+            <div class="today-row"><span class="today-lbl">Check-ins tomorrow</span><span class="today-val">1 guest</span></div>
+            <div class="today-row"><span class="today-lbl">Currently occupied</span><span class="today-val" style="color:var(--green)">8 / 12</span></div>
+            <div class="today-row"><span class="today-lbl">Pending reviews</span><span class="today-val" style="color:var(--orange)">5 reviews</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bnav" aria-label="Mobile navigation">
+  <button class="mbn active"><span class="mbn-ico">📊</span>Dashboard</button>
+  <button class="mbn" onclick="window.location.href='bookings.html'"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
+  <button class="mbn" onclick="window.location.href='calendar.html'"><span class="mbn-ico">🗓️</span>Calendar</button>
+  <button class="mbn" onclick="window.location.href='settings.html'"><span class="mbn-ico">⚙️</span>Settings</button>
+</nav>
+
+<script>
+// ── SIDEBAR ──
+function toggleSidebar() {
+  const mob = document.getElementById('mobSidebar');
+  const overlay = document.getElementById('mobOverlay');
+  const ham = document.getElementById('hamBtn');
+  const open = mob.classList.toggle('open');
+  overlay.classList.toggle('open', open);
+  ham.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('mobSidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── CHART DATA ──
+const charts = {
+  '3m': [{l:'Nov',v:3400000},{l:'Dec',v:3400000},{l:'Jan',v:4200000,cur:true}],
+  '6m': [{l:'Aug',v:2800000},{l:'Sep',v:3100000},{l:'Oct',v:2900000},{l:'Nov',v:3400000},{l:'Dec',v:3400000},{l:'Jan',v:4200000,cur:true}],
+  '1y': [{l:'Feb',v:1800000},{l:'Mar',v:2100000},{l:'Apr',v:2400000},{l:'May',v:2200000},{l:'Jun',v:2600000},{l:'Jul',v:2900000},{l:'Aug',v:2800000},{l:'Sep',v:3100000},{l:'Oct',v:2900000},{l:'Nov',v:3400000},{l:'Dec',v:3400000},{l:'Jan',v:4200000,cur:true}]
+};
+
+function renderChart(period) {
+  const data = charts[period];
+  const max = Math.max(...data.map(d => d.v));
+  const fmt = v => v >= 1000000 ? '₦' + (v/1000000).toFixed(1) + 'M' : '₦' + (v/1000).toFixed(0) + 'K';
+  const bars = document.getElementById('chartBars');
+  bars.innerHTML = '';
+  data.forEach(d => {
+    const pct = (d.v / max) * 100;
+    const cls = d.cur ? 'current' : d.v === max ? 'accent' : 'normal';
+    const wrap = document.createElement('div');
+    wrap.className = 'cb-wrap';
+    wrap.innerHTML = `
+      <div class="cb-track">
+        <div class="cb ${cls}" style="height:3px" data-tip="${fmt(d.v)}" data-target="${pct}"></div>
+      </div>
+      <div class="cb-lbl">${d.l}</div>`;
+    bars.appendChild(wrap);
+  });
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      bars.querySelectorAll('.cb').forEach(b => { b.style.height = b.dataset.target + '%'; });
+    }, 30);
+  });
+}
+
+function setPeriod(p, btn) {
+  document.querySelectorAll('.cp').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderChart(p);
+}
+
+// ── OCCUPANCY ANIMATE ──
+function animateOcc() {
+  document.querySelectorAll('.occ-fill[data-w]').forEach(el => {
+    setTimeout(() => { el.style.width = el.dataset.w + '%'; }, 120);
+  });
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+renderChart('6m');
+animateOcc();
+
+// ── LOAD DASHBOARD DATA FROM API ──
+async function loadAdminDashboard() {
+  try {
+    const [overviewRes, revenueRes] = await Promise.all([
+      fetch(API_BASE + '/analytics/overview', { headers: authHeaders() }),
+      fetch(API_BASE + '/analytics/revenue?period=6m', { headers: authHeaders() })
+    ]);
+    const overview = await overviewRes.json();
+    const revenue = await revenueRes.json();
+
+    if (overview.overview) {
+      const o = overview.overview;
+      // Update KPI values
+      const kpiVals = document.querySelectorAll('.kpi-val');
+      if (kpiVals[0]) kpiVals[0].textContent = '₦' + (o.revenue.value/100/1000000).toFixed(1) + 'M';
+      if (kpiVals[1]) kpiVals[1].textContent = o.bookings.value;
+      if (kpiVals[2]) kpiVals[2].textContent = o.guests;
+    }
+
+    if (revenue.data && revenue.data.length) {
+      const chartData = revenue.data.map(d => ({ l: d.month, v: parseInt(d.revenue) }));
+      window.charts = { '6m': chartData };
+      renderChart('6m');
+    }
+  } catch (err) {
+    console.error('Admin dashboard load error:', err);
+  }
+}
+
+loadAdminDashboard();
+
+
+// ── ADMIN AUTH CHECK ──
+function checkAdminAuth() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (!token || !['admin','staff','concierge'].includes(user.role)) {
+    window.location.href = '../login.html';
+  }
+}
+checkAdminAuth();
+
+</script>
+</body>
+</html>

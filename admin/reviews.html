@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — HAVEN Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --red:#dc2626;--red-bg:#fef2f2;--red-bd:#fecaca;
+  --star:#f59e0b;
+  --sh-s:0 2px 12px rgba(0,0,0,0.06);--sh-m:0 8px 32px rgba(0,0,0,0.12);--sh-l:0 20px 60px rgba(0,0,0,0.18);
+  --r:8px;--sb:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;min-height:100vh;line-height:1.6;padding-bottom:60px;}
+@media(min-width:780px){body{padding-bottom:0;}}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ── TOP NAV ── */
+.tnav{background:var(--accent);position:sticky;top:0;z-index:300;height:54px;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.tnav-ham{display:flex;flex-direction:column;gap:4px;padding:6px;background:none;border:none;cursor:pointer;flex-shrink:0;}
+@media(min-width:780px){.tnav-ham{display:none;}}
+.tnav-ham span{display:block;width:18px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.3s;}
+.tnav-ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tnav-ham.open span:nth-child(2){opacity:0;}
+.tnav-ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.tnav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.tnav-logo span{color:var(--accent-lite);}
+.tnav-badge{font-size:0.58rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);border-radius:100px;padding:3px 9px;border:1px solid rgba(255,255,255,0.18);}
+.tnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.tnav-icon{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:0.88rem;cursor:pointer;transition:background 0.2s;}
+.tnav-icon:hover{background:rgba(255,255,255,0.18);}
+.tnav-user{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,0.18);border-radius:100px;cursor:pointer;}
+.tnav-av{width:24px;height:24px;border-radius:50%;background:var(--accent-lite);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:var(--accent);}
+.tnav-name{font-size:0.74rem;font-weight:700;color:#fff;display:none;}
+@media(min-width:480px){.tnav-name{display:block;}}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+.sidebar{width:var(--sb);background:var(--heading);flex-direction:column;flex-shrink:0;display:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+@media(min-width:780px){.sidebar{display:flex;}}
+.mob-overlay{display:none;position:fixed;inset:0;top:54px;background:rgba(0,0,0,0.5);z-index:198;}
+.mob-overlay.open{display:block;}
+.mob-sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sb);background:var(--heading);z-index:199;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;display:flex;}
+.mob-sidebar.open{transform:translateX(0);}
+.sb-user{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.sb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:#fff;}
+.sb-role{font-size:0.68rem;font-weight:700;background:var(--accent);color:var(--accent-lite);border-radius:100px;padding:2px 8px;display:inline-block;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-lbl{font-size:0.58rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:6px;display:block;}
+.slink{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;margin-bottom:1px;}
+.slink:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.slink.active{background:var(--accent);color:#fff;}
+.slink-ico{font-size:0.88rem;width:16px;text-align:center;flex-shrink:0;}
+.slink-cnt{margin-left:auto;font-size:0.6rem;font-weight:800;background:var(--orange);color:#fff;border-radius:100px;padding:1px 7px;}
+.slink-cnt.g{background:var(--green);}
+.sb-div{height:1px;background:rgba(255,255,255,0.08);margin:8px 12px;}
+.sb-bottom{padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-btn:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.sb-btn.danger:hover{color:#f87171;background:rgba(239,68,68,0.1);}
+
+/* ── MAIN ── */
+.main{flex:1;min-width:0;padding:20px 16px 32px;}
+@media(min-width:640px){.main{padding:24px 24px 40px;}}
+
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.pg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--heading);}
+.pg-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+.pg-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);transform:translateY(-1px);}
+.btn-o{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+.btn-o:hover{background:var(--accent);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:0.7rem;}
+.btn-green{background:var(--green-bg);color:var(--green);border:1.5px solid var(--green-bd);}
+.btn-green:hover{background:var(--green);color:#fff;}
+.btn-red{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red-bd);}
+.btn-red:hover{background:var(--red);color:#fff;}
+
+/* ── TOP LAYOUT: rating summary + filter ── */
+.top-row{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+@media(min-width:860px){.top-row{grid-template-columns:320px 1fr;}}
+
+/* Rating summary card */
+.rating-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.rc-top{display:flex;align-items:flex-end;gap:14px;margin-bottom:16px;}
+.rc-big{font-family:'Plus Jakarta Sans',sans-serif;font-size:3.5rem;font-weight:800;color:var(--heading);line-height:1;}
+.rc-stars{color:var(--star);font-size:1.1rem;letter-spacing:2px;margin-bottom:4px;}
+.rc-count{font-size:0.76rem;color:var(--muted);font-weight:600;}
+.rc-bars{display:flex;flex-direction:column;gap:6px;}
+.rcb-row{display:flex;align-items:center;gap:8px;}
+.rcb-lbl{font-size:0.72rem;font-weight:700;color:var(--muted);width:22px;text-align:right;flex-shrink:0;}
+.rcb-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.rcb-fill{height:100%;background:var(--star);border-radius:4px;transition:width 0.8s ease;}
+.rcb-pct{font-size:0.68rem;font-weight:700;color:var(--muted);width:30px;text-align:right;flex-shrink:0;}
+.rc-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.rcc{text-align:center;}
+.rcc-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:800;color:var(--heading);}
+.rcc-lbl{font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:480px){.kpi-strip{grid-template-columns:repeat(4,1fr);}}
+.ks{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;}
+.ks-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);line-height:1;margin-bottom:3px;}
+.ks-lbl{font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.search-box{display:flex;align-items:center;gap:7px;border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;background:#fff;transition:border-color 0.2s;flex:1;min-width:160px;}
+.search-box:focus-within{border-color:var(--accent);}
+.search-box svg{width:13px;height:13px;fill:var(--muted);flex-shrink:0;}
+.search-box input{border:none;outline:none;font-size:0.82rem;font-weight:600;color:var(--heading);background:transparent;width:100%;}
+.search-box input::placeholder{color:var(--muted);}
+.filter-select{border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:0.78rem;font-weight:700;color:var(--heading);background:#fff;outline:none;cursor:pointer;transition:border-color 0.2s;flex-shrink:0;}
+.filter-select:hover,.filter-select:focus{border-color:var(--accent);}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.ftab{padding:6px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--muted);background:#fff;cursor:pointer;transition:all 0.18s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.ftab:hover{border-color:var(--accent);color:var(--accent);}
+.ftab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.ftab .badge{font-size:0.6rem;font-weight:800;background:rgba(255,255,255,0.25);border-radius:100px;padding:1px 6px;}
+.ftab:not(.active) .badge{background:var(--off);color:var(--muted);}
+.ftab.pending-tab{border-color:var(--orange);color:var(--orange);}
+.ftab.pending-tab.active{background:var(--orange);color:#fff;border-color:var(--orange);}
+
+/* ── BULK BAR ── */
+.bulk-bar{background:var(--accent);border-radius:var(--r);padding:10px 16px;display:none;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.bulk-bar.show{display:flex;}
+.bulk-count{font-size:0.8rem;font-weight:700;color:#fff;}
+.bulk-btn{font-size:0.72rem;font-weight:700;padding:5px 12px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.12);color:#fff;cursor:pointer;transition:background 0.18s;}
+.bulk-btn:hover{background:rgba(255,255,255,0.22);}
+.bulk-btn.danger{border-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.15);}
+.bulk-btn.approve{border-color:rgba(74,222,128,0.5);background:rgba(74,222,128,0.15);}
+
+/* ── REVIEW CARDS ── */
+.reviews-list{display:flex;flex-direction:column;gap:12px;}
+
+.rev-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:box-shadow 0.2s;}
+.rev-card:hover{box-shadow:var(--sh-s);}
+.rev-card.pending{border-left:3px solid var(--orange);}
+.rev-card.approved{border-left:3px solid var(--green);}
+.rev-card.rejected{border-left:3px solid var(--red);opacity:0.7;}
+.rev-card.flagged{border-left:3px solid var(--red);}
+
+.rev-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 16px 0;}
+.rev-guest{display:flex;align-items:center;gap:10px;}
+.rev-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;flex-shrink:0;}
+.rev-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:800;color:var(--heading);}
+.rev-meta{font-size:0.7rem;color:var(--muted);}
+.rev-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+.rev-stars{color:var(--star);font-size:0.86rem;letter-spacing:1px;}
+.sp{display:inline-block;font-size:0.6rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap;}
+.sp-pending{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);}
+.sp-approved{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.sp-rejected{background:var(--off);color:var(--muted);border:1px solid var(--border);}
+.sp-flagged{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+
+.rev-body{padding:10px 16px;}
+.rev-apt{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.rev-apt-name{font-size:0.74rem;font-weight:700;color:var(--accent);}
+.rev-apt-ref{font-size:0.68rem;color:var(--muted);}
+.rev-text{font-size:0.86rem;line-height:1.75;color:var(--text);}
+.rev-verified{display:inline-flex;align-items:center;gap:4px;font-size:0.66rem;font-weight:700;color:var(--green);background:var(--green-bg);border:1px solid var(--green-bd);border-radius:100px;padding:2px 8px;margin-top:8px;}
+.rev-flag-warn{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--red-bg);border-radius:5px;font-size:0.74rem;font-weight:600;color:var(--red);margin-top:8px;}
+
+/* Rating breakdown on card */
+.rev-ratings{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.rr-item{display:flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--muted);font-weight:600;}
+.rr-stars{color:var(--star);font-size:0.6rem;}
+
+/* Admin reply */
+.rev-reply{margin:0 16px 0;padding:10px 12px;background:var(--accent-bg);border-radius:6px;border-left:3px solid var(--accent);}
+.rr-label{font-size:0.65rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.rr-text{font-size:0.82rem;color:var(--text);line-height:1.6;}
+
+/* Actions bar */
+.rev-actions{display:flex;align-items:center;gap:6px;padding:10px 16px 14px;flex-wrap:wrap;}
+.checkbox-wrap{display:flex;align-items:center;gap:6px;margin-right:4px;}
+.checkbox-wrap input{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;}
+.ra-btn{font-size:0.68rem;font-weight:700;padding:5px 11px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.ra-btn:hover{border-color:var(--accent);color:var(--accent);}
+.ra-btn.approve{border-color:var(--green);color:var(--green);}
+.ra-btn.approve:hover{background:var(--green);color:#fff;}
+.ra-btn.reject{border-color:var(--red);color:var(--red);}
+.ra-btn.reject:hover{background:var(--red);color:#fff;}
+.ra-btn.reply-btn{border-color:var(--accent);color:var(--accent);}
+.ra-btn.reply-btn:hover{background:var(--accent);color:#fff;}
+.rev-date{font-size:0.68rem;color:var(--muted);margin-left:auto;}
+
+/* Reply input */
+.reply-box{margin:0 16px 14px;display:none;}
+.reply-box.open{display:block;}
+.reply-textarea{width:100%;border:1.5px solid var(--accent);border-radius:var(--r);padding:10px 12px;font-size:0.84rem;font-weight:600;color:var(--heading);background:#fff;outline:none;resize:vertical;min-height:72px;line-height:1.6;}
+.reply-footer{display:flex;justify-content:flex-end;gap:6px;margin-top:6px;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:48px 20px;display:none;}
+.empty-state.show{display:block;}
+
+/* Mobile bottom nav */
+.mob-bnav{display:flex;background:var(--heading);border-top:1px solid rgba(255,255,255,0.08);position:fixed;bottom:0;left:0;right:0;z-index:200;}
+@media(min-width:780px){.mob-bnav{display:none;}}
+.mbn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;}
+.mbn.active,.mbn:hover{color:#fff;}
+.mbn-ico{font-size:1rem;}
+
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:600;white-space:nowrap;pointer-events:none;}
+@media(min-width:780px){.toast{bottom:24px;}}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Top Nav -->
+<header class="tnav">
+  <button class="tnav-ham" id="hamBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="tnav-logo">HAVEN<span>.</span><span class="tnav-badge">Admin</span></div>
+  <div class="tnav-right">
+    <button class="tnav-icon" onclick="showToast('3 alerts')" aria-label="Alerts">🔔</button>
+    <button class="tnav-icon" onclick="window.open('../index.html','_blank')" aria-label="View site">🌐</button>
+    <div class="tnav-user"><div class="tnav-av">T</div><span class="tnav-name">Tunde · Admin</span></div>
+  </div>
+</header>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="layout">
+
+  <!-- Desktop Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <span class="sb-lbl">Overview</span>
+      <a href="index.html" class="slink"><span class="slink-ico">📊</span>Dashboard</a>
+      <div class="sb-div"></div>
+      <span class="sb-lbl">Management</span>
+      <a href="bookings.html" class="slink"><span class="slink-ico">📅</span>Bookings<span class="slink-cnt">4</span></a>
+      <a href="properties.html" class="slink"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink"><span class="slink-ico">👥</span>Guests</a>
+      <button class="slink active"><span class="slink-ico">⭐</span>Reviews<span class="slink-cnt">5</span></button>
+      <div class="sb-div"></div>
+      <a href="settings.html" class="slink"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside class="mob-sidebar" id="mobSidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <a href="index.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📊</span>Dashboard</a>
+      <a href="bookings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📅</span>Bookings</a>
+      <a href="properties.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🏠</span>Properties</a>
+      <a href="calendar.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">👥</span>Guests</a>
+      <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">⭐</span>Reviews</button>
+      <a href="settings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="pg-head">
+      <div><div class="pg-title">Review Moderation</div><div class="pg-sub">Approve, reply to and manage all guest reviews</div></div>
+      <div class="pg-actions">
+        <button class="btn btn-o btn-sm" onclick="approveAll()">✓ Approve All Pending</button>
+        <button class="btn btn-p btn-sm" onclick="showToast('Export complete!')">↓ Export</button>
+      </div>
+    </div>
+
+    <!-- Top row: rating summary + KPIs -->
+    <div class="top-row">
+      <div class="rating-card">
+        <div class="rc-top">
+          <div class="rc-big">4.9</div>
+          <div>
+            <div class="rc-stars">★★★★★</div>
+            <div class="rc-count">Based on 120 verified reviews</div>
+          </div>
+        </div>
+        <div class="rc-bars">
+          <div class="rcb-row"><span class="rcb-lbl">5★</span><div class="rcb-track"><div class="rcb-fill" data-w="88" style="width:0%"></div></div><span class="rcb-pct">88%</span></div>
+          <div class="rcb-row"><span class="rcb-lbl">4★</span><div class="rcb-track"><div class="rcb-fill" data-w="9" style="width:0%;background:#86efac"></div></div><span class="rcb-pct">9%</span></div>
+          <div class="rcb-row"><span class="rcb-lbl">3★</span><div class="rcb-track"><div class="rcb-fill" data-w="3" style="width:0%;background:var(--orange)"></div></div><span class="rcb-pct">3%</span></div>
+          <div class="rcb-row"><span class="rcb-lbl">2★</span><div class="rcb-track"><div class="rcb-fill" data-w="0" style="width:0%;background:var(--red)"></div></div><span class="rcb-pct">0%</span></div>
+          <div class="rcb-row"><span class="rcb-lbl">1★</span><div class="rcb-track"><div class="rcb-fill" data-w="0" style="width:0%;background:var(--red)"></div></div><span class="rcb-pct">0%</span></div>
+        </div>
+        <div class="rc-cats">
+          <div class="rcc"><div class="rcc-val">4.9</div><div class="rcc-lbl">Cleanliness</div></div>
+          <div class="rcc"><div class="rcc-val">5.0</div><div class="rcc-lbl">Accuracy</div></div>
+          <div class="rcc"><div class="rcc-val">4.9</div><div class="rcc-lbl">Comms</div></div>
+          <div class="rcc"><div class="rcc-val">4.8</div><div class="rcc-lbl">Location</div></div>
+          <div class="rcc"><div class="rcc-val">4.7</div><div class="rcc-lbl">Value</div></div>
+          <div class="rcc"><div class="rcc-val">5.0</div><div class="rcc-lbl">Check-in</div></div>
+        </div>
+      </div>
+
+      <div class="kpi-strip" style="align-content:start;">
+        <div class="ks"><div class="ks-val" style="color:var(--orange)">5</div><div class="ks-lbl">Pending</div></div>
+        <div class="ks"><div class="ks-val" style="color:var(--green)">108</div><div class="ks-lbl">Approved</div></div>
+        <div class="ks"><div class="ks-val" style="color:var(--red)">4</div><div class="ks-lbl">Rejected</div></div>
+        <div class="ks"><div class="ks-val" style="color:var(--red)">2</div><div class="ks-lbl">Flagged</div></div>
+        <div class="ks"><div class="ks-val">38%</div><div class="ks-lbl">Reply Rate</div></div>
+        <div class="ks"><div class="ks-val">2.4 days</div><div class="ks-lbl">Avg Response</div></div>
+        <div class="ks"><div class="ks-val" style="color:var(--green)">100%</div><div class="ks-lbl">Verified Only</div></div>
+        <div class="ks"><div class="ks-val">3 days</div><div class="ks-lbl">Oldest Pending</div></div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <div class="filter-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by guest name, apartment or keyword…" oninput="filterReviews()">
+        </div>
+        <select class="filter-select" id="aptFilter" onchange="filterReviews()">
+          <option value="">All Apartments</option>
+          <option>Signature Suite</option>
+          <option>VI Executive</option>
+          <option>Ikoyi Penthouse</option>
+          <option>Lekki Palms</option>
+          <option>Lekki Skyview</option>
+          <option>Ikoyi Manor</option>
+          <option>Chevron Gardens</option>
+        </select>
+        <select class="filter-select" id="starFilter" onchange="filterReviews()">
+          <option value="">All Ratings</option>
+          <option value="5">5 Stars</option>
+          <option value="4">4 Stars</option>
+          <option value="3">3 Stars</option>
+          <option value="1">1–2 Stars</option>
+        </select>
+      </div>
+      <div class="filter-tabs">
+        <button class="ftab pending-tab active" data-status="pending" onclick="setFilter('pending',this)">⏳ Pending <span class="badge">5</span></button>
+        <button class="ftab" data-status="all" onclick="setFilter('all',this)">All Reviews</button>
+        <button class="ftab" data-status="approved" onclick="setFilter('approved',this)">✓ Approved</button>
+        <button class="ftab" data-status="rejected" onclick="setFilter('rejected',this)">✕ Rejected</button>
+        <button class="ftab" data-status="flagged" onclick="setFilter('flagged',this)">⚑ Flagged</button>
+        <button class="ftab" data-status="no-reply" onclick="setFilter('no-reply',this)">💬 No Reply</button>
+      </div>
+    </div>
+
+    <!-- Bulk bar -->
+    <div class="bulk-bar" id="bulkBar">
+      <span class="bulk-count" id="bulkCount">0 selected</span>
+      <button class="bulk-btn approve" onclick="bulkAction('approve')">✓ Approve</button>
+      <button class="bulk-btn" onclick="bulkAction('reject')">✕ Reject</button>
+      <button class="bulk-btn danger" onclick="bulkAction('delete')">🗑 Delete</button>
+      <button class="bulk-btn" onclick="clearSelection()" style="margin-left:auto;">Clear</button>
+    </div>
+
+    <!-- Reviews list -->
+    <div class="reviews-list" id="reviewsList"></div>
+
+    <div class="empty-state" id="emptyState">
+      <div style="font-size:2.5rem;margin-bottom:12px;">⭐</div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.96rem;font-weight:800;color:var(--heading);margin-bottom:6px;">No reviews found</div>
+      <div style="font-size:0.82rem;color:var(--muted);">Adjust your filters or search term.</div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bnav">
+  <button class="mbn" onclick="window.location.href='index.html'"><span class="mbn-ico">📊</span>Dashboard</button>
+  <button class="mbn" onclick="window.location.href='bookings.html'"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
+  <button class="mbn active"><span class="mbn-ico">⭐</span>Reviews</button>
+  <button class="mbn" onclick="window.location.href='settings.html'"><span class="mbn-ico">⚙️</span>Settings</button>
+</nav>
+
+<script>
+// ── DATA ──
+const REVIEWS = [
+  {id:1,guest:'Chioma Okafor',email:'chioma@email.com',apt:'Signature Suite',ref:'HAVEN-4810',date:'3 days ago',rating:5,text:"Finally a shortlet platform that actually works. I stopped chasing DMs, stopped sending money to strangers and hoping for the best. I booked on the website, got my confirmation instantly, and the apartment was exactly as described. Zero surprises. This is the only way I will ever book a shortlet in Lagos.",status:'pending',verified:true,flagged:false,reply:'',color:'#f97316',catRatings:{cleanliness:5,accuracy:5,location:5,value:5,checkin:5}},
+  {id:2,guest:'David Olu',email:'david@email.com',apt:'VI Executive',ref:'HAVEN-4819',date:'2 days ago',rating:4,text:"Good stay overall. The apartment was clean and the WiFi was fast enough for calls. Check-in was simple with the smart lock. Only minor thing — the parking was a little tight. Would come back.",status:'pending',verified:true,flagged:false,reply:'',color:'#0891b2',catRatings:{cleanliness:5,accuracy:4,location:4,value:4,checkin:5}},
+  {id:3,guest:'Kemi Fashola',email:'kemi@email.com',apt:'Lekki Palms',ref:'HAVEN-4820',date:'1 day ago',rating:5,text:"Perfect apartment for our team. The concierge arranged everything before we arrived. Had all 3 invoices ready for expense claims the next morning. This is the shortlet platform for serious people.",status:'pending',verified:true,flagged:false,reply:'',color:'#dc2626',catRatings:{cleanliness:5,accuracy:5,location:5,value:4,checkin:5}},
+  {id:4,guest:'Anonymous User',email:'anon@mail.com',apt:'Signature Suite',ref:'',date:'4 days ago',rating:1,text:"terrible place dont waste ur money",status:'pending',verified:false,flagged:true,reply:'',color:'#7a8499',catRatings:{}},
+  {id:5,guest:'Marcus Obi',email:'marcus@email.com',apt:'Lekki Skyview',ref:'HAVEN-4816',date:'5 days ago',rating:4,text:"Good value for solo travel. The studio was compact but well laid out. City view from the 12th floor was great. Smart lock worked perfectly. Would recommend for a budget-conscious solo traveller.",status:'pending',verified:true,flagged:false,reply:'',color:'#f97316',catRatings:{cleanliness:4,accuracy:4,location:5,value:5,checkin:5}},
+  {id:6,guest:'Adaeze Okonkwo',email:'adaeze@email.com',apt:'Signature Suite',ref:'HAVEN-3214',date:'10 Nov 2024',rating:5,text:"Third time staying with HAVEN and somehow it keeps getting better. The apartment was spotless, the concierge team sorted restaurant bookings without me even asking twice. The rooftop pool at sunset is something else.",status:'approved',verified:true,flagged:false,reply:"Thank you so much Adaeze! We love having you with us — hope to welcome you back very soon.",color:'#7c3aed',catRatings:{cleanliness:5,accuracy:5,location:5,value:5,checkin:5}},
+  {id:7,guest:'Emeka Nwachukwu',email:'emeka@email.com',apt:'VI Executive',ref:'HAVEN-3890',date:'15 Nov 2024',rating:5,text:"Best shortlet in Lagos, full stop. I travel monthly for work and HAVEN is the only place I book. Instant confirmation, clean apartment, receipt in my inbox. No drama, no DMs, no waiting. Professional from start to finish.",status:'approved',verified:true,flagged:false,reply:"Emeka, you're one of our favourite guests! Thank you for the kind words — see you next month.",color:'#0f2a5e',catRatings:{cleanliness:5,accuracy:5,location:4,value:5,checkin:5}},
+  {id:8,guest:'Ngozi Eze',email:'ngozi@email.com',apt:'Ikoyi Manor',ref:'HAVEN-2400',date:'20 Sep 2024',rating:3,text:"The apartment itself was nice but I had a problem with my booking that took a while to sort. Eventually resolved but I expected faster support. The space was clean and the location was good.",status:'approved',verified:true,flagged:false,reply:"Thank you for your honest feedback, Ngozi. We're sorry your support experience wasn't faster — we've since increased our response team. We hope to welcome you back and show you what we're capable of.",color:'#dc2626',catRatings:{cleanliness:4,accuracy:3,location:5,value:3,checkin:4}},
+  {id:9,guest:'Spam Bot 5000',email:'deals@promo.xyz',apt:'Signature Suite',ref:'',date:'6 days ago',rating:5,text:"Amazing place! Click here to get 50% off your next booking: promo-deals.xyz/haven-lagos",status:'rejected',verified:false,flagged:true,reply:'',color:'#7a8499',catRatings:{}},
+  {id:10,guest:'Funke Balogun',email:'funke@email.com',apt:'Signature Suite',ref:'HAVEN-4815',date:'2 Jan 2025',rating:5,text:"My partner was completely blown away by the anniversary setup the concierge arranged. Flowers, groceries, the whole thing already in the apartment when we arrived. It made the entire trip special. Five stars is not enough.",status:'approved',verified:true,flagged:false,reply:'',color:'#16a34a',catRatings:{cleanliness:5,accuracy:5,location:5,value:4,checkin:5}},
+];
+
+let activeStatus = 'pending';
+let selectedIds = new Set();
+
+// ── RENDER ──
+function renderReviews(data) {
+  const list = document.getElementById('reviewsList');
+  list.innerHTML = '';
+  document.getElementById('emptyState').classList.toggle('show', data.length===0);
+
+  data.forEach(r => {
+    const stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
+    const initials = r.guest.split(' ').map(n=>n[0]).join('').slice(0,2);
+    const spMap = {pending:'sp-pending',approved:'sp-approved',rejected:'sp-rejected',flagged:'sp-flagged'};
+    const spLabel = {pending:'Pending',approved:'Approved',rejected:'Rejected'};
+    const statusCls = r.flagged&&r.status!=='approved' ? 'flagged' : r.status;
+
+    const catHtml = Object.entries(r.catRatings).map(([cat,val])=>
+      `<div class="rr-item"><span>${cat.charAt(0).toUpperCase()+cat.slice(1)}</span><span class="rr-stars">${'★'.repeat(val)}</span></div>`
+    ).join('');
+
+    const flagWarn = r.flagged ? `<div class="rev-flag-warn">⚑ This review has been flagged — possible spam or policy violation. Verify before approving.</div>` : '';
+    const verBadge = r.verified ? `<span class="rev-verified">✓ Verified Stay</span>` : `<span style="font-size:0.66rem;color:var(--red);font-weight:700;">✕ Unverified</span>`;
+    const replyHtml = r.reply ? `<div class="rev-reply"><div class="rr-label">HAVEN Response</div><div class="rr-text">${r.reply}</div></div>` : '';
+
+    const approveBtn = r.status==='pending' ? `<button class="ra-btn approve" onclick="moderateReview(${r.id},'approved')">✓ Approve</button>` : '';
+    const rejectBtn = (r.status==='pending'||r.status==='approved') ? `<button class="ra-btn reject" onclick="moderateReview(${r.id},'rejected')">✕ Reject</button>` : '';
+    const undoBtn = (r.status==='rejected'||r.status==='approved') ? `<button class="ra-btn" onclick="moderateReview(${r.id},'pending')">↩ Undo</button>` : '';
+    const replyBtn = r.status==='approved' ? `<button class="ra-btn reply-btn" onclick="toggleReply(${r.id})">💬 ${r.reply?'Edit Reply':'Reply'}</button>` : '';
+
+    const div = document.createElement('div');
+    div.className = `rev-card ${statusCls}`;
+    div.id = `rev-${r.id}`;
+    div.innerHTML = `
+      <div class="rev-head">
+        <div class="rev-guest">
+          <div class="rev-av" style="background:${r.color}18;color:${r.color}">${initials}</div>
+          <div>
+            <div class="rev-name">${r.guest}</div>
+            <div class="rev-meta">${r.email} · ${r.date}</div>
+          </div>
+        </div>
+        <div class="rev-right">
+          <div class="rev-stars">${stars}</div>
+          <span class="sp ${spMap[r.flagged&&r.status!=='approved'?'flagged':r.status]}">${r.flagged&&r.status!=='approved'?'⚑ Flagged':spLabel[r.status]}</span>
+        </div>
+      </div>
+      <div class="rev-body">
+        <div class="rev-apt">
+          <span class="rev-apt-name">${r.apt}</span>
+          ${r.ref?`<span class="rev-apt-ref">· ${r.ref}</span>`:''}
+        </div>
+        <div class="rev-text">${r.text}</div>
+        ${flagWarn}
+        ${catHtml ? `<div class="rev-ratings">${catHtml}</div>` : ''}
+        ${verBadge}
+      </div>
+      ${replyHtml}
+      <div class="reply-box" id="replyBox-${r.id}">
+        <textarea class="reply-textarea" id="replyText-${r.id}" placeholder="Write a public reply to this review…">${r.reply}</textarea>
+        <div class="reply-footer">
+          <button class="btn btn-o btn-sm" onclick="toggleReply(${r.id})">Cancel</button>
+          <button class="btn btn-p btn-sm" onclick="saveReply(${r.id})">Publish Reply</button>
+        </div>
+      </div>
+      <div class="rev-actions">
+        <div class="checkbox-wrap"><input type="checkbox" ${selectedIds.has(r.id)?'checked':''} onchange="toggleSelect(${r.id},this)" onclick="event.stopPropagation()"></div>
+        ${approveBtn}${rejectBtn}${undoBtn}${replyBtn}
+        <button class="ra-btn" onclick="toggleFlag(${r.id})">${r.flagged?'🚩 Unflag':'⚑ Flag'}</button>
+        <button class="ra-btn" style="color:var(--red)" onclick="deleteReview(${r.id})">🗑</button>
+        <span class="rev-date">${r.rating}★ · ${r.verified?'Verified':' Unverified'}</span>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+// ── FILTER ──
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const apt = document.getElementById('aptFilter').value;
+  const star = document.getElementById('starFilter').value;
+  return REVIEWS.filter(r => {
+    const mq = !q || r.guest.toLowerCase().includes(q) || r.apt.toLowerCase().includes(q) || r.text.toLowerCase().includes(q);
+    const ma = !apt || r.apt===apt;
+    const ms = !star || (star==='1' ? r.rating<=2 : r.rating===parseInt(star));
+    const mst = activeStatus==='all' ? true :
+                activeStatus==='flagged' ? r.flagged :
+                activeStatus==='no-reply' ? (r.status==='approved' && !r.reply) :
+                r.status===activeStatus;
+    return mq && ma && ms && mst;
+  });
+}
+function filterReviews() { renderReviews(getFiltered()); }
+function setFilter(status, btn) {
+  activeStatus = status;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  filterReviews();
+}
+
+// ── MODERATION ──
+function moderateReview(id, status) {
+  const r = REVIEWS.find(x=>x.id===id);
+  if (!r) return;
+  r.status = status;
+  showToast(status==='approved'?'✓ Review approved and published!':status==='rejected'?'Review rejected.':'Review moved back to pending.');
+  filterReviews();
+}
+
+function toggleFlag(id) {
+  const r = REVIEWS.find(x=>x.id===id);
+  if (!r) return;
+  r.flagged = !r.flagged;
+  showToast(r.flagged ? '⚑ Review flagged for review.' : 'Flag removed.');
+  filterReviews();
+}
+
+function deleteReview(id) {
+  if (!confirm('Permanently delete this review?')) return;
+  const idx = REVIEWS.findIndex(x=>x.id===id);
+  if (idx>-1) REVIEWS.splice(idx,1);
+  showToast('Review deleted.');
+  filterReviews();
+}
+
+function approveAll() {
+  const pending = REVIEWS.filter(r=>r.status==='pending'&&!r.flagged);
+  pending.forEach(r=>r.status='approved');
+  showToast(`✓ ${pending.length} review${pending.length!==1?'s':''} approved!`);
+  filterReviews();
+}
+
+// ── REPLY ──
+function toggleReply(id) {
+  const box = document.getElementById(`replyBox-${id}`);
+  box.classList.toggle('open');
+}
+function saveReply(id) {
+  const r = REVIEWS.find(x=>x.id===id);
+  if (!r) return;
+  r.reply = document.getElementById(`replyText-${id}`).value.trim();
+  showToast(r.reply ? 'Reply published!' : 'Reply removed.');
+  filterReviews();
+}
+
+// ── SELECTION ──
+function toggleSelect(id, cb) {
+  if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+  updateBulkBar();
+}
+function clearSelection() {
+  selectedIds.clear();
+  updateBulkBar();
+  filterReviews();
+}
+function updateBulkBar() {
+  const n = selectedIds.size;
+  document.getElementById('bulkBar').classList.toggle('show', n>0);
+  document.getElementById('bulkCount').textContent = n + ' selected';
+}
+function bulkAction(action) {
+  const msgs = {approve:`${selectedIds.size} reviews approved!`,reject:`${selectedIds.size} reviews rejected.`,delete:`${selectedIds.size} reviews deleted.`};
+  if (action==='approve') selectedIds.forEach(id => { const r=REVIEWS.find(x=>x.id===id); if(r) r.status='approved'; });
+  if (action==='reject')  selectedIds.forEach(id => { const r=REVIEWS.find(x=>x.id===id); if(r) r.status='rejected'; });
+  if (action==='delete')  { selectedIds.forEach(id => { const idx=REVIEWS.findIndex(x=>x.id===id); if(idx>-1) REVIEWS.splice(idx,1); }); }
+  showToast(msgs[action]);
+  clearSelection();
+}
+
+// ── SIDEBAR ──
+function toggleSidebar() {
+  const mob=document.getElementById('mobSidebar'),ov=document.getElementById('mobOverlay'),ham=document.getElementById('hamBtn');
+  const open=mob.classList.toggle('open');
+  ov.classList.toggle('open',open); ham.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar() {
+  document.getElementById('mobSidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// Animate rating bars
+setTimeout(() => {
+  document.querySelectorAll('.rcb-fill[data-w]').forEach(el => { el.style.width = el.dataset.w+'%'; });
+}, 100);
+
+// Init — show pending first
+filterReviews();
+
+// ── LOAD REVIEWS FROM API ──
+async function loadReviewsFromAPI() {
+  try {
+    const res = await fetch(API_BASE + '/reviews/pending', { headers: authHeaders() });
+    const data = await res.json();
+    if (data.reviews) {
+      const COLORS = ['#0f2a5e','#16a34a','#7c3aed','#f97316','#dc2626'];
+      const mapped = data.reviews.map((r, i) => ({
+        id: r.id,
+        guest: r.first_name + ' ' + r.last_name,
+        email: r.email,
+        apt: r.property_name,
+        ref: r.booking_id,
+        rating: r.rating,
+        text: r.text || '',
+        status: r.status,
+        flagged: r.is_flagged,
+        verified: r.is_verified,
+        date: new Date(r.submitted_at).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}),
+        reply: r.admin_reply || '',
+        color: COLORS[i % COLORS.length],
+        catRatings: {
+          cleanliness: r.cleanliness_rating || 0,
+          accuracy: r.accuracy_rating || 0,
+          location: r.location_rating || 0,
+          value: r.value_rating || 0
+        }
+      }));
+      window.REVIEWS = mapped;
+      renderReviews(mapped);
+    }
+  } catch (err) { console.error('Reviews load error:', err); }
+}
+
+// ── MODERATE ──
+async function moderateReview(id, status) {
+  try {
+    const res = await fetch(API_BASE + '/reviews/' + id + '/moderate', {
+      method: 'PUT', headers: authHeaders(),
+      body: JSON.stringify({ status })
+    });
+    if (!res.ok) throw new Error('Failed to moderate');
+    showToast('Review ' + status + '!');
+    loadReviewsFromAPI();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+// ── REPLY ──
+async function saveReply(id) {
+  const text = document.getElementById('replyText-' + id)?.value;
+  if (!text) return;
+  try {
+    const res = await fetch(API_BASE + '/reviews/' + id + '/reply', {
+      method: 'PUT', headers: authHeaders(),
+      body: JSON.stringify({ reply: text })
+    });
+    if (!res.ok) throw new Error('Failed to save reply');
+    showToast('Reply published!');
+    loadReviewsFromAPI();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+// ── FLAG ──
+async function toggleFlag(id) {
+  try {
+    await fetch(API_BASE + '/reviews/' + id + '/flag', {
+      method: 'PUT', headers: authHeaders()
+    });
+    showToast('Flag updated!');
+    loadReviewsFromAPI();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+loadReviewsFromAPI();
+
+// ── ADMIN AUTH CHECK ──
+function checkAdminAuth() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (!token || !['admin','staff','concierge'].includes(user.role)) {
+    window.location.href = '../login.html';
+  }
+}
+checkAdminAuth();
+
+</script>
+</body>
+</html>

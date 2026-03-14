@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your Apartment — HAVEN Lagos</title>
+<meta name="description" content="Complete your shortlet booking with HAVEN Lagos. Secure checkout, instant confirmation, official receipt.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.havenshortlets.com/booking.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#ffffff;--off:#f5f7fb;--light:#edf1f8;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--red:#dc2626;--red-bg:#fef2f2;
+  --shadow-s:0 2px 12px rgba(0,0,0,0.06);--shadow-m:0 8px 32px rgba(0,0,0,0.10);--shadow-l:0 20px 60px rgba(0,0,0,0.13);
+  --radius:8px;--max:1000px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;line-height:1.6;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+.container{max-width:var(--max);margin:0 auto;padding:0 20px;}
+@media(min-width:768px){.container{padding:0 40px;}}
+
+/* ── NAV ── */
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;}
+@media(min-width:768px){.nav{padding:0 40px;}}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px;max-width:var(--max);margin:0 auto;}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);}
+.logo span{color:var(--accent);}
+.nav-secure{display:flex;align-items:center;gap:6px;font-size:0.74rem;font-weight:700;color:var(--green);}
+.nav-help{font-size:0.78rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:5px;}
+.nav-help:hover{color:var(--accent);}
+
+/* ── PROGRESS STEPS ── */
+.progress-bar{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;}
+@media(min-width:768px){.progress-bar{padding:0 40px;}}
+.progress-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;padding:16px 0;}
+.step-item{display:flex;align-items:center;gap:8px;flex:1;}
+.step-item:last-child{flex:none;}
+.step-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:800;flex-shrink:0;transition:all 0.3s;}
+.step-circle.done{background:var(--green);color:#fff;}
+.step-circle.active{background:var(--accent);color:#fff;box-shadow:0 0 0 4px var(--accent-bg);}
+.step-circle.pending{background:var(--border);color:var(--muted);}
+.step-label{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:700;color:var(--muted);white-space:nowrap;}
+.step-label.active{color:var(--accent);}
+.step-label.done{color:var(--green);}
+.step-line{flex:1;height:2px;background:var(--border);margin:0 8px;border-radius:1px;transition:background 0.3s;}
+.step-line.done{background:var(--green);}
+
+/* ── LAYOUT ── */
+.booking-layout{padding:28px 0 80px;}
+.booking-grid{display:grid;grid-template-columns:1fr;gap:20px;}
+@media(min-width:900px){.booking-grid{grid-template-columns:1fr 340px;gap:28px;align-items:start;}}
+
+/* ── CARDS ── */
+.bk-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:16px;}
+.bk-card:last-child{margin-bottom:0;}
+.bk-card-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.bk-card-head h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--heading);}
+.bk-card-head .edit-btn{font-size:0.74rem;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;}
+.bk-card-head .edit-btn:hover{text-decoration:underline;}
+.bk-card-body{padding:20px 22px;}
+
+/* ── STEP 1 — DATE PICKER ── */
+.date-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.date-field{border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 16px;cursor:pointer;transition:border-color 0.2s;position:relative;}
+.date-field:hover,.date-field.active{border-color:var(--accent);}
+.date-field.filled{border-color:var(--accent);background:var(--accent-bg);}
+.df-label{font-size:0.6rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.df-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;color:var(--heading);}
+.df-val.placeholder{color:var(--muted);font-weight:500;}
+.df-nights{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:var(--accent-bg);border-radius:6px;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;color:var(--accent);}
+
+/* Calendar */
+.inline-cal{border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.ical-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--off);}
+.ical-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--heading);}
+.ical-nav{width:30px;height:30px;border:1px solid var(--border);border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:var(--heading);cursor:pointer;transition:background 0.15s;}
+.ical-nav:hover{background:var(--accent-bg);}
+.ical-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:12px;}
+.ical-dow{font-size:0.6rem;font-weight:700;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0 8px;}
+.ical-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:600;border-radius:6px;cursor:pointer;border:none;background:none;color:var(--heading);transition:all 0.14s;}
+.ical-day:hover:not(.disabled):not(.empty){background:var(--accent-bg);color:var(--accent);}
+.ical-day.today{border:1.5px solid var(--accent);color:var(--accent);}
+.ical-day.sel{background:var(--accent);color:#fff;}
+.ical-day.in-range{background:var(--accent-bg);color:var(--accent);border-radius:0;}
+.ical-day.range-start{background:var(--accent);color:#fff;border-radius:6px 0 0 6px;}
+.ical-day.range-end{background:var(--accent);color:#fff;border-radius:0 6px 6px 0;}
+.ical-day.disabled{color:var(--border);cursor:not-allowed;}
+.ical-day.empty{cursor:default;}
+.ical-footer{padding:12px 16px;border-top:1px solid var(--border);background:var(--off);display:flex;justify-content:space-between;align-items:center;}
+.ical-info{font-size:0.76rem;font-weight:700;color:var(--accent);}
+.ical-clear{font-size:0.72rem;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;}
+.ical-clear:hover{color:var(--accent);}
+
+/* Guests selector */
+.guests-box{border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:16px;}
+.gb-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
+.gb-row:last-child{border-bottom:none;}
+.gb-info h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:700;color:var(--heading);}
+.gb-info p{font-size:0.72rem;color:var(--muted);}
+.gb-counter{display:flex;align-items:center;gap:10px;}
+.gcb{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:#fff;font-size:1rem;font-weight:700;color:var(--heading);display:flex;align-items:center;justify-content:center;transition:all 0.14s;}
+.gcb:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+.gcb:disabled{opacity:0.3;cursor:not-allowed;}
+.gcn{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);min-width:20px;text-align:center;}
+
+/* ── STEP 2 — GUEST DETAILS ── */
+.form-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:560px){.form-grid{grid-template-columns:1fr 1fr;}}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:0.72rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.form-label .req{color:var(--red);}
+.form-input,.form-select,.form-textarea{border:1.5px solid var(--border);border-radius:var(--radius);padding:11px 14px;font-size:0.88rem;font-weight:600;color:var(--heading);background:#fff;outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.form-input.error,.form-select.error{border-color:var(--red);box-shadow:0 0 0 3px var(--red-bg);}
+.form-error{font-size:0.72rem;color:var(--red);font-weight:600;display:none;}
+.form-error.show{display:block;}
+.form-textarea{resize:vertical;min-height:88px;}
+.form-hint{font-size:0.72rem;color:var(--muted);line-height:1.4;}
+
+/* Phone input with flag */
+.phone-wrap{display:flex;gap:0;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+.phone-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.phone-prefix{display:flex;align-items:center;gap:6px;padding:11px 12px;background:var(--off);border-right:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--heading);white-space:nowrap;flex-shrink:0;}
+.phone-input{border:none;outline:none;padding:11px 14px;font-size:0.88rem;font-weight:600;color:var(--heading);background:#fff;width:100%;font-family:inherit;}
+
+/* Special requests toggle */
+.special-toggle{display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 0;}
+.special-toggle:hover{text-decoration:underline;}
+.special-area{display:none;margin-top:10px;}
+.special-area.show{display:block;}
+
+/* ── STEP 3 — PAYMENT ── */
+.payment-methods{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+@media(min-width:480px){.payment-methods{grid-template-columns:1fr 1fr 1fr;}}
+.pm-option{border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 12px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.pm-option:hover{border-color:var(--accent);}
+.pm-option.selected{border-color:var(--accent);background:var(--accent-bg);}
+.pm-option input{display:none;}
+.pm-ico{font-size:1.4rem;margin-bottom:6px;}
+.pm-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.74rem;font-weight:700;color:var(--heading);}
+.pm-desc{font-size:0.65rem;color:var(--muted);margin-top:2px;}
+
+/* Card form */
+.card-form{display:none;}
+.card-form.show{display:block;}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card-number-wrap{position:relative;}
+.card-icons{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;gap:4px;}
+.card-icon{font-size:1.1rem;}
+
+/* Bank transfer instructions */
+.bank-form{display:none;}
+.bank-form.show{display:block;}
+.bank-details{background:var(--off);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.bank-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.84rem;}
+.bank-row:last-child{border-bottom:none;}
+.bank-key{color:var(--muted);font-weight:600;}
+.bank-val{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;color:var(--heading);}
+.copy-btn{font-size:0.68rem;font-weight:700;color:var(--accent);background:none;border:1px solid var(--accent);border-radius:4px;padding:3px 8px;cursor:pointer;transition:all 0.2s;}
+.copy-btn:hover{background:var(--accent);color:#fff;}
+.bank-note{font-size:0.78rem;color:var(--muted);line-height:1.6;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+
+/* USSD form */
+.ussd-form{display:none;}
+.ussd-form.show{display:block;}
+.ussd-code{background:var(--heading);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800;text-align:center;padding:20px;border-radius:var(--radius);letter-spacing:0.1em;margin-bottom:12px;}
+.ussd-steps{display:flex;flex-direction:column;gap:8px;}
+.ussd-step{display:flex;gap:10px;font-size:0.82rem;}
+.ussd-num{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+/* T&Cs checkbox */
+.terms-check{display:flex;gap:10px;align-items:flex-start;margin-top:16px;}
+.terms-check input[type="checkbox"]{width:16px;height:16px;margin-top:3px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;}
+.terms-check label{font-size:0.78rem;color:var(--muted);line-height:1.5;cursor:pointer;}
+.terms-check a{color:var(--accent);}
+
+/* ── ORDER SUMMARY (right column) ── */
+.summary-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;position:sticky;top:20px;}
+.sc-img{width:100%;height:180px;object-fit:cover;}
+.sc-body{padding:18px 20px;}
+.sc-badge{display:inline-block;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:var(--accent);color:#fff;margin-bottom:8px;}
+.sc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--heading);margin-bottom:4px;}
+.sc-loc{font-size:0.76rem;color:var(--muted);font-weight:600;margin-bottom:12px;}
+.sc-feats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.sc-feat{font-size:0.74rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px;}
+.sc-dates{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+.sc-date{padding:10px 14px;}
+.sc-date:first-child{border-right:1px solid var(--border);}
+.sc-date-lbl{font-size:0.6rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.sc-date-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);}
+.sc-date-val.empty{color:var(--muted);font-weight:400;}
+
+/* Price breakdown */
+.pb-section{border-top:1px solid var(--border);padding-top:14px;}
+.pb-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;padding:5px 0;}
+.pb-label{color:var(--text);}
+.pb-val{font-weight:700;color:var(--heading);}
+.pb-disc{color:var(--green);}
+.pb-total{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--heading);border-top:1.5px solid var(--border);margin-top:8px;padding-top:12px;display:flex;justify-content:space-between;}
+.pb-note{font-size:0.7rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5;}
+
+/* Trust badges */
+.trust-badges{display:flex;flex-direction:column;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+.tb{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--muted);line-height:1.4;}
+.tb-ico{flex-shrink:0;font-size:0.88rem;margin-top:1px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;font-family:'Nunito Sans',sans-serif;font-size:0.84rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border-radius:var(--radius);transition:all 0.22s;cursor:pointer;border:none;white-space:nowrap;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:var(--shadow-m);}
+.btn-primary:disabled{background:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent);}
+.btn-outline:hover{background:var(--accent);color:#fff;}
+.btn-full{width:100%;padding:15px;}
+.btn-back{background:none;color:var(--muted);border:1.5px solid var(--border);font-size:0.78rem;}
+.btn-back:hover{color:var(--heading);border-color:var(--heading);}
+
+/* Step navigation */
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px;}
+.step-nav-right{display:flex;align-items:center;gap:10px;}
+
+/* ── SUCCESS STATE ── */
+.success-screen{display:none;text-align:center;padding:60px 20px;background:#fff;border-radius:var(--radius);border:1px solid var(--border);}
+.success-screen.show{display:block;}
+.success-ico{font-size:4rem;margin-bottom:16px;animation:pop 0.4s ease;}
+.success-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;color:var(--heading);margin-bottom:8px;}
+.success-sub{font-size:0.92rem;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto 24px;}
+.success-ref{background:var(--accent-bg);border:1px solid var(--accent);border-radius:var(--radius);padding:12px 20px;display:inline-block;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);margin-bottom:24px;letter-spacing:0.05em;}
+.success-actions{display:flex;flex-direction:column;gap:10px;align-items:center;}
+@media(min-width:400px){.success-actions{flex-direction:row;justify-content:center;}}
+
+/* ── VALIDATION ALERT ── */
+.alert{display:none;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--radius);margin-bottom:16px;font-size:0.82rem;font-weight:600;}
+.alert.show{display:flex;}
+.alert-error{background:var(--red-bg);border:1px solid #fecaca;color:var(--red);}
+.alert-success{background:var(--green-bg);border:1px solid #bbf7d0;color:var(--green);}
+
+/* ── LOADING SPINNER ── */
+.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
+.spinner.show{display:block;}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pop{0%{transform:scale(0.5);opacity:0;}80%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">HAVEN<span>.</span></a>
+    <div class="nav-secure">🔐 Secure Checkout</div>
+    <a href="contact.html" class="nav-help">❓ Need help?</a>
+  </div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-bar">
+  <div class="progress-inner" id="progressInner">
+    <div class="step-item">
+      <div class="step-circle active" id="sc1">1</div>
+      <span class="step-label active" id="sl1">Dates & Guests</span>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-item">
+      <div class="step-circle pending" id="sc2">2</div>
+      <span class="step-label" id="sl2">Your Details</span>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-item">
+      <div class="step-circle pending" id="sc3">3</div>
+      <span class="step-label" id="sl3">Payment</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main -->
+<main>
+<div class="booking-layout">
+  <div class="container">
+    <div class="booking-grid">
+
+      <!-- ═══ LEFT ═══ -->
+      <div id="leftCol">
+
+        <!-- STEP 1 — Dates & Guests -->
+        <div id="step1">
+          <div class="bk-card">
+            <div class="bk-card-head">
+              <h2>Select Your Dates</h2>
+            </div>
+            <div class="bk-card-body">
+              <div class="date-grid">
+                <div class="date-field" id="dfCheckIn">
+                  <div class="df-label">Check In</div>
+                  <div class="df-val placeholder" id="dfCiVal">Select date</div>
+                </div>
+                <div class="date-field" id="dfCheckOut">
+                  <div class="df-label">Check Out</div>
+                  <div class="df-val placeholder" id="dfCoVal">Select date</div>
+                </div>
+              </div>
+              <div class="df-nights" id="dfNightsInfo" style="display:none">
+                📅 <span id="dfNightsText">— nights selected</span>
+              </div>
+              <!-- Inline calendar -->
+              <div class="inline-cal">
+                <div class="ical-header">
+                  <button class="ical-nav" onclick="icalNav(-1)">‹</button>
+                  <span class="ical-title" id="icalTitle"></span>
+                  <button class="ical-nav" onclick="icalNav(1)">›</button>
+                </div>
+                <div class="ical-grid" id="icalGrid"></div>
+                <div class="ical-footer">
+                  <span class="ical-info" id="icalInfo">Select your check-in date</span>
+                  <button class="ical-clear" onclick="icalClear()">Clear</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bk-card">
+            <div class="bk-card-head">
+              <h2>Guests</h2>
+            </div>
+            <div class="bk-card-body" style="padding:0;">
+              <div class="guests-box">
+                <div class="gb-row">
+                  <div class="gb-info"><h4>Adults</h4><p>Age 13+</p></div>
+                  <div class="gb-counter">
+                    <button class="gcb" id="gAdultM" onclick="chGuest('adult',-1)" disabled>−</button>
+                    <span class="gcn" id="gAdultN">2</span>
+                    <button class="gcb" onclick="chGuest('adult',1)">+</button>
+                  </div>
+                </div>
+                <div class="gb-row">
+                  <div class="gb-info"><h4>Children</h4><p>Age 2–12</p></div>
+                  <div class="gb-counter">
+                    <button class="gcb" id="gChildM" onclick="chGuest('child',-1)" disabled>−</button>
+                    <span class="gcn" id="gChildN">0</span>
+                    <button class="gcb" onclick="chGuest('child',1)">+</button>
+                  </div>
+                </div>
+                <div class="gb-row">
+                  <div class="gb-info"><h4>Infants</h4><p>Under 2</p></div>
+                  <div class="gb-counter">
+                    <button class="gcb" id="gInfantM" onclick="chGuest('infant',-1)" disabled>−</button>
+                    <span class="gcn" id="gInfantN">0</span>
+                    <button class="gcb" onclick="chGuest('infant',1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-error" id="step1Alert">⚠️ Please select both check-in and check-out dates before continuing.</div>
+          <div class="step-nav">
+            <a href="property-detail.html" class="btn btn-back">← Back to Apartment</a>
+            <button class="btn btn-primary" onclick="goStep(2)">Continue to Details →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 — Guest Details -->
+        <div id="step2" style="display:none">
+          <div class="bk-card">
+            <div class="bk-card-head">
+              <h2>Your Details</h2>
+              <button class="edit-btn" onclick="goStep(1)">← Edit dates</button>
+            </div>
+            <div class="bk-card-body">
+              <div class="alert alert-error" id="step2Alert"></div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="firstName">First Name <span class="req">*</span></label>
+                  <input class="form-input" type="text" id="firstName" placeholder="e.g. Adaeze" autocomplete="given-name">
+                  <span class="form-error" id="firstNameErr">Please enter your first name</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="lastName">Last Name <span class="req">*</span></label>
+                  <input class="form-input" type="text" id="lastName" placeholder="e.g. Okonkwo" autocomplete="family-name">
+                  <span class="form-error" id="lastNameErr">Please enter your last name</span>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label" for="email">Email Address <span class="req">*</span></label>
+                  <input class="form-input" type="email" id="email" placeholder="e.g. adaeze@email.com" autocomplete="email">
+                  <span class="form-error" id="emailErr">Please enter a valid email address</span>
+                  <span class="form-hint">Your booking confirmation and receipt will be sent here.</span>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label" for="phone">Phone Number <span class="req">*</span></label>
+                  <div class="phone-wrap">
+                    <div class="phone-prefix">🇳🇬 +234</div>
+                    <input class="phone-input" type="tel" id="phone" placeholder="801 234 5678" autocomplete="tel">
+                  </div>
+                  <span class="form-error" id="phoneErr">Please enter a valid Nigerian phone number</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="arrival">Estimated Arrival Time</label>
+                  <select class="form-select" id="arrival">
+                    <option value="">Select time</option>
+                    <option>2:00 PM – 3:00 PM</option>
+                    <option>3:00 PM – 4:00 PM</option>
+                    <option>4:00 PM – 6:00 PM</option>
+                    <option>6:00 PM – 8:00 PM</option>
+                    <option>After 8:00 PM</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="purpose">Purpose of Stay</label>
+                  <select class="form-select" id="purpose">
+                    <option value="">Select</option>
+                    <option>Leisure / Holiday</option>
+                    <option>Business / Work</option>
+                    <option>Family Visit</option>
+                    <option>Event / Wedding</option>
+                    <option>Relocation / Transition</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="form-group full">
+                  <button class="special-toggle" onclick="toggleSpecial()">+ Add special requests or notes</button>
+                  <div class="special-area" id="specialArea">
+                    <textarea class="form-textarea" id="specialReq" placeholder="e.g. Early check-in needed, ground floor preferred, celebrating an anniversary…"></textarea>
+                    <span class="form-hint">We'll do our best to accommodate your requests. Not guaranteed.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button class="btn btn-back" onclick="goStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="goStep(3)">Continue to Payment →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 — Payment -->
+        <div id="step3" style="display:none">
+          <div class="bk-card">
+            <div class="bk-card-head">
+              <h2>Choose Payment Method</h2>
+              <button class="edit-btn" onclick="goStep(2)">← Edit details</button>
+            </div>
+            <div class="bk-card-body">
+
+              <!-- Payment method selector -->
+              <div class="payment-methods">
+                <label class="pm-option selected" onclick="selectPM('card')">
+                  <input type="radio" name="pm" value="card" checked>
+                  <div class="pm-ico">💳</div>
+                  <div class="pm-name">Debit / Credit Card</div>
+                  <div class="pm-desc">Visa, Mastercard</div>
+                </label>
+                <label class="pm-option" onclick="selectPM('transfer')">
+                  <input type="radio" name="pm" value="transfer">
+                  <div class="pm-ico">🏦</div>
+                  <div class="pm-name">Bank Transfer</div>
+                  <div class="pm-desc">Direct transfer</div>
+                </label>
+                <label class="pm-option" onclick="selectPM('ussd')">
+                  <input type="radio" name="pm" value="ussd">
+                  <div class="pm-ico">📱</div>
+                  <div class="pm-name">USSD</div>
+                  <div class="pm-desc">Any Nigerian bank</div>
+                </label>
+              </div>
+
+              <!-- Card form -->
+              <div class="card-form show" id="cardForm">
+                <div class="form-grid">
+                  <div class="form-group full">
+                    <label class="form-label">Card Number <span class="req">*</span></label>
+                    <div class="card-number-wrap">
+                      <input class="form-input" type="text" id="cardNum" placeholder="0000  0000  0000  0000" maxlength="19" oninput="formatCard(this)">
+                      <div class="card-icons"><span class="card-icon">💳</span></div>
+                    </div>
+                    <span class="form-error" id="cardNumErr">Please enter a valid card number</span>
+                  </div>
+                  <div class="form-group full">
+                    <label class="form-label">Cardholder Name <span class="req">*</span></label>
+                    <input class="form-input" type="text" id="cardName" placeholder="Name as it appears on card">
+                    <span class="form-error" id="cardNameErr">Please enter the cardholder name</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Expiry Date <span class="req">*</span></label>
+                    <input class="form-input" type="text" id="cardExp" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)">
+                    <span class="form-error" id="cardExpErr">Please enter a valid expiry date</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">CVV <span class="req">*</span></label>
+                    <input class="form-input" type="password" id="cardCvv" placeholder="•••" maxlength="4">
+                    <span class="form-error" id="cardCvvErr">Please enter the CVV</span>
+                    <span class="form-hint">3–4 digits on the back of your card</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bank Transfer -->
+              <div class="bank-form" id="bankForm">
+                <p style="font-size:0.84rem;color:var(--muted);margin-bottom:14px;line-height:1.65;">Transfer the exact amount below to our verified account. Send your proof of payment via WhatsApp and your booking will be confirmed within 30 minutes.</p>
+                <div class="bank-details">
+                  <div class="bank-row"><span class="bank-key">Bank Name</span><span class="bank-val">GTBank</span></div>
+                  <div class="bank-row"><span class="bank-key">Account Name</span><span class="bank-val">HAVEN Properties Ltd</span></div>
+                  <div class="bank-row">
+                    <span class="bank-key">Account Number</span>
+                    <div style="display:flex;align-items:center;gap:8px;"><span class="bank-val" id="accNum">0123456789</span><button class="copy-btn" onclick="copyAcc()">Copy</button></div>
+                  </div>
+                  <div class="bank-row"><span class="bank-key">Amount</span><span class="bank-val" id="transferAmt" style="color:var(--accent);">₦0</span></div>
+                  <div class="bank-row"><span class="bank-key">Reference</span><span class="bank-val" id="transferRef">HAVEN-XXXX</span></div>
+                </div>
+                <p class="bank-note">⚠️ Always include the reference code in your transfer narration. After payment, <a href="https://wa.me/2348000000000" target="_blank" style="color:var(--accent);">send proof on WhatsApp</a>.</p>
+              </div>
+
+              <!-- USSD -->
+              <div class="ussd-form" id="ussdForm">
+                <p style="font-size:0.84rem;color:var(--muted);margin-bottom:14px;line-height:1.65;">Dial the code below from your registered bank line to pay instantly.</p>
+                <div class="ussd-code">*737*<span id="ussdAmt">0</span>*<span id="ussdRef">00000</span>#</div>
+                <div class="ussd-steps">
+                  <div class="ussd-step"><div class="ussd-num">1</div><span>Dial the USSD code on your phone</span></div>
+                  <div class="ussd-step"><div class="ussd-num">2</div><span>Enter your GTBank PIN when prompted</span></div>
+                  <div class="ussd-step"><div class="ussd-num">3</div><span>Confirm the payment amount shown</span></div>
+                  <div class="ussd-step"><div class="ussd-num">4</div><span>You'll receive an SMS confirmation</span></div>
+                </div>
+              </div>
+
+              <div class="terms-check">
+                <input type="checkbox" id="termsCheck">
+                <label for="termsCheck">I agree to HAVEN Lagos' <a href="faq.html">House Rules</a>, <a href="#">Cancellation Policy</a>, and <a href="#">Terms of Service</a>. I confirm the booking details above are correct.</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-error" id="step3Alert"></div>
+          <div class="step-nav">
+            <button class="btn btn-back" onclick="goStep(2)">← Back</button>
+            <button class="btn btn-primary" id="payBtn" onclick="submitBooking()">
+              <span class="spinner" id="paySpinner"></span>
+              <span id="payBtnText">🔐 Confirm & Pay</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="success-screen" id="successScreen">
+          <div class="success-ico">🎉</div>
+          <h2 class="success-title">Booking Confirmed!</h2>
+          <p class="success-sub">Your reservation for <strong>The Signature Suite</strong> has been confirmed. A full receipt and check-in instructions have been sent to your email.</p>
+          <div class="success-ref" id="successRef">Booking Ref: HAVEN-2025-XXXX</div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:20px;">Check-in: <strong id="successCheckIn">—</strong> &nbsp;·&nbsp; Check-out: <strong id="successCheckOut">—</strong></p>
+          <div class="success-actions">
+            <a href="dashboard.html" class="btn btn-primary">View My Booking</a>
+            <a href="index.html" class="btn btn-outline">Back to Home</a>
+          </div>
+        </div>
+
+      </div><!-- /leftCol -->
+
+      <!-- ═══ RIGHT — ORDER SUMMARY ═══ -->
+      <aside>
+        <div class="summary-card">
+          <img class="sc-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=700&q=80" alt="The Signature Suite" loading="lazy">
+          <div class="sc-body">
+            <span class="sc-badge">Featured</span>
+            <div class="sc-name">The Signature Suite</div>
+            <div class="sc-loc">📍 Lekki Phase 1, Lagos · ★ 4.9 (38)</div>
+            <div class="sc-feats">
+              <span class="sc-feat">🛏️ 3 Beds</span>
+              <span class="sc-feat">🚿 2 Baths</span>
+              <span class="sc-feat">👥 Up to 6</span>
+            </div>
+            <!-- Dates display -->
+            <div class="sc-dates">
+              <div class="sc-date">
+                <div class="sc-date-lbl">Check In</div>
+                <div class="sc-date-val empty" id="scCiVal">Add date</div>
+              </div>
+              <div class="sc-date">
+                <div class="sc-date-lbl">Check Out</div>
+                <div class="sc-date-val empty" id="scCoVal">Add date</div>
+              </div>
+            </div>
+            <!-- Price breakdown -->
+            <div class="pb-section" id="scPriceBreak" style="display:none">
+              <div class="pb-row"><span class="pb-label">₦120,000 × <span id="scNights">0</span> nights</span><span class="pb-val" id="scBase">₦0</span></div>
+              <div class="pb-row"><span class="pb-label">Cleaning fee</span><span class="pb-val">₦15,000</span></div>
+              <div class="pb-row"><span class="pb-label">Service charge (5%)</span><span class="pb-val" id="scService">₦0</span></div>
+              <div class="pb-total"><span>Total</span><span id="scTotal">₦0</span></div>
+              <p class="pb-note">💡 Free cancellation up to 48hrs before check-in</p>
+            </div>
+            <div id="scNoPriceMsg" style="font-size:0.78rem;color:var(--muted);text-align:center;padding:12px 0;">Select dates to see pricing</div>
+
+            <div class="trust-badges">
+              <div class="tb"><span class="tb-ico">✅</span>Verified apartment — inspected by our team</div>
+              <div class="tb"><span class="tb-ico">🔐</span>Secure payment — encrypted checkout</div>
+              <div class="tb"><span class="tb-ico">📋</span>Instant receipt sent to your email</div>
+              <div class="tb"><span class="tb-ico">↩️</span>Free cancellation up to 48hrs prior</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+</main>
+
+<script>
+// ── CALENDAR ──
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOWS=['Su','Mo','Tu','We','Th','Fr','Sa'];
+let icalYear, icalMonth, checkIn=null, checkOut=null;
+function initCal(){ const n=new Date(); icalYear=n.getFullYear(); icalMonth=n.getMonth(); }
+initCal(); renderIcal();
+
+function renderIcal(){
+  document.getElementById('icalTitle').textContent = MONTHS[icalMonth]+' '+icalYear;
+  const grid = document.getElementById('icalGrid');
+  grid.innerHTML='';
+  DOWS.forEach(d=>{ const el=document.createElement('div'); el.className='ical-dow'; el.textContent=d; grid.appendChild(el); });
+  const first=new Date(icalYear,icalMonth,1).getDay();
+  const days=new Date(icalYear,icalMonth+1,0).getDate();
+  const today=new Date(); today.setHours(0,0,0,0);
+  for(let i=0;i<first;i++){ const e=document.createElement('button'); e.className='ical-day empty'; e.disabled=true; grid.appendChild(e); }
+  for(let d=1;d<=days;d++){
+    const date=new Date(icalYear,icalMonth,d);
+    const btn=document.createElement('button');
+    btn.className='ical-day'; btn.textContent=d;
+    if(date<today){ btn.classList.add('disabled'); btn.disabled=true; }
+    else {
+      if(checkIn && date.getTime()===checkIn.getTime()) btn.classList.add(checkOut?'range-start':'sel');
+      else if(checkOut && date.getTime()===checkOut.getTime()) btn.classList.add('range-end');
+      else if(checkIn && checkOut && date>checkIn && date<checkOut) btn.classList.add('in-range');
+      else if(date.getTime()===today.getTime()) btn.classList.add('today');
+      btn.addEventListener('click', ()=>pickDate(date));
+    }
+    grid.appendChild(btn);
+  }
+  updateIcalInfo();
+}
+
+function pickDate(date){
+  if(!checkIn||(checkIn&&checkOut)){ checkIn=date; checkOut=null; }
+  else if(date<=checkIn){ checkIn=date; checkOut=null; }
+  else { checkOut=date; }
+  const fmt=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const fmtShort=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  // Update date fields
+  const ci=document.getElementById('dfCiVal');
+  const co=document.getElementById('dfCoVal');
+  ci.textContent=checkIn?fmtShort(checkIn):'Select date';
+  ci.classList.toggle('placeholder',!checkIn);
+  document.getElementById('dfCheckIn').classList.toggle('filled',!!checkIn);
+  co.textContent=checkOut?fmtShort(checkOut):'Select date';
+  co.classList.toggle('placeholder',!checkOut);
+  document.getElementById('dfCheckOut').classList.toggle('filled',!!checkOut);
+  // Summary card
+  document.getElementById('scCiVal').textContent=checkIn?fmt(checkIn):'Add date';
+  document.getElementById('scCiVal').classList.toggle('empty',!checkIn);
+  document.getElementById('scCoVal').textContent=checkOut?fmt(checkOut):'Add date';
+  document.getElementById('scCoVal').classList.toggle('empty',!checkOut);
+  if(checkIn&&checkOut) updatePricing();
+  else hidePricing();
+  renderIcal();
+}
+
+function updateIcalInfo(){
+  const el=document.getElementById('icalInfo');
+  const ni=document.getElementById('dfNightsInfo');
+  const nt=document.getElementById('dfNightsText');
+  if(!checkIn){ el.textContent='Select your check-in date'; ni.style.display='none'; }
+  else if(!checkOut){ el.textContent='Now select check-out date'; ni.style.display='none'; }
+  else {
+    const n=Math.round((checkOut-checkIn)/864e5);
+    el.textContent=n+' night'+(n!==1?'s':'')+' selected';
+    nt.textContent=n+' night'+(n!==1?'s':'')+' selected — check-in '+checkIn.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+    ni.style.display='flex';
+  }
+}
+function icalNav(d){ icalMonth+=d; if(icalMonth>11){icalMonth=0;icalYear++;} if(icalMonth<0){icalMonth=11;icalYear--;} renderIcal(); }
+function icalClear(){ checkIn=null; checkOut=null; ['dfCiVal','dfCoVal'].forEach(id=>{ document.getElementById(id).textContent=id==='dfCiVal'?'Select date':'Select date'; document.getElementById(id).classList.add('placeholder'); }); ['dfCheckIn','dfCheckOut'].forEach(id=>document.getElementById(id).classList.remove('filled')); document.getElementById('scCiVal').textContent='Add date'; document.getElementById('scCoVal').textContent='Add date'; hidePricing(); renderIcal(); }
+
+function updatePricing(){
+  if(!checkIn||!checkOut)return;
+  const n=Math.round((checkOut-checkIn)/864e5);
+  const base=120000*n, svc=Math.round(base*0.05), total=base+15000+svc;
+  document.getElementById('scNights').textContent=n;
+  document.getElementById('scBase').textContent='₦'+base.toLocaleString();
+  document.getElementById('scService').textContent='₦'+svc.toLocaleString();
+  document.getElementById('scTotal').textContent='₦'+total.toLocaleString();
+  document.getElementById('scPriceBreak').style.display='block';
+  document.getElementById('scNoPriceMsg').style.display='none';
+  // Bank/USSD amounts
+  document.getElementById('transferAmt').textContent='₦'+total.toLocaleString();
+  document.getElementById('ussdAmt').textContent=total;
+  const ref='HAVEN-'+Math.floor(Math.random()*9000+1000);
+  document.getElementById('transferRef').textContent=ref;
+  document.getElementById('ussdRef').textContent=Math.floor(Math.random()*90000+10000);
+  document.getElementById('successRef').textContent='Booking Ref: '+ref;
+}
+function hidePricing(){ document.getElementById('scPriceBreak').style.display='none'; document.getElementById('scNoPriceMsg').style.display='block'; }
+
+// ── GUESTS ──
+let gAdults=2,gChildren=0,gInfants=0;
+function chGuest(t,d){
+  if(t==='adult'){ gAdults=Math.max(1,Math.min(6,gAdults+d)); document.getElementById('gAdultN').textContent=gAdults; document.getElementById('gAdultM').disabled=gAdults<=1; }
+  if(t==='child'){ gChildren=Math.max(0,Math.min(4,gChildren+d)); document.getElementById('gChildN').textContent=gChildren; document.getElementById('gChildM').disabled=gChildren<=0; }
+  if(t==='infant'){ gInfants=Math.max(0,Math.min(2,gInfants+d)); document.getElementById('gInfantN').textContent=gInfants; document.getElementById('gInfantM').disabled=gInfants<=0; }
+}
+
+// ── STEPS ──
+let currentStep=1;
+function goStep(n){
+  if(n===2){
+    if(!checkIn||!checkOut){ document.getElementById('step1Alert').classList.add('show'); return; }
+    document.getElementById('step1Alert').classList.remove('show');
+  }
+  if(n===3){
+    if(!validateStep2()) return;
+  }
+  currentStep=n;
+  ['step1','step2','step3'].forEach((id,i)=>{
+    document.getElementById(id).style.display=(i+1===n)?'block':'none';
+  });
+  updateProgress(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(n){
+  for(let i=1;i<=3;i++){
+    const circle=document.getElementById('sc'+i);
+    const label=document.getElementById('sl'+i);
+    const line=i<3?document.getElementById('line'+i):null;
+    if(i<n){ circle.className='step-circle done'; circle.textContent='✓'; label.className='step-label done'; if(line)line.classList.add('done'); }
+    else if(i===n){ circle.className='step-circle active'; circle.textContent=i; label.className='step-label active'; }
+    else { circle.className='step-circle pending'; circle.textContent=i; label.className='step-label'; if(line)line.classList.remove('done'); }
+  }
+}
+
+// ── VALIDATION ──
+function validateStep2(){
+  let valid=true;
+  const fields=[
+    {id:'firstName',err:'firstNameErr',check:v=>v.trim().length>=2},
+    {id:'lastName',err:'lastNameErr',check:v=>v.trim().length>=2},
+    {id:'email',err:'emailErr',check:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},
+    {id:'phone',err:'phoneErr',check:v=>v.replace(/\D/g,'').length>=10}
+  ];
+  fields.forEach(f=>{
+    const inp=document.getElementById(f.id);
+    const err=document.getElementById(f.err);
+    const ok=f.check(inp.value);
+    inp.classList.toggle('error',!ok);
+    err.classList.toggle('show',!ok);
+    if(!ok)valid=false;
+  });
+  if(!valid){ document.getElementById('step2Alert').textContent='Please fill in all required fields correctly.'; document.getElementById('step2Alert').classList.add('show'); }
+  else document.getElementById('step2Alert').classList.remove('show');
+  return valid;
+}
+
+// Clear errors on input
+['firstName','lastName','email','phone'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',()=>{
+    document.getElementById(id).classList.remove('error');
+    document.getElementById(id+'Err').classList.remove('show');
+  });
+});
+
+// ── PAYMENT METHOD ──
+function selectPM(m){
+  document.querySelectorAll('.pm-option').forEach(o=>o.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('cardForm').classList.toggle('show',m==='card');
+  document.getElementById('bankForm').classList.toggle('show',m==='transfer');
+  document.getElementById('ussdForm').classList.toggle('show',m==='ussd');
+}
+
+// Card formatters
+function formatCard(el){ let v=el.value.replace(/\D/g,'').substring(0,16); el.value=v.replace(/(.{4})/g,'$1  ').trim(); }
+function formatExpiry(el){ let v=el.value.replace(/\D/g,''); if(v.length>=2)v=v.substring(0,2)+' / '+v.substring(2,4); el.value=v; }
+
+// Copy account number
+function copyAcc(){ navigator.clipboard.writeText('0123456789'); event.target.textContent='Copied!'; setTimeout(()=>event.target.textContent='Copy',2000); }
+
+// Special requests toggle
+function toggleSpecial(){ const a=document.getElementById('specialArea'); const open=a.classList.toggle('show'); event.target.textContent=open?'− Hide special requests':'+ Add special requests or notes'; }
+
+// ── SUBMIT ──
+async function submitBooking(){
+  if(!document.getElementById('termsCheck').checked){
+    document.getElementById('step3Alert').textContent='Please agree to the terms and conditions to continue.';
+    document.getElementById('step3Alert').classList.add('show');
+    return;
+  }
+  const token = localStorage.getItem('haven_token');
+  if (!token) { window.location.href = 'login.html?redirect=booking'; return; }
+  document.getElementById('step3Alert').classList.remove('show');
+  const btn=document.getElementById('payBtn');
+  const spinner=document.getElementById('paySpinner');
+  const text=document.getElementById('payBtnText');
+  btn.disabled=true; spinner.classList.add('show'); text.textContent='Processing…';
+  try {
+    // Get property ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const property_id = params.get('property');
+
+    const checkinStr = checkIn ? checkIn.toISOString().split('T')[0] : null;
+    const checkoutStr = checkOut ? checkOut.toISOString().split('T')[0] : null;
+
+    const res = await fetch(API_BASE + '/bookings', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({
+        property_id,
+        checkin_date: checkinStr,
+        checkout_date: checkoutStr,
+        num_adults: parseInt(document.getElementById('guestAdults')?.value || 1),
+        num_children: parseInt(document.getElementById('guestChildren')?.value || 0),
+        arrival_time: document.getElementById('arrivalTime')?.value || null,
+        purpose_of_stay: document.getElementById('purposeStay')?.value || null,
+        special_requests: document.getElementById('specialRequests')?.value || null
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Booking failed');
+
+    // Redirect to Paystack payment page
+    window.location.href = data.payment.authorization_url;
+  } catch(err) {
+    document.getElementById('step3Alert').textContent = '⚠️ ' + err.message;
+    document.getElementById('step3Alert').classList.add('show');
+    btn.disabled=false; spinner.classList.remove('show'); text.textContent='Proceed to Payment →';
+  }
+}
+</script>
+</body>
+</html>

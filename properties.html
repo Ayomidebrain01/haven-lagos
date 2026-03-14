@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══ SEO ═══ -->
+<title>Shortlet Apartments in Lagos | Lekki, VI & Ikoyi — HAVEN Lagos</title>
+<meta name="description" content="Browse verified shortlet apartments in Lekki, Victoria Island, Ikoyi and Chevron Lagos. Filter by location, price, bedrooms and dates. Instant booking, transparent pricing.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://www.havenshortlets.com/properties.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HAVEN Lagos">
+<meta property="og:title" content="Shortlet Apartments in Lagos — Browse All Properties | HAVEN">
+<meta property="og:description" content="Verified shortlet apartments in Lekki, VI & Ikoyi. Filter, compare and book directly. Instant confirmation.">
+<meta property="og:url" content="https://www.havenshortlets.com/properties.html">
+<meta property="og:image" content="https://www.havenshortlets.com/og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+
+<!-- ═══ SCHEMA ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "HAVEN Lagos Shortlet Apartments",
+  "description": "Premium shortlet apartments in Lekki, Victoria Island and Ikoyi, Lagos",
+  "url": "https://www.havenshortlets.com/properties.html",
+  "numberOfItems": 12,
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"The Signature Suite — Lekki Phase 1","url":"https://www.havenshortlets.com/property-detail.html"},
+    {"@type":"ListItem","position":2,"name":"The VI Executive — Victoria Island","url":"https://www.havenshortlets.com/property-detail.html"},
+    {"@type":"ListItem","position":3,"name":"Ikoyi Penthouse — Ikoyi","url":"https://www.havenshortlets.com/property-detail.html"}
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --white:#ffffff;--off:#f5f7fb;--light:#edf1f8;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--orange:#f97316;
+  --shadow-s:0 2px 12px rgba(0,0,0,0.06);--shadow-m:0 8px 32px rgba(0,0,0,0.10);--shadow-l:0 20px 60px rgba(0,0,0,0.13);
+  --radius:6px;--max:1200px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;line-height:1.6;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+button{cursor:pointer;font-family:inherit;}
+
+.container{max-width:var(--max);margin:0 auto;padding:0 20px;}
+@media(min-width:768px){.container{padding:0 48px;}}
+@media(min-width:1200px){.container{padding:0 60px;}}
+
+.eyebrow{display:inline-block;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;font-family:'Nunito Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border-radius:var(--radius);transition:all 0.22s;cursor:pointer;border:none;white-space:nowrap;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:var(--shadow-m);}
+.btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent);}
+.btn-outline:hover{background:var(--accent);color:#fff;}
+.btn-wa{background:#25D366;color:#fff;}
+.btn-wa:hover{background:#1db954;transform:translateY(-1px);}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* ── STRIP ── */
+.strip{background:var(--accent);color:#fff;text-align:center;padding:9px 20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.74rem;font-weight:600;letter-spacing:0.05em;}
+.strip a{color:var(--accent-lite);text-decoration:underline;}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:box-shadow 0.3s;}
+.nav.raised{box-shadow:var(--shadow-s);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px;}
+@media(min-width:768px){.nav-inner{height:70px;}}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.35rem;font-weight:800;color:var(--heading);letter-spacing:0.01em;flex-shrink:0;}
+.logo span{color:var(--accent);}
+.nav-links{display:none;gap:28px;}
+@media(min-width:900px){
+  .nav-links{display:flex;}
+  .nav-links a{font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text);transition:color 0.2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-book{display:none;}
+@media(min-width:900px){.nav-book{display:inline-flex;padding:10px 20px;font-size:0.74rem;}}
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;}
+@media(min-width:900px){.hamburger{display:none;}}
+.hamburger span{display:block;width:22px;height:2px;background:var(--heading);border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* ── MOBILE MENU ── */
+.mob-menu{position:fixed;top:calc(62px + 36px);left:0;right:0;bottom:0;background:#fff;z-index:190;padding:0;flex-direction:column;overflow-y:auto;transform:translateX(100%);visibility:hidden;transition:transform 0.32s cubic-bezier(0.4,0,0.2,1),visibility 0.32s;display:flex;pointer-events:none;}
+@media(min-width:768px){.mob-menu{top:calc(70px + 36px);}}
+.mob-menu.open{transform:translateX(0);pointer-events:all;visibility:visible;}
+@media(min-width:900px){.mob-menu{display:none!important;}}
+.mob-menu-inner{display:flex;flex-direction:column;flex:1;padding:8px 0 0;}
+.mob-nav-links{display:flex;flex-direction:column;}
+.mob-nav-links a{display:flex;align-items:center;justify-content:space-between;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:var(--heading);padding:16px 24px;border-bottom:1px solid var(--border);transition:color 0.2s,background 0.2s;}
+.mob-nav-links a:hover{color:var(--accent);background:var(--off);}
+.mob-nav-links a .arr{font-size:0.9rem;color:var(--muted);}
+.mob-cta{padding:20px 24px 32px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);margin-top:auto;background:var(--off);}
+.mob-cta .btn{width:100%;justify-content:center;padding:14px;}
+.mob-contact{padding:16px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:var(--accent-bg);}
+.mob-contact-icon{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.mob-contact-text{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+.mob-contact-text strong{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);}
+
+/* ── PAGE HERO ── */
+.page-hero{background:var(--accent);padding:36px 0 32px;}
+@media(min-width:768px){.page-hero{padding:48px 0 40px;}}
+.ph-breadcrumb{display:flex;align-items:center;gap:6px;margin-bottom:12px;}
+.ph-breadcrumb a,.ph-breadcrumb span{font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.55);letter-spacing:0.05em;transition:color 0.2s;}
+.ph-breadcrumb a:hover{color:#fff;}
+.ph-breadcrumb .sep{color:rgba(255,255,255,0.25);}
+.ph-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:8px;}
+.ph-title em{font-style:italic;color:var(--accent-lite);}
+.ph-sub{font-size:0.9rem;color:rgba(255,255,255,0.6);max-width:440px;}
+.ph-stats{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;}
+.ph-stat{display:flex;align-items:center;gap:6px;font-size:0.76rem;font-weight:700;color:rgba(255,255,255,0.75);}
+.ph-stat span{color:#fff;}
+
+/* ── SEARCH + FILTER BAR ── */
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:62px;z-index:100;box-shadow:var(--shadow-s);}
+@media(min-width:768px){.filter-bar{top:70px;}}
+.filter-bar-inner{display:flex;align-items:center;gap:10px;padding:12px 0;overflow-x:auto;scrollbar-width:none;}
+.filter-bar-inner::-webkit-scrollbar{display:none;}
+
+/* Search input */
+.fb-search{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;background:#fff;flex-shrink:0;min-width:180px;transition:border-color 0.2s;}
+.fb-search:focus-within{border-color:var(--accent);}
+.fb-search svg{width:14px;height:14px;fill:var(--muted);flex-shrink:0;}
+.fb-search input{border:none;outline:none;font-family:'Nunito Sans',sans-serif;font-size:0.84rem;font-weight:600;color:var(--heading);background:transparent;width:100%;}
+.fb-search input::placeholder{color:var(--muted);}
+
+/* Filter pills */
+.fb-sep{width:1px;height:24px;background:var(--border);flex-shrink:0;margin:0 2px;}
+.fpill{padding:8px 16px;border:1.5px solid var(--border);border-radius:100px;font-size:0.75rem;font-weight:700;color:var(--muted);background:#fff;cursor:pointer;transition:all 0.18s;white-space:nowrap;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif;}
+.fpill:hover{border-color:var(--accent);color:var(--accent);}
+.fpill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.fpill.has-value{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+
+/* Filter dropdown trigger */
+.fb-filter-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:0.75rem;font-weight:700;color:var(--text);background:#fff;cursor:pointer;transition:all 0.18s;white-space:nowrap;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif;}
+.fb-filter-btn:hover{border-color:var(--accent);color:var(--accent);}
+.fb-filter-btn svg{width:14px;height:14px;fill:currentColor;}
+.fb-filter-badge{background:var(--accent);color:#fff;font-size:0.6rem;font-weight:800;border-radius:100px;padding:1px 6px;margin-left:2px;}
+
+/* View toggle */
+.view-toggle{display:flex;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;flex-shrink:0;margin-left:auto;}
+.vt-btn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:#fff;border:none;cursor:pointer;transition:background 0.18s;color:var(--muted);}
+.vt-btn svg{width:15px;height:15px;fill:currentColor;}
+.vt-btn.active{background:var(--accent);color:#fff;}
+
+/* ── FILTER DRAWER ── */
+.filter-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.28s;}
+.filter-overlay.open{opacity:1;pointer-events:all;}
+.filter-drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,100vw);background:#fff;z-index:301;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow:hidden;}
+.filter-drawer.open{transform:none;}
+.fd-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.fd-head h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--heading);}
+.fd-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;color:var(--muted);transition:all 0.18s;}
+.fd-close:hover{background:var(--off);color:var(--heading);}
+.fd-body{flex:1;overflow-y:auto;padding:0;}
+.fd-section{padding:20px 24px;border-bottom:1px solid var(--border);}
+.fd-section:last-child{border-bottom:none;}
+.fd-label{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.fd-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.fd-pill{padding:7px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:0.78rem;font-weight:600;color:var(--text);background:#fff;cursor:pointer;transition:all 0.18s;}
+.fd-pill:hover{border-color:var(--accent);color:var(--accent);}
+.fd-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* Price range slider */
+.price-range{padding:4px 0;}
+.price-vals{display:flex;justify-content:space-between;margin-bottom:12px;}
+.price-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;color:var(--heading);}
+.range-track{position:relative;height:4px;background:var(--border);border-radius:2px;margin:0 0 8px;}
+.range-fill{position:absolute;height:100%;background:var(--accent);border-radius:2px;left:0;right:30%;}
+.range-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;appearance:none;-webkit-appearance:none;}
+
+/* Beds/Baths counter */
+.counter-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.counter-row:last-child{border-bottom:none;}
+.counter-label{font-size:0.88rem;font-weight:600;color:var(--heading);}
+.counter{display:flex;align-items:center;gap:10px;}
+.c-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:#fff;font-size:0.9rem;font-weight:700;color:var(--heading);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;line-height:1;}
+.c-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+.c-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.c-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);min-width:20px;text-align:center;}
+
+/* Amenity checkboxes */
+.amenity-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.am-check{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all 0.18s;font-size:0.78rem;font-weight:600;color:var(--text);}
+.am-check:hover{border-color:var(--accent);}
+.am-check.active{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);}
+.am-check .ac-ico{font-size:0.9rem;}
+.am-check .ac-check{width:14px;height:14px;border:1.5px solid var(--border);border-radius:3px;margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;transition:all 0.15s;}
+.am-check.active .ac-check{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.fd-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;flex-shrink:0;background:#fff;}
+.fd-foot .btn{flex:1;justify-content:center;}
+.fd-reset{background:var(--off);color:var(--heading);border:1.5px solid var(--border);}
+.fd-reset:hover{background:var(--border);}
+
+/* ── MAIN LAYOUT ── */
+.props-layout{padding:28px 0 64px;}
+.props-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.props-count{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);}
+.props-count span{color:var(--accent);}
+.sort-select{border:1.5px solid var(--border);border-radius:var(--radius);padding:8px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);background:#fff;cursor:pointer;outline:none;transition:border-color 0.2s;}
+.sort-select:hover,.sort-select:focus{border-color:var(--accent);}
+
+/* ── PROPERTY GRID ── */
+.prop-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+@media(min-width:560px){.prop-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1024px){.prop-grid{grid-template-columns:repeat(3,1fr);}}
+
+.prop-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow-s);border:1px solid var(--border);transition:transform 0.28s,box-shadow 0.28s;display:flex;flex-direction:column;}
+.prop-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-l);}
+
+.prop-img-wrap{position:relative;overflow:hidden;height:210px;flex-shrink:0;}
+.prop-img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+.prop-card:hover .prop-img{transform:scale(1.05);}
+
+/* Badges */
+.prop-badge{position:absolute;top:12px;left:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:4px 11px;border-radius:100px;}
+.badge-featured{background:var(--accent);color:#fff;}
+.badge-available{background:var(--green);color:#fff;}
+.badge-luxury{background:#7c3aed;color:#fff;}
+.badge-new{background:var(--orange);color:#fff;}
+.badge-booked{background:rgba(0,0,0,0.55);color:#fff;}
+
+.prop-wishlist{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.92);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.95rem;transition:all 0.2s;backdrop-filter:blur(4px);}
+.prop-wishlist:hover{transform:scale(1.1);}
+.prop-wishlist.saved{background:#fff;}
+
+.avail-tag{position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,0.95);border-radius:100px;padding:4px 10px;display:flex;align-items:center;gap:5px;font-size:0.68rem;font-weight:700;color:var(--green);}
+.avail-dot{width:6px;height:6px;background:var(--green);border-radius:50%;}
+.booked-tag{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.6);border-radius:100px;padding:4px 10px;font-size:0.68rem;font-weight:700;color:#fff;backdrop-filter:blur(4px);}
+
+/* Image gallery dots */
+.img-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:4px;}
+.img-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5);}
+.img-dot.active{background:#fff;width:16px;border-radius:3px;}
+
+.prop-body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;}
+.prop-loc{font-size:0.69rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.prop-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--heading);margin-bottom:8px;line-height:1.3;}
+.prop-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prop-feats{display:flex;flex-wrap:wrap;gap:4px 12px;margin-bottom:14px;}
+.pfeat{font-size:0.73rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px;}
+.pfeat svg{width:12px;height:12px;fill:var(--accent);flex-shrink:0;}
+.prop-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.prop-tag{font-size:0.65rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:var(--accent-bg);color:var(--accent);}
+.prop-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);gap:8px;margin-top:auto;}
+.prop-price{font-family:'Plus Jakarta Sans',sans-serif;}
+.prop-price .amount{font-size:1.08rem;font-weight:800;color:var(--heading);}
+.prop-price .per{font-size:0.7rem;color:var(--muted);font-weight:400;}
+.prop-price .weekly{font-size:0.68rem;color:var(--green);font-weight:700;display:block;margin-top:1px;}
+.prop-book{background:var(--accent);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:9px 16px;border-radius:var(--radius);transition:background 0.2s,transform 0.2s;flex-shrink:0;border:none;}
+.prop-book:hover{background:var(--accent-h);transform:translateY(-1px);}
+
+/* ── LIST VIEW ── */
+.prop-grid.list-view{grid-template-columns:1fr;}
+.prop-grid.list-view .prop-card{flex-direction:row;}
+.prop-grid.list-view .prop-img-wrap{width:280px;height:auto;flex-shrink:0;}
+@media(max-width:640px){
+  .prop-grid.list-view .prop-card{flex-direction:column;}
+  .prop-grid.list-view .prop-img-wrap{width:100%;height:200px;}
+}
+
+/* ── FEATURED BANNER ── */
+.featured-banner{background:linear-gradient(135deg,var(--accent) 0%,#1a3f80 100%);border-radius:10px;padding:24px 28px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.fb-text .eyebrow{color:var(--accent-lite);}
+.fb-text h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:4px;}
+.fb-text p{font-size:0.82rem;color:rgba(255,255,255,0.65);}
+.fb-btn{background:#fff;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.74rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:10px 20px;border-radius:var(--radius);flex-shrink:0;transition:all 0.2s;border:none;}
+.fb-btn:hover{background:var(--off);transform:translateY(-1px);}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:40px 0 0;}
+.pg-btn{width:36px;height:36px;border-radius:var(--radius);border:1.5px solid var(--border);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+.pg-btn:hover{border-color:var(--accent);color:var(--accent);}
+.pg-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pg-btn.nav{padding:0 14px;width:auto;gap:6px;}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:80px 20px;display:none;}
+.empty-state.show{display:block;}
+.empty-ico{font-size:3rem;margin-bottom:16px;}
+.empty-state h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:var(--heading);margin-bottom:8px;}
+.empty-state p{font-size:0.86rem;color:var(--muted);max-width:320px;margin:0 auto 20px;}
+
+/* ── ACTIVE FILTERS STRIP ── */
+.active-filters{display:none;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.active-filters.show{display:flex;}
+.af-label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;}
+.af-chip{display:flex;align-items:center;gap:6px;padding:5px 12px;background:var(--accent-bg);border:1px solid var(--accent);border-radius:100px;font-size:0.74rem;font-weight:700;color:var(--accent);}
+.af-chip button{background:none;border:none;cursor:pointer;color:var(--accent);font-size:0.8rem;line-height:1;padding:0;display:flex;}
+.af-clear-all{font-size:0.72rem;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;}
+.af-clear-all:hover{color:var(--accent);}
+
+/* ── FOOTER ── */
+footer{background:var(--heading);color:rgba(255,255,255,0.55);}
+.foot-main{padding:48px 0 36px;display:grid;grid-template-columns:1fr;gap:32px;border-bottom:1px solid rgba(255,255,255,0.08);}
+@media(min-width:580px){.foot-main{grid-template-columns:repeat(2,1fr);gap:32px 48px;}}
+@media(min-width:1024px){.foot-main{grid-template-columns:1.8fr 1fr 1fr 1fr;}}
+.foot-brand .logo{color:#fff;display:block;margin-bottom:12px;}
+.foot-brand p{font-size:0.84rem;line-height:1.72;max-width:240px;}
+.foot-social{display:flex;gap:8px;margin-top:16px;}
+.soc{width:32px;height:32px;border:1px solid rgba(255,255,255,0.13);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:0.66rem;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,0.4);transition:border-color 0.2s,color 0.2s;}
+.soc:hover{border-color:var(--accent-lite);color:var(--accent-lite);}
+.foot-col h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.67rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#fff;margin-bottom:14px;}
+.foot-col ul{display:flex;flex-direction:column;gap:9px;}
+.foot-col a{font-size:0.84rem;transition:color 0.2s;}
+.foot-col a:hover{color:#fff;}
+.foot-bottom{padding:16px 0;display:flex;flex-direction:column;gap:6px;font-size:0.74rem;text-align:center;}
+@media(min-width:580px){.foot-bottom{flex-direction:row;justify-content:space-between;text-align:left;}}
+.foot-bottom a:hover{color:#fff;}
+.foot-bottom span{color:var(--accent-lite);}
+
+/* Float WA */
+.float-wa{position:fixed;bottom:20px;right:20px;z-index:300;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform 0.28s;animation:wapulse 3s infinite;}
+.float-wa:hover{transform:scale(1.1);animation:none;}
+.float-wa svg{width:22px;height:22px;fill:#fff;}
+@media(min-width:768px){.float-wa{width:54px;height:54px;bottom:28px;right:28px;}}
+
+@keyframes wapulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.4);}50%{box-shadow:0 4px 40px rgba(37,211,102,0.7);}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+
+<!-- Float WA -->
+<a class="float-wa" href="https://wa.me/2348000000000?text=Hi!%20I'd%20like%20to%20book%20a%20HAVEN%20apartment." target="_blank" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Strip -->
+<div class="strip" role="banner">🏡 Limited availability this weekend in Lekki & VI — <a href="#">Book before it's gone →</a></div>
+
+<!-- Nav -->
+<header class="nav" id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="HAVEN Lagos — Home">HAVEN<span>.</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="properties.html" class="active">Properties</a>
+        <a href="properties.html#locations">Locations</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="login.html" class="btn btn-outline nav-book" style="padding:9px 18px;font-size:0.73rem;">Sign In</a>
+        <a href="booking.html" class="btn btn-primary nav-book">Book Now</a>
+        <button class="hamburger" id="ham" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-menu-inner">
+    <div class="mob-contact">
+      <div class="mob-contact-icon">📞</div>
+      <div class="mob-contact-text"><strong>+234 800 000 0000</strong>Available 24/7 for support</div>
+    </div>
+    <nav class="mob-nav-links">
+      <a href="properties.html">Properties <span class="arr">›</span></a>
+      <a href="properties.html#locations">Locations <span class="arr">›</span></a>
+      <a href="about.html">About Us <span class="arr">›</span></a>
+      <a href="faq.html">FAQs <span class="arr">›</span></a>
+      <a href="contact.html">Contact <span class="arr">›</span></a>
+    </nav>
+    <div class="mob-cta">
+      <a href="booking.html" class="btn btn-primary">🏡 Book an Apartment</a>
+      <a href="https://wa.me/2348000000000" class="btn btn-wa" target="_blank">Chat on WhatsApp</a>
+      <a href="login.html" class="btn btn-outline">Sign In to My Account</a>
+    </div>
+  </div>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero" aria-label="Properties page header">
+  <div class="container">
+    <nav class="ph-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">›</span>
+      <span style="color:rgba(255,255,255,0.85)">Properties</span>
+    </nav>
+    <h1 class="ph-title">All shortlet apartments<br>in <em>Lagos</em></h1>
+    <p class="ph-sub">Verified, fully-furnished apartments across Lekki, Victoria Island, Ikoyi and Chevron. Book directly for the best price.</p>
+    <div class="ph-stats">
+      <div class="ph-stat">🏢 <span id="totalCount">12</span> apartments listed</div>
+      <div class="ph-stat">📍 <span>4</span> locations</div>
+      <div class="ph-stat">⭐ <span>4.9</span> average rating</div>
+    </div>
+  </div>
+</section>
+
+<!-- Filter Bar -->
+<div class="filter-bar" id="filterBar">
+  <div class="container">
+    <div class="filter-bar-inner">
+      <!-- Search -->
+      <div class="fb-search">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="searchInput" placeholder="Search apartments…" autocomplete="off">
+      </div>
+      <div class="fb-sep"></div>
+      <!-- Location pills -->
+      <button class="fpill active" data-filter="loc" data-val="all">All</button>
+      <button class="fpill" data-filter="loc" data-val="lekki">Lekki</button>
+      <button class="fpill" data-filter="loc" data-val="vi">Victoria Island</button>
+      <button class="fpill" data-filter="loc" data-val="ikoyi">Ikoyi</button>
+      <button class="fpill" data-filter="loc" data-val="chevron">Chevron</button>
+      <div class="fb-sep"></div>
+      <!-- Filter drawer trigger -->
+      <button class="fb-filter-btn" id="filterDrawerBtn" onclick="openFilterDrawer()">
+        <svg viewBox="0 0 24 24"><path d="M4.25 5.61C6.27 8.2 10 13 10 13v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6s3.72-4.8 5.74-7.39A.998.998 0 0 0 18.95 4H5.04a1 1 0 0 0-.79 1.61z"/></svg>
+        Filters
+        <span class="fb-filter-badge" id="filterBadge" style="display:none">0</span>
+      </button>
+      <div class="fb-sep"></div>
+      <!-- View toggle -->
+      <div class="view-toggle">
+        <button class="vt-btn active" id="gridBtn" onclick="setView('grid')" title="Grid view">
+          <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm0 11h7v7H3zm11-11h7v7h-7zm0 11h7v7h-7z"/></svg>
+        </button>
+        <button class="vt-btn" id="listBtn" onclick="setView('list')" title="List view">
+          <svg viewBox="0 0 24 24"><path d="M3 5h2v2H3V5zm0 4h2v2H3V9zm0 4h2v2H3v-2zm4-8h14v2H7V5zm0 4h14v2H7V9zm0 4h14v2H7v-2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Drawer -->
+<div class="filter-overlay" id="filterOverlay" onclick="closeFilterDrawer()"></div>
+<aside class="filter-drawer" id="filterDrawer" aria-label="Filter apartments">
+  <div class="fd-head">
+    <h2>Filter Apartments</h2>
+    <button class="fd-close" onclick="closeFilterDrawer()">✕</button>
+  </div>
+  <div class="fd-body">
+    <!-- Price Range -->
+    <div class="fd-section">
+      <div class="fd-label">Nightly Price Range</div>
+      <div class="price-range">
+        <div class="price-vals">
+          <span class="price-val" id="priceMin">₦50,000</span>
+          <span class="price-val" id="priceMax">₦250,000+</span>
+        </div>
+        <div class="range-track">
+          <div class="range-fill" id="rangeFill"></div>
+          <input type="range" class="range-input" id="priceRange" min="50000" max="250000" value="250000" step="10000" oninput="updatePrice(this.value)">
+        </div>
+      </div>
+    </div>
+    <!-- Bedrooms -->
+    <div class="fd-section">
+      <div class="fd-label">Bedrooms & Bathrooms</div>
+      <div class="counter-row">
+        <span class="counter-label">Bedrooms (min)</span>
+        <div class="counter">
+          <button class="c-btn" id="bedMinus" onclick="changeCounter('bed',-1)" disabled>−</button>
+          <span class="c-num" id="bedNum">Any</span>
+          <button class="c-btn" onclick="changeCounter('bed',1)">+</button>
+        </div>
+      </div>
+      <div class="counter-row">
+        <span class="counter-label">Bathrooms (min)</span>
+        <div class="counter">
+          <button class="c-btn" id="bathMinus" onclick="changeCounter('bath',-1)" disabled>−</button>
+          <span class="c-num" id="bathNum">Any</span>
+          <button class="c-btn" onclick="changeCounter('bath',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <!-- Property Type -->
+    <div class="fd-section">
+      <div class="fd-label">Property Type</div>
+      <div class="fd-pills">
+        <button class="fd-pill active" data-group="type" data-val="any">Any</button>
+        <button class="fd-pill" data-group="type" data-val="studio">Studio</button>
+        <button class="fd-pill" data-group="type" data-val="1bed">1 Bedroom</button>
+        <button class="fd-pill" data-group="type" data-val="2bed">2 Bedrooms</button>
+        <button class="fd-pill" data-group="type" data-val="3bed">3 Bedrooms</button>
+        <button class="fd-pill" data-group="type" data-val="4bed+">4+ Bedrooms</button>
+      </div>
+    </div>
+    <!-- Amenities -->
+    <div class="fd-section">
+      <div class="fd-label">Amenities</div>
+      <div class="amenity-grid">
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🛜</span>WiFi<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🅿️</span>Parking<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🏊</span>Pool<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🍳</span>Kitchen<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🚗</span>Airport Pickup<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🧺</span>Washer<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">📺</span>Netflix<div class="ac-check"></div></div>
+        <div class="am-check" onclick="toggleAmenity(this)"><span class="ac-ico">🛎️</span>Concierge<div class="ac-check"></div></div>
+      </div>
+    </div>
+    <!-- Availability -->
+    <div class="fd-section">
+      <div class="fd-label">Availability</div>
+      <div class="fd-pills">
+        <button class="fd-pill active" data-group="avail" data-val="any">Any</button>
+        <button class="fd-pill" data-group="avail" data-val="available">Available Now</button>
+        <button class="fd-pill" data-group="avail" data-val="thisweek">This Week</button>
+        <button class="fd-pill" data-group="avail" data-val="weekend">This Weekend</button>
+      </div>
+    </div>
+  </div>
+  <div class="fd-foot">
+    <button class="btn fd-reset" onclick="resetFilters()">Reset All</button>
+    <button class="btn btn-primary" onclick="applyFilters()">Show Results</button>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main>
+<div class="props-layout">
+  <div class="container">
+
+    <!-- Active Filters Strip -->
+    <div class="active-filters" id="activeFilters">
+      <span class="af-label">Active:</span>
+      <!-- chips injected by JS -->
+      <button class="af-clear-all" onclick="resetFilters()">Clear all</button>
+    </div>
+
+    <!-- Top bar -->
+    <div class="props-top">
+      <p class="props-count"><span id="shownCount">12</span> apartments found</p>
+      <select class="sort-select" id="sortSelect" onchange="sortCards()">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Highest Rated</option>
+        <option value="newest">Newest First</option>
+      </select>
+    </div>
+
+    <!-- Featured Banner -->
+    <div class="featured-banner reveal">
+      <div class="fb-text">
+        <span class="eyebrow">Corporate Stays</span>
+        <h3>Need long-stay or corporate rates?</h3>
+        <p>We offer weekly & monthly discounts with official invoices for businesses.</p>
+      </div>
+      <a href="contact.html" class="fb-btn">Get a Quote →</a>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-ico">🔍</div>
+      <h3>No apartments match your filters</h3>
+      <p>Try adjusting your location, price range or amenity preferences.</p>
+      <button class="btn btn-outline" onclick="resetFilters()">Clear Filters</button>
+    </div>
+
+    <!-- Properties Grid -->
+    <div class="prop-grid" id="propGrid">
+
+      <!-- Card 1 -->
+      <article class="prop-card reveal" data-loc="lekki" data-price="120000" data-beds="3" data-rating="4.9" data-status="available" data-featured="true">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80" alt="The Signature Suite — 3-bedroom shortlet in Lekki Phase 1 Lagos" loading="lazy" width="800" height="600">
+          <span class="prop-badge badge-featured">Featured</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+          <div class="img-dots"><div class="img-dot active"></div><div class="img-dot"></div><div class="img-dot"></div></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Lekki Phase 1</div>
+          <h2 class="prop-name">The Signature Suite</h2>
+          <p class="prop-desc">A beautifully appointed 3-bedroom apartment with panoramic city views, designer furnishings and a private terrace.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>3 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>2 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Pool</span><span class="prop-tag">Concierge</span><span class="prop-tag">Netflix</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦120,000</span><span class="per"> / night</span><span class="weekly">₦700,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="prop-card reveal" data-loc="vi" data-price="85000" data-beds="2" data-rating="4.8" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80" alt="The VI Executive — 2-bedroom shortlet in Victoria Island Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-available">Available</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="img-dots"><div class="img-dot active"></div><div class="img-dot"></div><div class="img-dot"></div></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Victoria Island</div>
+          <h2 class="prop-name">The VI Executive</h2>
+          <p class="prop-desc">Modern 2-bedroom executive apartment steps from the business district. Perfect for corporate travellers and weekend stays.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>2 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>2 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Gym</span><span class="prop-tag">24hr Power</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦85,000</span><span class="per"> / night</span><span class="weekly">₦500,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="prop-card reveal" data-loc="ikoyi" data-price="200000" data-beds="4" data-rating="5.0" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=700&q=80" alt="Ikoyi Penthouse — luxury 4-bedroom shortlet in Ikoyi Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-luxury">Luxury</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+          <div class="img-dots"><div class="img-dot active"></div><div class="img-dot"></div><div class="img-dot"></div><div class="img-dot"></div></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Ikoyi</div>
+          <h2 class="prop-name">Ikoyi Penthouse</h2>
+          <p class="prop-desc">Lagos' most exclusive shortlet. 4-bedroom rooftop penthouse with private pool, butler service and uninterrupted lagoon views.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>4 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>3 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Private Pool</span><span class="prop-tag">Butler</span><span class="prop-tag">Lagoon View</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦200,000</span><span class="per"> / night</span><span class="weekly">₦1,200,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="prop-card reveal" data-loc="lekki" data-price="65000" data-beds="1" data-rating="4.7" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80" alt="Lekki Skyview — 1-bedroom shortlet in Lekki Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-new">New</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Lekki Phase 1</div>
+          <h2 class="prop-name">Lekki Skyview Studio</h2>
+          <p class="prop-desc">Sleek 1-bedroom studio on the 12th floor with stunning city views. Ideal for solo travellers and couples.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>1 Bed</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>1 Bath</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">City View</span><span class="prop-tag">Gym</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦65,000</span><span class="per"> / night</span><span class="weekly">₦380,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="prop-card reveal" data-loc="vi" data-price="150000" data-beds="3" data-rating="4.9" data-status="booked">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1617098900591-3f90928e8c54?w=700&q=80" alt="Eko Atlantic Residence — 3-bedroom shortlet in Victoria Island Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-booked">Booked</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="booked-tag">Next available: Jan 18</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Victoria Island</div>
+          <h2 class="prop-name">Eko Atlantic Residence</h2>
+          <p class="prop-desc">Premium 3-bedroom apartment facing the Eko Atlantic development. Includes airport pickup and daily housekeeping.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>3 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>3 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Ocean View</span><span class="prop-tag">Airport Pickup</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦150,000</span><span class="per"> / night</span><span class="weekly">₦900,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book" style="background:var(--muted);">Notify Me</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="prop-card reveal" data-loc="chevron" data-price="75000" data-beds="2" data-rating="4.6" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=700&q=80" alt="Chevron Gardens — 2-bedroom shortlet in Chevron Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-available">Available</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Chevron</div>
+          <h2 class="prop-name">Chevron Gardens</h2>
+          <p class="prop-desc">Quiet and spacious 2-bedroom apartment in a serene gated estate. Great for families and long-stay guests.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>2 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>2 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Gated Estate</span><span class="prop-tag">Family Friendly</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦75,000</span><span class="per"> / night</span><span class="weekly">₦440,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 7 -->
+      <article class="prop-card reveal" data-loc="ikoyi" data-price="110000" data-beds="2" data-rating="4.8" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80" alt="Ikoyi Manor — 2-bedroom shortlet in Ikoyi Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-available">Available</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Ikoyi</div>
+          <h2 class="prop-name">Ikoyi Manor</h2>
+          <p class="prop-desc">Elegant 2-bedroom apartment in the heart of Ikoyi with wraparound balcony and walking distance to Banana Island.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>2 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>2 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Balcony</span><span class="prop-tag">Netflix</span><span class="prop-tag">Concierge</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦110,000</span><span class="per"> / night</span><span class="weekly">₦650,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 8 -->
+      <article class="prop-card reveal" data-loc="lekki" data-price="90000" data-beds="3" data-rating="4.7" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=700&q=80" alt="Lekki Palms — 3-bedroom shortlet in Lekki Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-available">Available</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Lekki Phase 1</div>
+          <h2 class="prop-name">Lekki Palms Duplex</h2>
+          <p class="prop-desc">Spacious 3-bedroom duplex in a tranquil compound with garden. Perfect for families and groups of up to 6.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>3 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>3 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Garden</span><span class="prop-tag">Family Friendly</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦90,000</span><span class="per"> / night</span><span class="weekly">₦530,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 9 -->
+      <article class="prop-card reveal" data-loc="vi" data-price="55000" data-beds="1" data-rating="4.5" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=700&q=80" alt="VI Cozy Studio — 1-bedroom shortlet in Victoria Island Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-available">Available</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Victoria Island</div>
+          <h2 class="prop-name">VI Cozy Studio</h2>
+          <p class="prop-desc">Affordable and well-designed studio apartment in the heart of VI. Great value for business travellers on a budget.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>1 Bed</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>1 Bath</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Budget Friendly</span><span class="prop-tag">Central</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦55,000</span><span class="per"> / night</span><span class="weekly">₦320,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 10 -->
+      <article class="prop-card reveal" data-loc="lekki" data-price="180000" data-beds="4" data-rating="4.9" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=700&q=80" alt="Lekki Premium Villa — 4-bedroom shortlet in Lekki Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-luxury">Luxury</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Lekki Phase 1</div>
+          <h2 class="prop-name">Lekki Premium Villa</h2>
+          <p class="prop-desc">Stunning 4-bedroom villa with private outdoor pool, home cinema room, and a fully equipped chef's kitchen.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>4 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>4 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Private Pool</span><span class="prop-tag">Cinema Room</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦180,000</span><span class="per"> / night</span><span class="weekly">₦1,080,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 11 -->
+      <article class="prop-card reveal" data-loc="chevron" data-price="60000" data-beds="2" data-rating="4.6" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=700&q=80" alt="Chevron Comfort — 2-bedroom shortlet in Chevron Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-available">Available</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Chevron</div>
+          <h2 class="prop-name">Chevron Comfort</h2>
+          <p class="prop-desc">Clean and comfortable 2-bedroom apartment with reliable power and fast WiFi. Great for working remotely from Lagos.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>2 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>2 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Remote Work</span><span class="prop-tag">24hr Power</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦60,000</span><span class="per"> / night</span><span class="weekly">₦350,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 12 -->
+      <article class="prop-card reveal" data-loc="ikoyi" data-price="95000" data-beds="2" data-rating="4.8" data-status="available">
+        <div class="prop-img-wrap">
+          <img class="prop-img" src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=700&q=80" alt="Old Ikoyi Retreat — 2-bedroom shortlet in Ikoyi Lagos" loading="lazy" width="700" height="467">
+          <span class="prop-badge badge-new">New</span>
+          <button class="prop-wishlist" onclick="toggleWish(this)" aria-label="Save to wishlist">🤍</button>
+          <div class="avail-tag"><span class="avail-dot"></span>Available</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Ikoyi</div>
+          <h2 class="prop-name">Old Ikoyi Retreat</h2>
+          <p class="prop-desc">Serene 2-bedroom apartment surrounded by mature trees in old Ikoyi. A peaceful escape in the heart of the city.</p>
+          <div class="prop-feats">
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>2 Beds</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2h2v-2h-2V9h2zm-2 9H4V5h16v13z"/></svg>2 Baths</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 00-6 0zm-4-4l2 2a7.074 7.074 0 0110 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>WiFi</span>
+            <span class="pfeat"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Parking</span>
+          </div>
+          <div class="prop-tags"><span class="prop-tag">Quiet</span><span class="prop-tag">Garden View</span><span class="prop-tag">Pool</span></div>
+          <div class="prop-foot">
+            <div class="prop-price"><span class="amount">₦95,000</span><span class="per"> / night</span><span class="weekly">₦560,000 / week</span></div>
+            <a href="property-detail.html" class="prop-book">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /prop-grid -->
+
+    <!-- Pagination -->
+    <nav class="pagination" aria-label="Page navigation">
+      <button class="pg-btn nav">‹ Prev</button>
+      <button class="pg-btn active">1</button>
+      <button class="pg-btn">2</button>
+      <button class="pg-btn">3</button>
+      <button class="pg-btn nav">Next ›</button>
+    </nav>
+
+  </div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer aria-label="Site footer">
+  <div class="container">
+    <div class="foot-main">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">HAVEN<span>.</span></a>
+        <p>Lagos' most trusted shortlet platform. Verified apartments across Lekki, VI & Ikoyi.</p>
+        <div class="foot-social">
+          <a href="#" class="soc">ig</a><a href="#" class="soc">wa</a><a href="#" class="soc">tw</a><a href="#" class="soc">fb</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="properties.html">All Apartments</a></li>
+          <li><a href="properties.html?loc=lekki">Lekki</a></li>
+          <li><a href="properties.html?loc=vi">Victoria Island</a></li>
+          <li><a href="properties.html?loc=ikoyi">Ikoyi</a></li>
+          <li><a href="properties.html?loc=chevron">Chevron</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="reviews.html">Guest Reviews</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="login.html">Guest Login</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="tel:+2348000000000">+234 800 000 0000</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#f29a979e9e9db29a9384979c819a9d80869e978681dc919d9f"><span class="__cf_email__" data-cfemail="6a020f0606052a020b1c0f04190205181e060f1e1944090507">[email&#160;protected]</span></a></li>
+          <li><a href="https://wa.me/2348000000000" target="_blank">WhatsApp Us</a></li>
+          <li><a href="#">House Rules</a></li>
+          <li><a href="#">Cancellation Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2025 <span>HAVEN Lagos</span>. All rights reserved.</p>
+      <p><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a></p>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── NAV ──
+const ham = document.getElementById('ham');
+const mob = document.getElementById('mobMenu');
+ham.addEventListener('click', () => {
+  const o = ham.classList.toggle('open');
+  mob.classList.toggle('open', o);
+  document.body.style.overflow = o ? 'hidden' : '';
+});
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  ham.classList.remove('open'); mob.classList.remove('open'); document.body.style.overflow = '';
+}));
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('raised', window.scrollY > 10), {passive:true});
+
+// ── REVEAL ──
+const ro = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('in'),i*40); ro.unobserve(e.target); } });
+}, {threshold:0.05});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// ── FILTER STATE ──
+let activeFilters = { loc: 'all', search: '', maxPrice: 250000, beds: 0, baths: 0, type: 'any', avail: 'any', amenities: [] };
+
+// ── LOCATION PILLS ──
+document.querySelectorAll('.fpill[data-filter="loc"]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.fpill[data-filter="loc"]').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    activeFilters.loc = pill.dataset.val;
+    filterCards();
+  });
+});
+
+// ── SEARCH ──
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  activeFilters.search = searchInput.value.toLowerCase();
+  filterCards();
+});
+
+// ── VIEW TOGGLE ──
+function setView(v) {
+  const grid = document.getElementById('propGrid');
+  const gb = document.getElementById('gridBtn');
+  const lb = document.getElementById('listBtn');
+  if(v === 'list') { grid.classList.add('list-view'); lb.classList.add('active'); gb.classList.remove('active'); }
+  else { grid.classList.remove('list-view'); gb.classList.add('active'); lb.classList.remove('active'); }
+}
+
+// ── FILTER DRAWER ──
+function openFilterDrawer() {
+  document.getElementById('filterDrawer').classList.add('open');
+  document.getElementById('filterOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFilterDrawer() {
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.getElementById('filterOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── PRICE RANGE ──
+function updatePrice(val) {
+  activeFilters.maxPrice = +val;
+  document.getElementById('priceMax').textContent = val >= 250000 ? '₦250,000+' : '₦' + (+val).toLocaleString();
+  const pct = ((val - 50000) / 200000) * 100;
+  document.getElementById('rangeFill').style.right = (100 - pct) + '%';
+}
+
+// ── COUNTERS (beds/baths) ──
+let bedCount = 0, bathCount = 0;
+function changeCounter(type, d) {
+  if(type === 'bed') {
+    bedCount = Math.max(0, Math.min(5, bedCount + d));
+    document.getElementById('bedNum').textContent = bedCount === 0 ? 'Any' : bedCount + '+';
+    document.getElementById('bedMinus').disabled = bedCount === 0;
+    activeFilters.beds = bedCount;
+  } else {
+    bathCount = Math.max(0, Math.min(4, bathCount + d));
+    document.getElementById('bathNum').textContent = bathCount === 0 ? 'Any' : bathCount + '+';
+    document.getElementById('bathMinus').disabled = bathCount === 0;
+    activeFilters.baths = bathCount;
+  }
+}
+
+// ── FD PILLS (type, avail) ──
+document.querySelectorAll('.fd-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const group = pill.dataset.group;
+    document.querySelectorAll(`.fd-pill[data-group="${group}"]`).forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    activeFilters[group] = pill.dataset.val;
+  });
+});
+
+// ── AMENITY TOGGLES ──
+function toggleAmenity(el) {
+  el.classList.toggle('active');
+  const name = el.querySelector('.ac-ico').nextSibling.textContent.trim();
+  if(el.classList.contains('active')) { activeFilters.amenities.push(name); }
+  else { activeFilters.amenities = activeFilters.amenities.filter(a => a !== name); }
+  el.querySelector('.ac-check').textContent = el.classList.contains('active') ? '✓' : '';
+}
+
+// ── APPLY / RESET ──
+function applyFilters() { closeFilterDrawer(); filterCards(); }
+
+function resetFilters() {
+  activeFilters = { loc: 'all', search: '', maxPrice: 250000, beds: 0, baths: 0, type: 'any', avail: 'any', amenities: [] };
+  searchInput.value = '';
+  bedCount = 0; bathCount = 0;
+  document.getElementById('bedNum').textContent = 'Any';
+  document.getElementById('bathNum').textContent = 'Any';
+  document.getElementById('bedMinus').disabled = true;
+  document.getElementById('bathMinus').disabled = true;
+  document.getElementById('priceRange').value = 250000;
+  updatePrice(250000);
+  document.querySelectorAll('.fd-pill[data-val="any"]').forEach(p => { const g = p.dataset.group; document.querySelectorAll(`.fd-pill[data-group="${g}"]`).forEach(x=>x.classList.remove('active')); p.classList.add('active'); });
+  document.querySelectorAll('.am-check').forEach(a => { a.classList.remove('active'); a.querySelector('.ac-check').textContent = ''; });
+  document.querySelectorAll('.fpill[data-val="all"]').forEach(p => { document.querySelectorAll('.fpill[data-filter="loc"]').forEach(x=>x.classList.remove('active')); p.classList.add('active'); });
+  updateFilterBadge();
+  filterCards();
+}
+
+// ── MAIN FILTER FUNCTION ──
+function filterCards() {
+  const cards = document.querySelectorAll('.prop-card');
+  let shown = 0;
+  cards.forEach(card => {
+    const loc = card.dataset.loc;
+    const price = +card.dataset.price;
+    const beds = +card.dataset.beds;
+    const name = card.querySelector('.prop-name').textContent.toLowerCase();
+    const desc = card.querySelector('.prop-desc')?.textContent.toLowerCase() || '';
+
+    let visible = true;
+    if(activeFilters.loc !== 'all' && loc !== activeFilters.loc) visible = false;
+    if(activeFilters.search && !name.includes(activeFilters.search) && !desc.includes(activeFilters.search)) visible = false;
+    if(price > activeFilters.maxPrice) visible = false;
+    if(activeFilters.beds > 0 && beds < activeFilters.beds) visible = false;
+
+    card.style.display = visible ? '' : 'none';
+    if(visible) shown++;
+  });
+
+  document.getElementById('shownCount').textContent = shown;
+  document.getElementById('emptyState').classList.toggle('show', shown === 0);
+  updateFilterBadge();
+  renderActiveFilters();
+}
+
+// ── FILTER BADGE ──
+function updateFilterBadge() {
+  let count = 0;
+  if(activeFilters.maxPrice < 250000) count++;
+  if(activeFilters.beds > 0) count++;
+  if(activeFilters.baths > 0) count++;
+  if(activeFilters.type !== 'any') count++;
+  if(activeFilters.avail !== 'any') count++;
+  count += activeFilters.amenities.length;
+  const badge = document.getElementById('filterBadge');
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'inline' : 'none';
+}
+
+// ── ACTIVE FILTERS CHIPS ──
+function renderActiveFilters() {
+  const strip = document.getElementById('activeFilters');
+  const chips = strip.querySelectorAll('.af-chip');
+  chips.forEach(c => c.remove());
+  const items = [];
+  if(activeFilters.loc !== 'all') items.push({label: activeFilters.loc.toUpperCase(), key:'loc'});
+  if(activeFilters.maxPrice < 250000) items.push({label:'Max ₦'+activeFilters.maxPrice.toLocaleString(), key:'price'});
+  if(activeFilters.beds > 0) items.push({label:activeFilters.beds+'+ Beds', key:'beds'});
+  const clearBtn = strip.querySelector('.af-clear-all');
+  items.forEach(item => {
+    const chip = document.createElement('div');
+    chip.className = 'af-chip';
+    chip.innerHTML = item.label + '<button onclick="clearFilter(\''+item.key+'\')" aria-label="Remove filter">✕</button>';
+    strip.insertBefore(chip, clearBtn);
+  });
+  strip.classList.toggle('show', items.length > 0);
+}
+
+function clearFilter(key) {
+  if(key === 'loc') { activeFilters.loc = 'all'; document.querySelectorAll('.fpill[data-filter="loc"]').forEach(p=>p.classList.remove('active')); document.querySelector('.fpill[data-val="all"]').classList.add('active'); }
+  if(key === 'price') { activeFilters.maxPrice = 250000; document.getElementById('priceRange').value = 250000; updatePrice(250000); }
+  if(key === 'beds') { activeFilters.beds = 0; bedCount = 0; document.getElementById('bedNum').textContent = 'Any'; document.getElementById('bedMinus').disabled = true; }
+  filterCards();
+}
+
+// ── SORT ──
+function sortCards() {
+  const val = document.getElementById('sortSelect').value;
+  const grid = document.getElementById('propGrid');
+  const cards = [...grid.querySelectorAll('.prop-card')];
+  cards.sort((a, b) => {
+    if(val === 'price-asc') return +a.dataset.price - +b.dataset.price;
+    if(val === 'price-desc') return +b.dataset.price - +a.dataset.price;
+    if(val === 'rating') return +b.dataset.rating - +a.dataset.rating;
+    if(val === 'featured') return (b.dataset.featured === 'true') - (a.dataset.featured === 'true');
+    return 0;
+  });
+  cards.forEach(c => grid.appendChild(c));
+}
+
+// ── WISHLIST ──
+function toggleWish(btn) {
+  const saved = btn.classList.toggle('saved');
+  btn.textContent = saved ? '❤️' : '🤍';
+  btn.setAttribute('aria-label', saved ? 'Remove from wishlist' : 'Save to wishlist');
+}
+
+// ── PAGINATION ──
+document.queryS
+
+// ── LOAD PROPERTIES FROM API ──
+async function loadPropertiesFromAPI() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams();
+    if (params.get('location')) queryParams.set('location', params.get('location'));
+    if (params.get('type')) queryParams.set('type', params.get('type'));
+    queryParams.set('limit', '20');
+
+    const res = await fetch(API_BASE + '/properties?' + queryParams.toString());
+    const data = await res.json();
+    if (data.properties && data.properties.length > 0) {
+      renderAPIProperties(data.properties);
+    }
+  } catch (err) {
+    console.error('Properties load error:', err);
+  }
+}
+
+function renderAPIProperties(properties) {
+  const grid = document.getElementById('propGrid') || document.querySelector('.prop-grid') || document.querySelector('.properties-grid');
+  if (!grid) return;
+  grid.innerHTML = properties.map(p => {
+    const rate = (p.nightly_rate / 100).toLocaleString('en-NG');
+    const img = p.cover_image || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80';
+    const stars = p.avg_rating ? '⭐ ' + p.avg_rating : '';
+    const reviews = p.review_count ? '(' + p.review_count + ')' : '';
+    return `<div class="prop-card" onclick="window.location.href='property-detail.html?id=${p.id}'">
+      <div class="pc-img-wrap"><img src="${img}" alt="${p.name}" loading="lazy" class="pc-img"></div>
+      <div class="pc-body">
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-loc">📍 ${p.location}</div>
+        <div class="pc-meta">${p.bedrooms} bed · ${p.bathrooms} bath · ${p.max_guests} guests</div>
+        ${stars ? `<div class="pc-rating">${stars} ${reviews}</div>` : ''}
+        <div class="pc-price">₦${rate}<span>/night</span></div>
+        <a href="booking.html?property=${p.id}" class="pc-book-btn" onclick="event.stopPropagation()">Book Now</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+loadPropertiesFromAPI();
+
+</script>
+</body>
+</html>

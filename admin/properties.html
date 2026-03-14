@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Properties — HAVEN Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-bd:#fed7aa;
+  --red:#dc2626;--red-bg:#fef2f2;--red-bd:#fecaca;
+  --sh-s:0 2px 12px rgba(0,0,0,0.06);--sh-m:0 8px 32px rgba(0,0,0,0.12);--sh-l:0 20px 60px rgba(0,0,0,0.18);
+  --r:8px;--sb:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;min-height:100vh;line-height:1.6;padding-bottom:60px;}
+@media(min-width:780px){body{padding-bottom:0;}}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ── TOP NAV ── */
+.tnav{background:var(--accent);position:sticky;top:0;z-index:300;height:54px;display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.25);}
+.tnav-ham{display:flex;flex-direction:column;gap:4px;padding:6px;background:none;border:none;cursor:pointer;flex-shrink:0;}
+@media(min-width:780px){.tnav-ham{display:none;}}
+.tnav-ham span{display:block;width:18px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.3s;}
+.tnav-ham.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.tnav-ham.open span:nth-child(2){opacity:0;}
+.tnav-ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.tnav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.tnav-logo span{color:var(--accent-lite);}
+.tnav-badge{font-size:0.58rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);border-radius:100px;padding:3px 9px;border:1px solid rgba(255,255,255,0.18);}
+.tnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.tnav-icon{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:0.88rem;cursor:pointer;transition:background 0.2s;}
+.tnav-icon:hover{background:rgba(255,255,255,0.18);}
+.tnav-user{display:flex;align-items:center;gap:7px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,0.18);border-radius:100px;cursor:pointer;}
+.tnav-av{width:24px;height:24px;border-radius:50%;background:var(--accent-lite);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.68rem;font-weight:800;color:var(--accent);}
+.tnav-name{font-size:0.74rem;font-weight:700;color:#fff;display:none;}
+@media(min-width:480px){.tnav-name{display:block;}}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 54px);}
+.sidebar{width:var(--sb);background:var(--heading);flex-direction:column;flex-shrink:0;display:none;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;}
+@media(min-width:780px){.sidebar{display:flex;}}
+.mob-overlay{display:none;position:fixed;inset:0;top:54px;background:rgba(0,0,0,0.5);z-index:198;}
+.mob-overlay.open{display:block;}
+.mob-sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sb);background:var(--heading);z-index:199;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;display:flex;}
+.mob-sidebar.open{transform:translateX(0);}
+.sb-user{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.sb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:#fff;}
+.sb-role{font-size:0.68rem;font-weight:700;background:var(--accent);color:var(--accent-lite);border-radius:100px;padding:2px 8px;display:inline-block;margin-top:3px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-lbl{font-size:0.58rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:6px;display:block;}
+.slink{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;margin-bottom:1px;}
+.slink:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);}
+.slink.active{background:var(--accent);color:#fff;}
+.slink-ico{font-size:0.88rem;width:16px;text-align:center;flex-shrink:0;}
+.slink-cnt{margin-left:auto;font-size:0.6rem;font-weight:800;background:var(--orange);color:#fff;border-radius:100px;padding:1px 7px;}
+.slink-cnt.g{background:var(--green);}
+.sb-div{height:1px;background:rgba(255,255,255,0.08);margin:8px 12px;}
+.sb-bottom{padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);}
+.sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-btn:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.06);}
+.sb-btn.danger:hover{color:#f87171;background:rgba(239,68,68,0.1);}
+
+/* ── MAIN ── */
+.main{flex:1;min-width:0;padding:20px 16px 32px;}
+@media(min-width:640px){.main{padding:24px 24px 40px;}}
+
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.pg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--heading);}
+.pg-sub{font-size:0.76rem;color:var(--muted);margin-top:2px;}
+.pg-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-family:'Nunito Sans',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);transform:translateY(-1px);}
+.btn-o{background:#fff;color:var(--accent);border:1.5px solid var(--accent);}
+.btn-o:hover{background:var(--accent);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:0.7rem;}
+.btn-red{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red-bd);}
+.btn-red:hover{background:var(--red);color:#fff;}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:560px){.kpi-strip{grid-template-columns:repeat(4,1fr);}}
+.ks{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;}
+.ks-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);line-height:1;margin-bottom:3px;}
+.ks-lbl{font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.search-box{display:flex;align-items:center;gap:7px;border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;background:#fff;transition:border-color 0.2s;flex:1;min-width:160px;}
+.search-box:focus-within{border-color:var(--accent);}
+.search-box svg{width:13px;height:13px;fill:var(--muted);flex-shrink:0;}
+.search-box input{border:none;outline:none;font-size:0.82rem;font-weight:600;color:var(--heading);background:transparent;width:100%;}
+.search-box input::placeholder{color:var(--muted);}
+.filter-select{border:1.5px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:0.78rem;font-weight:700;color:var(--heading);background:#fff;outline:none;cursor:pointer;transition:border-color 0.2s;flex-shrink:0;}
+.filter-select:hover,.filter-select:focus{border-color:var(--accent);}
+.view-toggle{display:flex;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;flex-shrink:0;margin-left:auto;}
+.vt-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:none;cursor:pointer;font-size:0.8rem;color:var(--muted);transition:all 0.18s;}
+.vt-btn.active{background:var(--accent);color:#fff;}
+
+/* ── PROPERTIES GRID ── */
+.props-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:560px){.props-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1024px){.props-grid{grid-template-columns:repeat(3,1fr);}}
+
+.prop-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:box-shadow 0.25s,transform 0.25s;}
+.prop-card:hover{box-shadow:var(--sh-m);transform:translateY(-2px);}
+
+.pc-img-wrap{position:relative;height:180px;overflow:hidden;}
+.pc-img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease;}
+.prop-card:hover .pc-img{transform:scale(1.04);}
+.pc-status-badge{position:absolute;top:10px;left:10px;font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
+.pcb-live{background:var(--green);color:#fff;}
+.pcb-draft{background:var(--orange);color:#fff;}
+.pcb-hidden{background:rgba(0,0,0,0.55);color:#fff;}
+
+/* Live toggle */
+.pc-toggle-wrap{position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.92);border-radius:100px;padding:4px 10px 4px 6px;backdrop-filter:blur(4px);}
+.toggle-label{font-size:0.64rem;font-weight:700;}
+.toggle{position:relative;width:32px;height:18px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.tslider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:background 0.25s;}
+.tslider::before{content:'';position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.25s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle input:checked + .tslider{background:var(--green);}
+.toggle input:checked + .tslider::before{transform:translateX(14px);}
+
+/* Occupancy mini bar */
+.pc-occ{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.3);}
+.pc-occ-fill{height:100%;background:var(--green);transition:width 0.8s ease;}
+
+.pc-body{padding:14px 16px;}
+.pc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:800;color:var(--heading);margin-bottom:2px;}
+.pc-loc{font-size:0.72rem;color:var(--muted);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:4px;}
+.pc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+.pcs{text-align:center;background:var(--off);border-radius:6px;padding:7px 4px;}
+.pcs-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--heading);line-height:1;}
+.pcs-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.pc-feats{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;}
+.pc-feat{font-size:0.64rem;font-weight:700;padding:2px 8px;background:var(--accent-bg);color:var(--accent);border-radius:4px;}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);gap:6px;}
+.pc-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.96rem;font-weight:800;color:var(--heading);}
+.pc-price small{font-size:0.66rem;color:var(--muted);font-weight:400;}
+.pc-actions{display:flex;gap:5px;}
+.pca-btn{font-size:0.66rem;font-weight:700;padding:5px 10px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.pca-btn:hover{border-color:var(--accent);color:var(--accent);}
+.pca-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pca-btn.primary:hover{background:var(--accent-h);}
+.pca-btn.danger:hover{border-color:var(--red);color:var(--red);}
+
+/* ── LIST VIEW ── */
+.props-list{display:none;flex-direction:column;gap:10px;}
+.pl-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);display:flex;gap:0;overflow:hidden;transition:box-shadow 0.2s;}
+.pl-card:hover{box-shadow:var(--sh-m);}
+.pl-img{width:120px;height:90px;object-fit:cover;flex-shrink:0;}
+@media(min-width:560px){.pl-img{width:160px;height:auto;}}
+.pl-body{flex:1;padding:12px 16px;min-width:0;}
+.pl-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.pl-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);}
+.pl-loc{font-size:0.72rem;color:var(--muted);}
+.pl-stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+.plst{font-size:0.74rem;color:var(--muted);font-weight:600;}
+.plst strong{color:var(--heading);}
+.pl-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.pl-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--heading);}
+.sp{display:inline-block;font-size:0.6rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap;}
+.sp-live{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.sp-draft{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);}
+.sp-hidden{background:var(--off);color:var(--muted);border:1px solid var(--border);}
+
+/* ── ADD / EDIT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:400;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:10px;width:100%;max-width:680px;box-shadow:var(--sh-l);margin:auto;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1;border-radius:10px 10px 0 0;}
+.modal-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--heading);}
+.modal-close{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.9rem;cursor:pointer;color:var(--muted);}
+.modal-close:hover{background:var(--off);color:var(--heading);}
+.modal-body{padding:22px;}
+
+/* Form */
+.form-tabs{display:flex;gap:4px;background:var(--off);border-radius:var(--r);padding:4px;margin-bottom:20px;}
+.ftab{flex:1;padding:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.74rem;font-weight:700;text-align:center;border:none;border-radius:6px;background:none;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+.ftab.active{background:#fff;color:var(--accent);box-shadow:var(--sh-s);}
+.form-section{display:none;}
+.form-section.active{display:block;}
+.form-row{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+@media(min-width:480px){.form-row{grid-template-columns:1fr 1fr;}}
+.form-row.full{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.span2{grid-column:1/-1;}
+.form-label{font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.form-label .req{color:var(--red);}
+.form-input,.form-select,.form-textarea{border:1.5px solid var(--border);border-radius:var(--r);padding:10px 13px;font-size:0.86rem;font-weight:600;color:var(--heading);background:#fff;outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.form-textarea{resize:vertical;min-height:90px;line-height:1.6;}
+.form-hint{font-size:0.7rem;color:var(--muted);}
+.form-range-wrap{display:flex;align-items:center;gap:10px;}
+.form-range{flex:1;accent-color:var(--accent);}
+.range-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--accent);width:48px;text-align:right;flex-shrink:0;}
+
+/* Amenity checkboxes */
+.amenity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+@media(min-width:480px){.amenity-grid{grid-template-columns:repeat(3,1fr);}}
+.am-cb{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.78rem;font-weight:600;color:var(--text);transition:all 0.18s;}
+.am-cb:hover{border-color:var(--accent);}
+.am-cb.checked{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);}
+.am-cb input{accent-color:var(--accent);width:13px;height:13px;flex-shrink:0;}
+.am-cb .ac-ico{font-size:0.88rem;}
+
+/* Image upload area */
+.img-upload{border:2px dashed var(--border);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:border-color 0.2s;background:var(--off);}
+.img-upload:hover{border-color:var(--accent);}
+.img-upload-ico{font-size:2rem;margin-bottom:8px;}
+.img-upload p{font-size:0.8rem;color:var(--muted);line-height:1.55;}
+.img-upload strong{color:var(--accent);}
+.img-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.ip-item{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;border:1px solid var(--border);}
+.ip-item img{width:100%;height:100%;object-fit:cover;}
+.ip-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.6);color:#fff;border:none;font-size:0.7rem;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+
+.modal-foot{display:flex;gap:8px;flex-wrap:wrap;padding:16px 22px;border-top:1px solid var(--border);background:#fff;border-radius:0 0 10px 10px;}
+.modal-foot .btn{justify-content:center;}
+
+/* Delete confirmation */
+.delete-confirm{display:none;background:var(--red-bg);border:1px solid var(--red-bd);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;}
+.delete-confirm.show{display:block;}
+.dc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:var(--red);margin-bottom:4px;}
+.dc-sub{font-size:0.78rem;color:var(--red);line-height:1.5;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:56px 20px;display:none;}
+.empty-state.show{display:block;}
+.es-ico{font-size:2.5rem;margin-bottom:12px;}
+.es-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.96rem;font-weight:800;color:var(--heading);margin-bottom:6px;}
+.es-sub{font-size:0.82rem;color:var(--muted);}
+
+/* Mobile bottom nav */
+.mob-bnav{display:flex;background:var(--heading);border-top:1px solid rgba(255,255,255,0.08);position:fixed;bottom:0;left:0;right:0;z-index:200;}
+@media(min-width:780px){.mob-bnav{display:none;}}
+.mbn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;}
+.mbn.active,.mbn:hover{color:#fff;}
+.mbn-ico{font-size:1rem;}
+
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:600;white-space:nowrap;pointer-events:none;}
+@media(min-width:780px){.toast{bottom:24px;}}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">Add New Property</div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Delete confirm -->
+      <div class="delete-confirm" id="deleteConfirm">
+        <div class="dc-title">⚠️ Are you sure you want to delete this property?</div>
+        <div class="dc-sub">This will permanently remove the listing and all associated data. This action cannot be undone.</div>
+      </div>
+
+      <!-- Form tabs -->
+      <div class="form-tabs">
+        <button class="ftab active" onclick="showFormTab(0,this)">Basic Info</button>
+        <button class="ftab" onclick="showFormTab(1,this)">Pricing</button>
+        <button class="ftab" onclick="showFormTab(2,this)">Amenities</button>
+        <button class="ftab" onclick="showFormTab(3,this)">Photos</button>
+        <button class="ftab" onclick="showFormTab(4,this)">Rules</button>
+      </div>
+
+      <!-- Tab 0: Basic Info -->
+      <div class="form-section active" id="ftab0">
+        <div class="form-row">
+          <div class="form-group span2">
+            <label class="form-label">Property Name <span class="req">*</span></label>
+            <input class="form-input" type="text" id="fName" placeholder="e.g. The Signature Suite">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Location <span class="req">*</span></label>
+            <select class="form-select" id="fLoc">
+              <option value="">Select location</option>
+              <option>Lekki Phase 1</option>
+              <option>Victoria Island</option>
+              <option>Ikoyi</option>
+              <option>Chevron</option>
+              <option>Ajah</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Property Type</label>
+            <select class="form-select" id="fType">
+              <option>Studio</option>
+              <option>1 Bedroom</option>
+              <option>2 Bedrooms</option>
+              <option>3 Bedrooms</option>
+              <option>4+ Bedrooms</option>
+              <option>Villa / Duplex</option>
+              <option>Penthouse</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Bedrooms</label>
+            <input class="form-input" type="number" id="fBeds" value="2" min="0" max="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bathrooms</label>
+            <input class="form-input" type="number" id="fBaths" value="2" min="0" max="10">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Max Guests</label>
+            <input class="form-input" type="number" id="fGuests" value="4" min="1" max="20">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Floor Area (m²)</label>
+            <input class="form-input" type="number" id="fArea" placeholder="e.g. 120">
+          </div>
+        </div>
+        <div class="form-row form-full">
+          <div class="form-group span2">
+            <label class="form-label">Description <span class="req">*</span></label>
+            <textarea class="form-textarea" id="fDesc" placeholder="Describe the property — what makes it special, what guests will love, nearby landmarks…"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Address</label>
+            <input class="form-input" type="text" id="fAddr" placeholder="e.g. 15B Admiralty Way, Lekki">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="fStatus">
+              <option value="live">Live — Visible to guests</option>
+              <option value="draft">Draft — Hidden from guests</option>
+              <option value="maintenance">Maintenance — Temporarily offline</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 1: Pricing -->
+      <div class="form-section" id="ftab1">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nightly Rate (₦) <span class="req">*</span></label>
+            <input class="form-input" type="number" id="fNightly" placeholder="e.g. 120000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Weekend Rate (₦)</label>
+            <input class="form-input" type="number" id="fWeekend" placeholder="Leave blank = same as nightly">
+            <span class="form-hint">Applied Fri–Sun. Leave blank to use nightly rate.</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Cleaning Fee (₦)</label>
+            <input class="form-input" type="number" id="fCleaning" placeholder="e.g. 15000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Min Stay (nights)</label>
+            <input class="form-input" type="number" id="fMinStay" value="2" min="1">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Weekly Discount (%)</label>
+          <div class="form-range-wrap">
+            <input class="form-range" type="range" id="fWeeklyDisc" min="0" max="40" value="15" oninput="document.getElementById('weeklyDiscVal').textContent=this.value+'%'">
+            <span class="range-val" id="weeklyDiscVal">15%</span>
+          </div>
+          <span class="form-hint">Applied automatically for stays of 7+ nights.</span>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Monthly Discount (%)</label>
+          <div class="form-range-wrap">
+            <input class="form-range" type="range" id="fMonthlyDisc" min="0" max="50" value="25" oninput="document.getElementById('monthlyDiscVal').textContent=this.value+'%'">
+            <span class="range-val" id="monthlyDiscVal">25%</span>
+          </div>
+          <span class="form-hint">Applied for stays of 30+ nights.</span>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Security Deposit (₦)</label>
+            <input class="form-input" type="number" id="fDeposit" placeholder="e.g. 50000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Late Check-out Fee (₦/hr)</label>
+            <input class="form-input" type="number" id="fLateCheckout" placeholder="e.g. 10000">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Amenities -->
+      <div class="form-section" id="ftab2">
+        <div class="amenity-grid" id="amenityGrid"></div>
+      </div>
+
+      <!-- Tab 3: Photos -->
+      <div class="form-section" id="ftab3">
+        <div class="img-upload" onclick="showToast('Photo upload requires backend integration')">
+          <div class="img-upload-ico">📷</div>
+          <p><strong>Click to upload photos</strong><br>or drag and drop. JPG, PNG, WebP up to 10MB each.</p>
+          <p style="margin-top:6px;font-size:0.72rem;">Minimum 5 photos recommended. First photo will be the cover image.</p>
+        </div>
+        <div class="img-preview" id="imgPreview">
+          <div class="ip-item"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=200&q=60" alt=""><button class="ip-remove" onclick="event.stopPropagation();this.closest('.ip-item').remove()">✕</button></div>
+          <div class="ip-item"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=200&q=60" alt=""><button class="ip-remove" onclick="event.stopPropagation();this.closest('.ip-item').remove()">✕</button></div>
+          <div class="ip-item"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=200&q=60" alt=""><button class="ip-remove" onclick="event.stopPropagation();this.closest('.ip-item').remove()">✕</button></div>
+        </div>
+        <p style="font-size:0.74rem;color:var(--muted);margin-top:10px;">Drag to reorder. First image = cover photo.</p>
+      </div>
+
+      <!-- Tab 4: Rules -->
+      <div class="form-section" id="ftab4">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Check-in Time</label>
+            <select class="form-select">
+              <option>2:00 PM</option><option>3:00 PM</option><option>12:00 PM</option><option>1:00 PM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Check-out Time</label>
+            <select class="form-select">
+              <option>12:00 PM</option><option>11:00 AM</option><option>1:00 PM</option><option>2:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label">Cancellation Policy</label>
+            <select class="form-select">
+              <option>Flexible — Full refund 48hrs before</option>
+              <option>Moderate — Full refund 5 days before</option>
+              <option>Strict — 50% refund 7 days before</option>
+              <option>Non-refundable</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quiet Hours</label>
+            <select class="form-select">
+              <option>11:00 PM – 7:00 AM</option>
+              <option>10:00 PM – 8:00 AM</option>
+              <option>No quiet hours</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="gap:10px;margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--off);border-radius:var(--r);"><span style="font-size:0.82rem;font-weight:600;">Pets Allowed</span><label class="toggle" style="width:36px;height:20px;"><input type="checkbox"><span class="tslider"></span></label></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--off);border-radius:var(--r);"><span style="font-size:0.82rem;font-weight:600;">Smoking Allowed</span><label class="toggle" style="width:36px;height:20px;"><input type="checkbox"><span class="tslider"></span></label></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--off);border-radius:var(--r);"><span style="font-size:0.82rem;font-weight:600;">Events Allowed</span><label class="toggle" style="width:36px;height:20px;"><input type="checkbox"><span class="tslider"></span></label></div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Additional House Rules</label>
+          <textarea class="form-textarea" placeholder="Any additional rules guests should know before booking…" style="min-height:72px;"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-red btn-sm" id="deleteBtn" onclick="confirmDelete()" style="display:none;">🗑 Delete</button>
+      <button class="btn btn-o btn-sm" onclick="closeModalDirect()">Cancel</button>
+      <button class="btn btn-p btn-sm" onclick="saveProperty()" style="flex:2;">Save Property</button>
+    </div>
+  </div>
+</div>
+
+<!-- Top Nav -->
+<header class="tnav">
+  <button class="tnav-ham" id="hamBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="tnav-logo">HAVEN<span>.</span><span class="tnav-badge">Admin</span></div>
+  <div class="tnav-right">
+    <button class="tnav-icon" onclick="showToast('3 alerts')" aria-label="Alerts">🔔</button>
+    <button class="tnav-icon" onclick="window.open('../index.html','_blank')" aria-label="View site">🌐</button>
+    <div class="tnav-user"><div class="tnav-av">T</div><span class="tnav-name">Tunde · Admin</span></div>
+  </div>
+</header>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="layout">
+
+  <!-- Desktop Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <span class="sb-lbl">Overview</span>
+      <a href="index.html" class="slink"><span class="slink-ico">📊</span>Dashboard</a>
+      <div class="sb-div"></div>
+      <span class="sb-lbl">Management</span>
+      <a href="bookings.html" class="slink"><span class="slink-ico">📅</span>Bookings<span class="slink-cnt">4</span></a>
+      <button class="slink active"><span class="slink-ico">🏠</span>Properties</button>
+      <a href="calendar.html" class="slink"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink"><span class="slink-ico">⭐</span>Reviews<span class="slink-cnt g">2</span></a>
+      <div class="sb-div"></div>
+      <a href="settings.html" class="slink"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside class="mob-sidebar" id="mobSidebar">
+    <div class="sb-user"><div class="sb-av">T</div><div class="sb-name">Tunde Adesanya</div><span class="sb-role">Super Admin</span></div>
+    <nav class="sb-nav">
+      <a href="index.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📊</span>Dashboard</a>
+      <a href="bookings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">📅</span>Bookings</a>
+      <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">🏠</span>Properties</button>
+      <a href="calendar.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">🗓️</span>Calendar</a>
+      <a href="guests.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">👥</span>Guests</a>
+      <a href="reviews.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⭐</span>Reviews</a>
+      <a href="settings.html" class="slink" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="pg-head">
+      <div><div class="pg-title">Properties</div><div class="pg-sub">Manage all shortlet listings</div></div>
+      <div class="pg-actions">
+        <button class="btn btn-o" onclick="showToast('Export coming soon!')">↓ Export</button>
+        <button class="btn btn-p" onclick="openAddModal()">+ Add Property</button>
+      </div>
+    </div>
+
+    <!-- KPI Strip -->
+    <div class="kpi-strip">
+      <div class="ks"><div class="ks-val" style="color:var(--green)">9</div><div class="ks-lbl">Live</div></div>
+      <div class="ks"><div class="ks-val" style="color:var(--orange)">2</div><div class="ks-lbl">Draft</div></div>
+      <div class="ks"><div class="ks-val">78%</div><div class="ks-lbl">Avg Occupancy</div></div>
+      <div class="ks"><div class="ks-val">₦3.3M</div><div class="ks-lbl">Avg Monthly Rev</div></div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="searchInput" placeholder="Search properties…" oninput="filterProps()">
+      </div>
+      <select class="filter-select" id="locFilter" onchange="filterProps()">
+        <option value="">All Locations</option>
+        <option value="Lekki">Lekki Phase 1</option>
+        <option value="Victoria Island">Victoria Island</option>
+        <option value="Ikoyi">Ikoyi</option>
+        <option value="Chevron">Chevron</option>
+      </select>
+      <select class="filter-select" id="statusFilter" onchange="filterProps()">
+        <option value="">All Status</option>
+        <option value="live">Live</option>
+        <option value="draft">Draft</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="view-toggle">
+        <button class="vt-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid">⊞</button>
+        <button class="vt-btn" id="listViewBtn" onclick="setView('list')" title="List">☰</button>
+      </div>
+    </div>
+
+    <!-- Grid View -->
+    <div class="props-grid" id="propsGrid"></div>
+
+    <!-- List View -->
+    <div class="props-list" id="propsList"></div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="es-ico">🏠</div>
+      <div class="es-title">No properties match your filters</div>
+      <div class="es-sub">Try adjusting your search or filter settings.</div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bnav">
+  <button class="mbn" onclick="window.location.href='index.html'"><span class="mbn-ico">📊</span>Dashboard</button>
+  <button class="mbn" onclick="window.location.href='bookings.html'"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn active"><span class="mbn-ico">🏠</span>Props</button>
+  <button class="mbn" onclick="window.location.href='calendar.html'"><span class="mbn-ico">🗓️</span>Calendar</button>
+  <button class="mbn" onclick="window.location.href='settings.html'"><span class="mbn-ico">⚙️</span>Settings</button>
+</nav>
+
+<script>
+// ── DATA ──
+const PROPS = [
+  {id:1,name:'The Signature Suite',loc:'Lekki Phase 1',type:'3 Bedrooms',beds:3,baths:2,guests:6,price:120000,occ:95,status:'live',feats:['Pool','Concierge','Netflix','Parking'],img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=70',bookings:29,revenue:1080000},
+  {id:2,name:'The VI Executive',loc:'Victoria Island',type:'2 Bedrooms',beds:2,baths:2,guests:4,price:85000,occ:74,status:'live',feats:['Gym','24hr Power','WiFi'],img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=70',bookings:23,revenue:595000},
+  {id:3,name:'Ikoyi Penthouse',loc:'Ikoyi',type:'4 Bedrooms',beds:4,baths:3,guests:8,price:200000,occ:87,status:'live',feats:['Private Pool','Butler','Lagoon View'],img:'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=70',bookings:27,revenue:1270000},
+  {id:4,name:'Lekki Skyview Studio',loc:'Lekki Phase 1',type:'Studio',beds:1,baths:1,guests:2,price:65000,occ:61,status:'live',feats:['City View','Gym'],img:'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=70',bookings:19,revenue:380000},
+  {id:5,name:'Eko Atlantic Residence',loc:'Victoria Island',type:'3 Bedrooms',beds:3,baths:3,guests:6,price:150000,occ:0,status:'draft',feats:['Ocean View','Airport Pickup'],img:'https://images.unsplash.com/photo-1617098900591-3f90928e8c54?w=600&q=70',bookings:0,revenue:0},
+  {id:6,name:'Chevron Gardens',loc:'Chevron',type:'2 Bedrooms',beds:2,baths:2,guests:5,price:75000,occ:52,status:'live',feats:['Gated Estate','Family Friendly'],img:'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=600&q=70',bookings:16,revenue:440000},
+  {id:7,name:'Ikoyi Manor',loc:'Ikoyi',type:'2 Bedrooms',beds:2,baths:2,guests:4,price:110000,occ:68,status:'live',feats:['Balcony','Netflix','Concierge'],img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=70',bookings:21,revenue:650000},
+  {id:8,name:'Lekki Palms Duplex',loc:'Lekki Phase 1',type:'3 Bedrooms',beds:3,baths:3,guests:7,price:90000,occ:68,status:'live',feats:['Garden','Family Friendly'],img:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=70',bookings:21,revenue:530000},
+  {id:9,name:'VI Cozy Studio',loc:'Victoria Island',type:'Studio',beds:1,baths:1,guests:2,price:55000,occ:45,status:'live',feats:['Central','Budget Friendly'],img:'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&q=70',bookings:14,revenue:320000},
+  {id:10,name:'Lekki Premium Villa',loc:'Lekki Phase 1',type:'4 Bedrooms',beds:4,baths:4,guests:10,price:180000,occ:71,status:'live',feats:['Private Pool','Cinema Room'],img:'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=70',bookings:22,revenue:1080000},
+  {id:11,name:'Chevron Comfort',loc:'Chevron',type:'2 Bedrooms',beds:2,baths:2,guests:4,price:60000,occ:58,status:'draft',feats:['Remote Work','24hr Power'],img:'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=600&q=70',bookings:0,revenue:0},
+  {id:12,name:'Old Ikoyi Retreat',loc:'Ikoyi',type:'2 Bedrooms',beds:2,baths:2,guests:4,price:95000,occ:64,status:'live',feats:['Quiet','Garden View','Pool'],img:'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=600&q=70',bookings:20,revenue:560000},
+];
+
+const AMENITIES = [
+  {ico:'🛜',label:'High-Speed WiFi'},{ico:'❄️',label:'24hr Power & AC'},{ico:'🍳',label:'Full Kitchen'},
+  {ico:'🅿️',label:'Secure Parking'},{ico:'🔒',label:'Smart Lock'},{ico:'📺',label:'Netflix & DSTV'},
+  {ico:'🧺',label:'Washer & Dryer'},{ico:'🛁',label:'Luxury Toiletries'},{ico:'🛎️',label:'24/7 Concierge'},
+  {ico:'🏊',label:'Pool Access'},{ico:'🚗',label:'Airport Pickup'},{ico:'🧹',label:'Daily Cleaning'},
+  {ico:'🏋️',label:'Gym Access'},{ico:'🔐',label:'24hr Security'},{ico:'🛗',label:'Elevator'},
+  {ico:'🍽️',label:'Dining Area'},{ico:'📶',label:'Smart TV'},{ico:'🌅',label:'City / Sea View'},
+];
+
+let currentView = 'grid';
+let editingId = null;
+
+// Build amenity checkboxes
+const ag = document.getElementById('amenityGrid');
+AMENITIES.forEach(a => {
+  const d = document.createElement('label');
+  d.className = 'am-cb';
+  d.innerHTML = `<input type="checkbox" onclick="this.closest('.am-cb').classList.toggle('checked',this.checked)"><span class="ac-ico">${a.ico}</span>${a.label}`;
+  ag.appendChild(d);
+});
+
+// ── RENDER ──
+function renderProps(data) {
+  const grid = document.getElementById('propsGrid');
+  const list = document.getElementById('propsList');
+  grid.innerHTML = ''; list.innerHTML = '';
+
+  if (!data.length) { document.getElementById('emptyState').classList.add('show'); return; }
+  document.getElementById('emptyState').classList.remove('show');
+
+  data.forEach(p => {
+    const stMap = {live:{cls:'pcb-live',label:'Live',spCls:'sp-live'},draft:{cls:'pcb-draft',label:'Draft',spCls:'sp-draft'},maintenance:{cls:'pcb-hidden',label:'Maintenance',spCls:'sp-hidden'}};
+    const st = stMap[p.status] || stMap.live;
+
+    // Grid card
+    const card = document.createElement('div');
+    card.className = 'prop-card';
+    card.innerHTML = `
+      <div class="pc-img-wrap">
+        <img class="pc-img" src="${p.img}" alt="${p.name}" loading="lazy">
+        <span class="pc-status-badge ${st.cls}">${st.label}</span>
+        <div class="pc-toggle-wrap">
+          <span class="toggle-label" style="font-size:0.62rem;color:var(--muted);">${p.status==='live'?'Live':'Off'}</span>
+          <label class="toggle"><input type="checkbox" ${p.status==='live'?'checked':''} onchange="toggleLive(${p.id},this)"><span class="tslider"></span></label>
+        </div>
+        <div class="pc-occ"><div class="pc-occ-fill" style="width:0%" data-w="${p.occ}"></div></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-loc">📍 ${p.loc}</div>
+        <div class="pc-stats">
+          <div class="pcs"><div class="pcs-val">${p.beds}bd/${p.baths}ba</div><div class="pcs-lbl">Rooms</div></div>
+          <div class="pcs"><div class="pcs-val">${p.occ}%</div><div class="pcs-lbl">Occupancy</div></div>
+          <div class="pcs"><div class="pcs-val">₦${(p.revenue/1000000).toFixed(1)}M</div><div class="pcs-lbl">Revenue</div></div>
+        </div>
+        <div class="pc-feats">${p.feats.slice(0,3).map(f=>`<span class="pc-feat">${f}</span>`).join('')}${p.feats.length>3?`<span class="pc-feat">+${p.feats.length-3}</span>`:''}</div>
+        <div class="pc-foot">
+          <div class="pc-price">₦${p.price.toLocaleString()}<small>/night</small></div>
+          <div class="pc-actions">
+            <a href="../property-detail.html" target="_blank" class="pca-btn">View ↗</a>
+            <button class="pca-btn" onclick="openEditModal(${p.id})">Edit</button>
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+
+    // List card
+    const lcard = document.createElement('div');
+    lcard.className = 'pl-card';
+    lcard.innerHTML = `
+      <img class="pl-img" src="${p.img}" alt="${p.name}" loading="lazy">
+      <div class="pl-body">
+        <div class="pl-top">
+          <div><div class="pl-name">${p.name}</div><div class="pl-loc">📍 ${p.loc} · ${p.type}</div></div>
+          <span class="sp ${st.spCls}">${st.label}</span>
+        </div>
+        <div class="pl-stats">
+          <span class="plst"><strong>${p.beds}</strong> beds</span>
+          <span class="plst"><strong>${p.baths}</strong> baths</span>
+          <span class="plst"><strong>${p.guests}</strong> max guests</span>
+          <span class="plst">Occ: <strong style="color:${p.occ>=75?'var(--green)':p.occ>=50?'var(--orange)':'var(--red)'}">${p.occ}%</strong></span>
+          <span class="plst">Rev: <strong>₦${(p.revenue/1000).toFixed(0)}k</strong></span>
+        </div>
+        <div class="pl-foot">
+          <div class="pl-price">₦${p.price.toLocaleString()}<span style="font-size:0.68rem;color:var(--muted);font-weight:400">/night</span></div>
+          <div style="display:flex;gap:5px;">
+            <a href="../property-detail.html" target="_blank" class="pca-btn">View ↗</a>
+            <button class="pca-btn primary" onclick="openEditModal(${p.id})">Edit</button>
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(lcard);
+  });
+
+  // Animate occupancy bars
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('.pc-occ-fill[data-w]').forEach(el => { el.style.width = el.dataset.w + '%'; });
+    }, 60);
+  });
+}
+
+// ── FILTER ──
+function filterProps() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const loc = document.getElementById('locFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const data = PROPS.filter(p => {
+    const mq = !q || p.name.toLowerCase().includes(q) || p.loc.toLowerCase().includes(q);
+    const ml = !loc || p.loc.includes(loc);
+    const ms = !status || p.status === status;
+    return mq && ml && ms;
+  });
+  renderProps(data);
+}
+
+// ── VIEW TOGGLE ──
+function setView(v) {
+  currentView = v;
+  document.getElementById('propsGrid').style.display = v==='grid' ? '' : 'none';
+  document.getElementById('propsList').style.display = v==='list' ? 'flex' : 'none';
+  document.getElementById('gridViewBtn').classList.toggle('active', v==='grid');
+  document.getElementById('listViewBtn').classList.toggle('active', v==='list');
+}
+
+// ── LIVE TOGGLE ──
+function toggleLive(id, cb) {
+  const p = PROPS.find(x => x.id===id);
+  if (p) { p.status = cb.checked ? 'live' : 'draft'; showToast(p.name + (cb.checked?' is now live!':' hidden from guests.')); }
+}
+
+// ── MODAL ──
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add New Property';
+  document.getElementById('deleteBtn').style.display = 'none';
+  document.getElementById('deleteConfirm').classList.remove('show');
+  document.getElementById('fName').value = '';
+  document.getElementById('fDesc').value = '';
+  showFormTab(0, document.querySelector('.ftab'));
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function openEditModal(id) {
+  editingId = id;
+  const p = PROPS.find(x => x.id===id);
+  document.getElementById('modalTitle').textContent = 'Edit: ' + p.name;
+  document.getElementById('deleteBtn').style.display = 'inline-flex';
+  document.getElementById('deleteConfirm').classList.remove('show');
+  document.getElementById('fName').value = p.name;
+  document.getElementById('fNightly').value = p.price;
+  document.getElementById('fBeds').value = p.beds;
+  document.getElementById('fBaths').value = p.baths;
+  document.getElementById('fGuests').value = p.guests;
+  document.getElementById('fStatus').value = p.status;
+  showFormTab(0, document.querySelector('.ftab'));
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function saveProperty() {
+  const name = document.getElementById('fName').value.trim();
+  if (!name) { showToast('Please enter a property name'); return; }
+  showToast(editingId ? name + ' updated!' : name + ' added!');
+  closeModalDirect();
+}
+function confirmDelete() {
+  const dc = document.getElementById('deleteConfirm');
+  if (!dc.classList.contains('show')) { dc.classList.add('show'); document.getElementById('deleteBtn').textContent = '✓ Confirm Delete'; return; }
+  const p = PROPS.find(x => x.id===editingId);
+  showToast((p?p.name:'Property') + ' deleted');
+  closeModalDirect();
+}
+
+// ── FORM TABS ──
+function showFormTab(idx, btn) {
+  document.querySelectorAll('.form-section').forEach((s,i) => s.classList.toggle('active', i===idx));
+  document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', i===idx));
+}
+
+// ── SIDEBAR ──
+function toggleSidebar() {
+  const mob = document.getElementById('mobSidebar');
+  const ov = document.getElementById('mobOverlay');
+  const ham = document.getElementById('hamBtn');
+  const open = mob.classList.toggle('open');
+  ov.classList.toggle('open', open);
+  ham.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('mobSidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
+
+// Init
+renderProps(PROPS);
+
+// ── LOAD PROPERTIES FROM API ──
+async function loadPropertiesFromAPI() {
+  try {
+    const res = await fetch(API_BASE + '/properties?limit=50', { headers: authHeaders() });
+    const data = await res.json();
+    if (data.properties) {
+      const mapped = data.properties.map(p => ({
+        id: p.id,
+        name: p.name,
+        loc: p.location,
+        type: p.type || 'Apartment',
+        beds: p.bedrooms,
+        baths: p.bathrooms,
+        guests: p.max_guests,
+        price: p.nightly_rate / 100,
+        status: p.status,
+        occ: 0,
+        revenue: 0,
+        img: p.cover_image || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80',
+        feats: Array.isArray(p.amenities) ? p.amenities.slice(0,5) : [],
+        rating: p.avg_rating || 0,
+        reviews: p.review_count || 0
+      }));
+      window.PROPERTIES = mapped;
+      renderProps(mapped);
+      setTimeout(() => { document.querySelectorAll('.pc-occ-fill[data-w]').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 100);
+    }
+  } catch (err) { console.error('Properties load error:', err); }
+}
+
+// ── TOGGLE LIVE STATUS ──
+async function toggleLive(id, cb) {
+  const status = cb.checked ? 'live' : 'draft';
+  try {
+    const res = await fetch(API_BASE + '/properties/' + id + '/status', {
+      method: 'PUT', headers: authHeaders(),
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    if (!res.ok) { cb.checked = !cb.checked; throw new Error(data.message); }
+    showToast('Property set to ' + status);
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+// ── SAVE PROPERTY ──
+async function saveProperty() {
+  const name = document.getElementById('propName')?.value;
+  const location = document.getElementById('propLocation')?.value;
+  const nightly_rate = document.getElementById('propRate')?.value;
+  if (!name || !location || !nightly_rate) { showToast('Please fill in all required fields'); return; }
+  try {
+    const res = await fetch(API_BASE + '/properties', {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({
+        name, location,
+        nightly_rate: parseFloat(nightly_rate),
+        bedrooms: parseInt(document.getElementById('propBeds')?.value || 1),
+        bathrooms: parseInt(document.getElementById('propBaths')?.value || 1),
+        max_guests: parseInt(document.getElementById('propGuests')?.value || 2),
+        description: document.getElementById('propDesc')?.value || '',
+        type: document.getElementById('propType')?.value || 'Apartment'
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showToast('Property saved!');
+    closeModalDirect();
+    loadPropertiesFromAPI();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+loadPropertiesFromAPI();
+
+// ── ADMIN AUTH CHECK ──
+function checkAdminAuth() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (!token || !['admin','staff','concierge'].includes(user.role)) {
+    window.location.href = '../login.html';
+  }
+}
+checkAdminAuth();
+
+</script>
+</body>
+</html>

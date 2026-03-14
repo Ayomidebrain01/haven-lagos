@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+<script src="/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Dashboard — HAVEN Lagos</title>
+<meta name="description" content="Manage your HAVEN Lagos bookings, view receipts, access check-in codes and update your account settings.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f2a5e'/><text y='.9em' font-size='72' x='50%' text-anchor='middle' fill='white'>H</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--off:#f5f7fb;--border:#dde3ee;
+  --muted:#7a8499;--text:#374159;--heading:#0d1526;
+  --accent:#0f2a5e;--accent-h:#0a1f47;--accent-bg:#e8eef9;--accent-lite:#93b8f5;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+  --orange:#f97316;--orange-bg:#fff7ed;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --shadow-s:0 2px 12px rgba(0,0,0,0.06);--shadow-m:0 8px 32px rgba(0,0,0,0.10);
+  --radius:8px;--max:1100px;--sidebar:240px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--off);overflow-x:hidden;line-height:1.6;min-height:100vh;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ── TOP NAV ── */
+.top-nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:var(--shadow-s);}
+.top-nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 20px;max-width:calc(var(--max) + var(--sidebar) + 40px);margin:0 auto;}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);}
+.logo span{color:var(--accent);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.notif-btn{position:relative;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:border-color 0.2s;}
+.notif-btn:hover{border-color:var(--accent);}
+.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid #fff;}
+.user-chip{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border:1.5px solid var(--border);border-radius:100px;background:#fff;cursor:pointer;transition:border-color 0.2s;}
+.user-chip:hover{border-color:var(--accent);}
+.user-av{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:800;color:#fff;flex-shrink:0;}
+.user-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);}
+.mob-menu-btn{display:flex;flex-direction:column;gap:4px;padding:8px;background:none;border:none;cursor:pointer;}
+@media(min-width:800px){.mob-menu-btn{display:none;}}
+.mob-menu-btn span{display:block;width:20px;height:2px;background:var(--heading);border-radius:2px;transition:all 0.3s;}
+
+/* ── LAYOUT ── */
+.dash-layout{display:grid;grid-template-columns:1fr;max-width:calc(var(--max) + var(--sidebar) + 40px);margin:0 auto;padding:0;}
+@media(min-width:800px){.dash-layout{grid-template-columns:var(--sidebar) 1fr;}}
+
+/* ── SIDEBAR ── */
+.sidebar{background:#fff;border-right:1px solid var(--border);min-height:calc(100vh - 60px);display:none;flex-direction:column;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;}
+@media(min-width:800px){.sidebar{display:flex;}}
+
+/* Mobile sidebar */
+.mob-sidebar{position:fixed;inset:0;top:60px;background:#fff;z-index:190;display:none;flex-direction:column;overflow-y:auto;transform:translateX(-100%);transition:transform 0.3s ease;border-right:1px solid var(--border);}
+.mob-sidebar.open{transform:translateX(0);}
+.mob-overlay{position:fixed;inset:0;top:60px;background:rgba(0,0,0,0.4);z-index:189;display:none;}
+.mob-overlay.open{display:block;}
+
+.sidebar-user{padding:20px 16px;border-bottom:1px solid var(--border);}
+.su-av{width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:10px;}
+.su-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);}
+.su-email{font-size:0.74rem;color:var(--muted);margin-top:2px;}
+.su-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.65rem;font-weight:700;background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);border-radius:100px;padding:2px 8px;margin-top:6px;}
+
+.sidebar-nav{padding:12px 10px;flex:1;}
+.snav-section{margin-bottom:20px;}
+.snav-label{font-size:0.62rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:0 8px;margin-bottom:6px;}
+.snav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius);font-size:0.82rem;font-weight:700;color:var(--text);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;text-align:left;}
+.snav-item:hover{background:var(--off);color:var(--accent);}
+.snav-item.active{background:var(--accent-bg);color:var(--accent);}
+.snav-item .si-ico{font-size:0.95rem;width:18px;text-align:center;flex-shrink:0;}
+.snav-item .si-badge{margin-left:auto;font-size:0.62rem;font-weight:800;background:var(--accent);color:#fff;border-radius:100px;padding:1px 7px;}
+
+.sidebar-bottom{padding:12px 10px 16px;border-top:1px solid var(--border);}
+.sb-btn{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius);font-size:0.82rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all 0.18s;border:none;background:none;width:100%;}
+.sb-btn:hover{background:var(--red-bg);color:var(--red);}
+
+/* ── MAIN CONTENT ── */
+.dash-main{padding:24px 20px 60px;}
+@media(min-width:640px){.dash-main{padding:28px 32px 60px;}}
+
+/* Panel switching */
+.dash-panel{display:none;}
+.dash-panel.active{display:block;}
+
+/* ── WELCOME HEADER ── */
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+.dh-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);margin-bottom:3px;}
+.dh-sub{font-size:0.82rem;color:var(--muted);}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;background:var(--accent);color:#fff;border-radius:var(--radius);font-family:'Nunito Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.22s;border:none;cursor:pointer;white-space:nowrap;}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:var(--shadow-m);}
+.btn-outline{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:var(--radius);font-family:'Nunito Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.22s;cursor:pointer;white-space:nowrap;}
+.btn-outline:hover{background:var(--accent);color:#fff;}
+
+/* ── STAT CARDS ── */
+.stat-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;}
+@media(min-width:600px){.stat-cards{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.sc-ico{font-size:1.3rem;margin-bottom:8px;}
+.sc-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--heading);line-height:1;}
+.sc-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* ── SECTION CARDS ── */
+.sec-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);}
+.sec-head h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:800;color:var(--heading);}
+.sec-head a,.sec-head button{font-size:0.74rem;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;}
+.sec-head a:hover,.sec-head button:hover{text-decoration:underline;}
+
+/* ── BOOKING CARDS ── */
+.booking-list{display:flex;flex-direction:column;}
+.booking-item{display:flex;gap:14px;padding:16px 18px;border-bottom:1px solid var(--border);align-items:flex-start;transition:background 0.18s;}
+.booking-item:last-child{border-bottom:none;}
+.booking-item:hover{background:var(--off);}
+.bi-img{width:72px;height:56px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.bi-body{flex:1;min-width:0;}
+.bi-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:800;color:var(--heading);margin-bottom:2px;}
+.bi-loc{font-size:0.72rem;color:var(--muted);font-weight:600;margin-bottom:5px;}
+.bi-dates{font-size:0.76rem;font-weight:700;color:var(--text);}
+.bi-ref{font-size:0.68rem;color:var(--muted);margin-top:2px;}
+.bi-status{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.status-badge{font-size:0.65rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
+.status-confirmed{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.status-upcoming{background:var(--accent-bg);color:var(--accent);border:1px solid #bcd4f8;}
+.status-completed{background:var(--off);color:var(--muted);border:1px solid var(--border);}
+.status-cancelled{background:var(--red-bg);color:var(--red);border:1px solid #fecaca;}
+.bi-amount{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:800;color:var(--heading);}
+.bi-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.bi-btn{font-size:0.68rem;font-weight:700;padding:5px 10px;border-radius:5px;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.bi-btn:hover{border-color:var(--accent);color:var(--accent);}
+.bi-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.bi-btn.primary:hover{background:var(--accent-h);}
+
+/* Empty bookings */
+.empty-state{text-align:center;padding:48px 20px;}
+.es-ico{font-size:2.5rem;margin-bottom:12px;}
+.es-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.96rem;font-weight:800;color:var(--heading);margin-bottom:6px;}
+.es-sub{font-size:0.82rem;color:var(--muted);margin-bottom:20px;}
+
+/* ── PROFILE FORM ── */
+.profile-grid{display:grid;grid-template-columns:1fr;gap:14px;padding:18px;}
+@media(min-width:560px){.profile-grid{grid-template-columns:1fr 1fr;}}
+.pg-full{grid-column:1/-1;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-label{font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.form-input,.form-select{border:1.5px solid var(--border);border-radius:var(--radius);padding:11px 14px;font-size:0.86rem;font-weight:600;color:var(--heading);background:#fff;outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.form-hint{font-size:0.7rem;color:var(--muted);}
+.phone-wrap{display:flex;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color 0.2s;}
+.phone-wrap:focus-within{border-color:var(--accent);}
+.phone-prefix{padding:11px 10px;background:var(--off);border-right:1px solid var(--border);font-size:0.8rem;font-weight:700;color:var(--heading);flex-shrink:0;}
+.phone-input{border:none;outline:none;padding:11px 14px;font-size:0.86rem;font-weight:600;color:var(--heading);background:#fff;width:100%;font-family:inherit;}
+.form-footer{display:flex;justify-content:flex-end;gap:10px;padding:14px 18px;border-top:1px solid var(--border);}
+
+/* Avatar section */
+.av-section{display:flex;align-items:center;gap:16px;padding:18px;border-bottom:1px solid var(--border);}
+.av-large{width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;flex-shrink:0;}
+.av-info h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--heading);margin-bottom:2px;}
+.av-info p{font-size:0.74rem;color:var(--muted);}
+.av-upload{margin-top:8px;font-size:0.74rem;font-weight:700;color:var(--accent);background:none;border:1.5px solid var(--accent);border-radius:6px;padding:5px 12px;cursor:pointer;transition:all 0.2s;}
+.av-upload:hover{background:var(--accent);color:#fff;}
+
+/* ── SECURITY ── */
+.security-rows{display:flex;flex-direction:column;}
+.sec-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border-bottom:1px solid var(--border);}
+.sec-row:last-child{border-bottom:none;}
+.sr-info h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);margin-bottom:2px;}
+.sr-info p{font-size:0.74rem;color:var(--muted);}
+.sr-status{font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:100px;}
+.sr-enabled{background:var(--green-bg);color:var(--green);}
+.sr-disabled{background:var(--off);color:var(--muted);}
+.sr-btn{font-size:0.74rem;font-weight:700;color:var(--accent);background:none;border:1.5px solid var(--accent);border-radius:6px;padding:6px 14px;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+.sr-btn:hover{background:var(--accent);color:#fff;}
+
+/* ── NOTIFICATIONS PANEL ── */
+.notif-list{display:flex;flex-direction:column;}
+.notif-item{display:flex;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);align-items:flex-start;}
+.notif-item:last-child{border-bottom:none;}
+.notif-item.unread{background:var(--accent-bg);}
+.ni-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ni-ico.booking{background:var(--green-bg);}
+.ni-ico.info{background:var(--accent-bg);}
+.ni-ico.alert{background:var(--orange-bg);}
+.ni-body{flex:1;}
+.ni-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;color:var(--heading);margin-bottom:2px;}
+.ni-sub{font-size:0.76rem;color:var(--muted);line-height:1.5;}
+.ni-time{font-size:0.68rem;color:var(--muted);flex-shrink:0;margin-top:2px;}
+
+/* ── PREFERENCES ── */
+.pref-rows{display:flex;flex-direction:column;}
+.pref-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 18px;border-bottom:1px solid var(--border);}
+.pref-row:last-child{border-bottom:none;}
+.pr-info h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:700;color:var(--heading);margin-bottom:2px;}
+.pr-info p{font-size:0.74rem;color:var(--muted);}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:background 0.25s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.25s;box-shadow:0 1px 4px rgba(0,0,0,0.15);}
+.toggle input:checked + .toggle-slider{background:var(--accent);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(18px);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:10px 20px;font-size:0.8rem;font-weight:700;box-shadow:var(--shadow-m);transition:transform 0.3s ease;z-index:400;white-space:nowrap;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── MOBILE BOTTOM NAV ── */
+.mob-bottom-nav{display:flex;background:#fff;border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;z-index:100;}
+@media(min-width:800px){.mob-bottom-nav{display:none;}}
+.mbn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;font-size:0.6rem;font-weight:700;color:var(--muted);cursor:pointer;transition:color 0.18s;border:none;background:none;}
+.mbn-item.active,.mbn-item:hover{color:var(--accent);}
+.mbn-ico{font-size:1.15rem;}
+</style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Top Nav -->
+<header class="top-nav">
+  <div class="top-nav-inner">
+    <a href="index.html" class="logo">HAVEN<span>.</span></a>
+    <div class="nav-right">
+      <button class="notif-btn" onclick="showPanel('notifications')" title="Notifications">
+        🔔<span class="notif-dot"></span>
+      </button>
+      <div class="user-chip" onclick="showPanel('profile')">
+        <div class="user-av">A</div>
+        <span class="user-name">Adaeze</span>
+      </div>
+      <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobSidebar()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile overlay -->
+<div class="mob-overlay" id="mobOverlay" onclick="toggleMobSidebar()"></div>
+
+<div class="dash-layout">
+
+  <!-- Desktop Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-user">
+      <div class="su-av">A</div>
+      <div class="su-name">Adaeze Okonkwo</div>
+      <div class="su-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="81e0e5e0e4fbe4c1e4ece0e8edafe2eeec">[email&#160;protected]</a></div>
+      <div class="su-badge">✓ Verified Guest</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="snav-section">
+        <div class="snav-label">My Account</div>
+        <button class="snav-item active" data-panel="overview" onclick="showPanel('overview')"><span class="si-ico">🏠</span>Overview</button>
+        <button class="snav-item" data-panel="bookings" onclick="showPanel('bookings')"><span class="si-ico">📅</span>My Bookings<span class="si-badge">3</span></button>
+        <button class="snav-item" data-panel="notifications" onclick="showPanel('notifications')"><span class="si-ico">🔔</span>Notifications<span class="si-badge">2</span></button>
+      </div>
+      <div class="snav-section">
+        <div class="snav-label">Settings</div>
+        <button class="snav-item" data-panel="profile" onclick="showPanel('profile')"><span class="si-ico">👤</span>Profile</button>
+        <button class="snav-item" data-panel="security" onclick="showPanel('security')"><span class="si-ico">🔐</span>Security</button>
+        <button class="snav-item" data-panel="preferences" onclick="showPanel('preferences')"><span class="si-ico">⚙️</span>Preferences</button>
+      </div>
+      <div class="snav-section">
+        <div class="snav-label">Quick Links</div>
+        <button class="snav-item" onclick="window.location.href='properties.html'"><span class="si-ico">🔍</span>Browse Apartments</button>
+        <button class="snav-item" onclick="window.location.href='faq.html'"><span class="si-ico">❓</span>Help & FAQs</button>
+        <button class="snav-item" onclick="window.location.href='contact.html'"><span class="si-ico">💬</span>Contact Support</button>
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="sb-btn" onclick="confirmSignOut()">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside class="mob-sidebar" id="mobSidebar">
+    <div class="sidebar-user">
+      <div class="su-av">A</div>
+      <div class="su-name">Adaeze Okonkwo</div>
+      <div class="su-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f7969396928d92b7929a969e9bd994989a">[email&#160;protected]</a></div>
+      <div class="su-badge">✓ Verified Guest</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="snav-section">
+        <div class="snav-label">My Account</div>
+        <button class="snav-item active" onclick="showPanel('overview');toggleMobSidebar()"><span class="si-ico">🏠</span>Overview</button>
+        <button class="snav-item" onclick="showPanel('bookings');toggleMobSidebar()"><span class="si-ico">📅</span>My Bookings<span class="si-badge">3</span></button>
+        <button class="snav-item" onclick="showPanel('notifications');toggleMobSidebar()"><span class="si-ico">🔔</span>Notifications<span class="si-badge">2</span></button>
+      </div>
+      <div class="snav-section">
+        <div class="snav-label">Settings</div>
+        <button class="snav-item" onclick="showPanel('profile');toggleMobSidebar()"><span class="si-ico">👤</span>Profile</button>
+        <button class="snav-item" onclick="showPanel('security');toggleMobSidebar()"><span class="si-ico">🔐</span>Security</button>
+        <button class="snav-item" onclick="showPanel('preferences');toggleMobSidebar()"><span class="si-ico">⚙️</span>Preferences</button>
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="sb-btn" onclick="confirmSignOut()">🚪 Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+
+    <!-- ═══ OVERVIEW PANEL ═══ -->
+    <div class="dash-panel active" id="panel-overview">
+      <div class="dash-header">
+        <div>
+          <div class="dh-title">Welcome back, Adaeze 👋</div>
+          <div class="dh-sub">Saturday, 14 March 2026 · Lagos, Nigeria</div>
+        </div>
+        <a href="properties.html" class="btn-primary">+ Book Apartment</a>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="sc-ico">🏠</div>
+          <div class="sc-val">3</div>
+          <div class="sc-label">Total Stays</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-ico">📅</div>
+          <div class="sc-val">1</div>
+          <div class="sc-label">Upcoming</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-ico">⭐</div>
+          <div class="sc-val">2</div>
+          <div class="sc-label">Reviews Left</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-ico">💰</div>
+          <div class="sc-val">₦786k</div>
+          <div class="sc-label">Total Spent</div>
+        </div>
+      </div>
+
+      <!-- Upcoming booking -->
+      <div class="sec-card">
+        <div class="sec-head">
+          <h2>Upcoming Stay</h2>
+          <a href="#" onclick="showPanel('bookings');return false;">View all →</a>
+        </div>
+        <div class="booking-list">
+          <div class="booking-item">
+            <img class="bi-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&q=80" alt="The Signature Suite" loading="lazy">
+            <div class="bi-body">
+              <div class="bi-name">The Signature Suite</div>
+              <div class="bi-loc">📍 Lekki Phase 1, Lagos</div>
+              <div class="bi-dates">📅 17 Jan – 20 Jan 2025 · 3 nights</div>
+              <div class="bi-ref">Ref: HAVEN-2025-4821</div>
+              <div class="bi-actions">
+                <a href="confirmation.html" class="bi-btn primary">View Details</a>
+                <button class="bi-btn" onclick="copyCode()">Copy Access Code</button>
+                <a href="https://maps.google.com" target="_blank" class="bi-btn">Get Directions</a>
+              </div>
+            </div>
+            <div class="bi-status">
+              <span class="status-badge status-confirmed">✓ Confirmed</span>
+              <div class="bi-amount">₦393,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent bookings -->
+      <div class="sec-card">
+        <div class="sec-head">
+          <h2>Recent Stays</h2>
+          <a href="#" onclick="showPanel('bookings');return false;">View all →</a>
+        </div>
+        <div class="booking-list">
+          <div class="booking-item">
+            <img class="bi-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=300&q=80" alt="VI Executive" loading="lazy">
+            <div class="bi-body">
+              <div class="bi-name">The VI Executive</div>
+              <div class="bi-loc">📍 Victoria Island, Lagos</div>
+              <div class="bi-dates">📅 3 Nov – 7 Nov 2024 · 4 nights</div>
+              <div class="bi-ref">Ref: HAVEN-2024-3214</div>
+              <div class="bi-actions">
+                <button class="bi-btn" onclick="showToast('Receipt downloaded!')">Download Receipt</button>
+                <a href="reviews.html" class="bi-btn">Leave Review</a>
+              </div>
+            </div>
+            <div class="bi-status">
+              <span class="status-badge status-completed">Completed</span>
+              <div class="bi-amount">₦355,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="sec-card">
+        <div class="sec-head"><h2>Quick Actions</h2></div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px;">
+          <a href="properties.html" style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--off);border:1px solid var(--border);border-radius:var(--radius);font-size:0.82rem;font-weight:700;color:var(--heading);transition:all 0.2s;">
+            <span style="font-size:1.2rem;">🔍</span>Browse Apartments
+          </a>
+          <a href="contact.html" style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--off);border:1px solid var(--border);border-radius:var(--radius);font-size:0.82rem;font-weight:700;color:var(--heading);transition:all 0.2s;">
+            <span style="font-size:1.2rem;">💬</span>Contact Support
+          </a>
+          <a href="faq.html" style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--off);border:1px solid var(--border);border-radius:var(--radius);font-size:0.82rem;font-weight:700;color:var(--heading);transition:all 0.2s;">
+            <span style="font-size:1.2rem;">❓</span>FAQs
+          </a>
+          <a href="https://wa.me/2348000000000" target="_blank" style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--radius);font-size:0.82rem;font-weight:700;color:var(--green);transition:all 0.2s;">
+            <span style="font-size:1.2rem;">📱</span>WhatsApp Us
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BOOKINGS PANEL ═══ -->
+    <div class="dash-panel" id="panel-bookings">
+      <div class="dash-header">
+        <div>
+          <div class="dh-title">My Bookings</div>
+          <div class="dh-sub">All your stays with HAVEN Lagos</div>
+        </div>
+        <a href="properties.html" class="btn-primary">+ New Booking</a>
+      </div>
+
+      <!-- Filter tabs -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+        <button class="bi-btn primary" onclick="filterBookings('all',this)">All (3)</button>
+        <button class="bi-btn" onclick="filterBookings('upcoming',this)">Upcoming (1)</button>
+        <button class="bi-btn" onclick="filterBookings('completed',this)">Completed (2)</button>
+        <button class="bi-btn" onclick="filterBookings('cancelled',this)">Cancelled (0)</button>
+      </div>
+
+      <div class="sec-card">
+        <div class="booking-list" id="bookingsList">
+
+          <div class="booking-item" data-status="upcoming">
+            <img class="bi-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&q=80" alt="The Signature Suite" loading="lazy">
+            <div class="bi-body">
+              <div class="bi-name">The Signature Suite</div>
+              <div class="bi-loc">📍 Lekki Phase 1, Lagos</div>
+              <div class="bi-dates">📅 17 Jan – 20 Jan 2025 · 3 nights · 2 guests</div>
+              <div class="bi-ref">Ref: HAVEN-2025-4821 · Booked 8 Jan 2025</div>
+              <div class="bi-actions">
+                <a href="confirmation.html" class="bi-btn primary">View Confirmation</a>
+                <button class="bi-btn" onclick="copyCode()">Access Code</button>
+                <button class="bi-btn" onclick="showToast('Receipt downloaded!')">Receipt</button>
+                <button class="bi-btn" style="color:var(--red);border-color:var(--red);" onclick="cancelBooking()">Cancel</button>
+              </div>
+            </div>
+            <div class="bi-status">
+              <span class="status-badge status-confirmed">✓ Confirmed</span>
+              <div class="bi-amount">₦393,000</div>
+            </div>
+          </div>
+
+          <div class="booking-item" data-status="completed">
+            <img class="bi-img" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=300&q=80" alt="VI Executive" loading="lazy">
+            <div class="bi-body">
+              <div class="bi-name">The VI Executive</div>
+              <div class="bi-loc">📍 Victoria Island, Lagos</div>
+              <div class="bi-dates">📅 3 Nov – 7 Nov 2024 · 4 nights · 2 guests</div>
+              <div class="bi-ref">Ref: HAVEN-2024-3214 · Booked 28 Oct 2024</div>
+              <div class="bi-actions">
+                <button class="bi-btn" onclick="showToast('Receipt downloaded!')">Download Receipt</button>
+                <a href="reviews.html" class="bi-btn">Leave Review</a>
+                <button class="bi-btn" onclick="window.location.href='booking.html'">Book Again</button>
+              </div>
+            </div>
+            <div class="bi-status">
+              <span class="status-badge status-completed">Completed</span>
+              <div class="bi-amount">₦355,000</div>
+            </div>
+          </div>
+
+          <div class="booking-item" data-status="completed">
+            <img class="bi-img" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=300&q=80" alt="Ikoyi Penthouse" loading="lazy">
+            <div class="bi-body">
+              <div class="bi-name">Ikoyi Penthouse</div>
+              <div class="bi-loc">📍 Ikoyi, Lagos</div>
+              <div class="bi-dates">📅 15 Aug – 18 Aug 2024 · 3 nights · 4 guests</div>
+              <div class="bi-ref">Ref: HAVEN-2024-1847 · Booked 10 Aug 2024</div>
+              <div class="bi-actions">
+                <button class="bi-btn" onclick="showToast('Receipt downloaded!')">Download Receipt</button>
+                <a href="reviews.html" class="bi-btn">Leave Review</a>
+                <button class="bi-btn" onclick="window.location.href='booking.html'">Book Again</button>
+              </div>
+            </div>
+            <div class="bi-status">
+              <span class="status-badge status-completed">Completed</span>
+              <div class="bi-amount">₦638,000</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ NOTIFICATIONS PANEL ═══ -->
+    <div class="dash-panel" id="panel-notifications">
+      <div class="dash-header">
+        <div><div class="dh-title">Notifications</div><div class="dh-sub">Your latest updates from HAVEN Lagos</div></div>
+        <button class="btn-outline" onclick="markAllRead()">Mark all read</button>
+      </div>
+      <div class="sec-card">
+        <div class="notif-list">
+          <div class="notif-item unread">
+            <div class="ni-ico booking">✅</div>
+            <div class="ni-body">
+              <div class="ni-title">Booking Confirmed — The Signature Suite</div>
+              <div class="ni-sub">Your booking for 17–20 Jan 2025 is confirmed. Your access code and check-in details are ready. Ref: HAVEN-2025-4821</div>
+            </div>
+            <div class="ni-time">2h ago</div>
+          </div>
+          <div class="notif-item unread">
+            <div class="ni-ico alert">⏰</div>
+            <div class="ni-body">
+              <div class="ni-title">Check-in in 9 days</div>
+              <div class="ni-sub">Your stay at The Signature Suite starts on 17 Jan. Your access code is 4821. Check-in from 2:00 PM.</div>
+            </div>
+            <div class="ni-time">2h ago</div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-ico booking">🧾</div>
+            <div class="ni-body">
+              <div class="ni-title">Receipt ready — VI Executive stay</div>
+              <div class="ni-sub">Your receipt for the Nov 2024 stay at VI Executive is available. Total: ₦355,000. Ref: HAVEN-2024-3214</div>
+            </div>
+            <div class="ni-time">3 Nov 2024</div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-ico info">🏠</div>
+            <div class="ni-body">
+              <div class="ni-title">New apartment available in Ikoyi</div>
+              <div class="ni-sub">Old Ikoyi Retreat is now listed — 2 bedrooms, garden view, pool access. From ₦95,000/night.</div>
+            </div>
+            <div class="ni-time">15 Dec 2024</div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-ico info">⭐</div>
+            <div class="ni-body">
+              <div class="ni-title">How was your stay at Ikoyi Penthouse?</div>
+              <div class="ni-sub">You stayed with us in August. We'd love your feedback — it only takes 2 minutes.</div>
+            </div>
+            <div class="ni-time">19 Aug 2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PROFILE PANEL ═══ -->
+    <div class="dash-panel" id="panel-profile">
+      <div class="dash-header">
+        <div><div class="dh-title">My Profile</div><div class="dh-sub">Keep your details up to date</div></div>
+      </div>
+      <div class="sec-card">
+        <div class="av-section">
+          <div class="av-large">A</div>
+          <div class="av-info">
+            <h3>Adaeze Okonkwo</h3>
+            <p>Member since January 2025 · Verified Guest</p>
+            <button class="av-upload" onclick="showToast('Photo upload coming soon!')">Change Photo</button>
+          </div>
+        </div>
+        <div class="profile-grid">
+          <div class="form-group">
+            <label class="form-label" for="pfFirst">First Name</label>
+            <input class="form-input" type="text" id="pfFirst" value="Adaeze">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pfLast">Last Name</label>
+            <input class="form-input" type="text" id="pfLast" value="Okonkwo">
+          </div>
+          <div class="form-group pg-full">
+            <label class="form-label" for="pfEmail">Email Address</label>
+            <input class="form-input" type="email" id="pfEmail" value="adaeze@email.com">
+            <span class="form-hint">Booking confirmations are sent here.</span>
+          </div>
+          <div class="form-group pg-full">
+            <label class="form-label" for="pfPhone">Phone Number</label>
+            <div class="phone-wrap">
+              <div class="phone-prefix">🇳🇬 +234</div>
+              <input class="phone-input" type="tel" id="pfPhone" value="801 234 5678">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pfCity">City</label>
+            <input class="form-input" type="text" id="pfCity" value="Lagos">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pfCountry">Country</label>
+            <select class="form-select" id="pfCountry">
+              <option selected>Nigeria</option>
+              <option>United Kingdom</option>
+              <option>United States</option>
+              <option>Canada</option>
+              <option>Ghana</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group pg-full">
+            <label class="form-label" for="pfPurpose">Typical Purpose of Stay</label>
+            <select class="form-select" id="pfPurpose">
+              <option>Business / Work</option>
+              <option>Leisure / Holiday</option>
+              <option>Family Visit</option>
+              <option>Event / Wedding</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button class="btn-outline" onclick="showToast('Changes discarded')">Discard</button>
+          <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECURITY PANEL ═══ -->
+    <div class="dash-panel" id="panel-security">
+      <div class="dash-header">
+        <div><div class="dh-title">Security</div><div class="dh-sub">Manage your password and account security</div></div>
+      </div>
+      <div class="sec-card">
+        <div class="security-rows">
+          <div class="sec-row">
+            <div class="sr-info">
+              <h4>Password</h4>
+              <p>Last changed: Never · Use a strong password with 8+ characters</p>
+            </div>
+            <button class="sr-btn" onclick="showToast('Password reset email sent!')">Change Password</button>
+          </div>
+          <div class="sec-row">
+            <div class="sr-info">
+              <h4>Two-Factor Authentication</h4>
+              <p>Add an extra layer of security to your account with OTP verification</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="sr-status sr-disabled">Off</span>
+              <button class="sr-btn" onclick="toggle2FA(this)">Enable</button>
+            </div>
+          </div>
+          <div class="sec-row">
+            <div class="sr-info">
+              <h4>Login Email</h4>
+              <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcbdb8bdb9a6b99cb9b1bdb5b0f2bfb3b1">[email&#160;protected]</a> · Verified ✓</p>
+            </div>
+            <button class="sr-btn" onclick="showToast('Verification email sent!')">Change Email</button>
+          </div>
+          <div class="sec-row">
+            <div class="sr-info">
+              <h4>Active Sessions</h4>
+              <p>1 active session · Lagos, Nigeria · Chrome on Mac</p>
+            </div>
+            <button class="sr-btn" style="color:var(--red);border-color:var(--red);" onclick="showToast('All other sessions signed out')">Sign Out All</button>
+          </div>
+          <div class="sec-row">
+            <div class="sr-info">
+              <h4>Delete Account</h4>
+              <p>Permanently delete your account and all booking history</p>
+            </div>
+            <button class="sr-btn" style="color:var(--red);border-color:var(--red);" onclick="showToast('Please contact support to delete your account')">Delete Account</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PREFERENCES PANEL ═══ -->
+    <div class="dash-panel" id="panel-preferences">
+      <div class="dash-header">
+        <div><div class="dh-title">Preferences</div><div class="dh-sub">Customise your HAVEN experience</div></div>
+      </div>
+      <div class="sec-card" style="margin-bottom:16px;">
+        <div class="sec-head"><h2>Email Notifications</h2></div>
+        <div class="pref-rows">
+          <div class="pref-row">
+            <div class="pr-info"><h4>Booking Confirmations</h4><p>Instant email when a booking is confirmed</p></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="pref-row">
+            <div class="pr-info"><h4>Check-in Reminders</h4><p>Reminder 24 hours before your check-in</p></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="pref-row">
+            <div class="pr-info"><h4>Receipt & Payment Updates</h4><p>Confirmation when payment is processed</p></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="pref-row">
+            <div class="pr-info"><h4>New Apartment Alerts</h4><p>Be notified when new properties are listed</p></div>
+            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="pref-row">
+            <div class="pr-info"><h4>Promotions & Offers</h4><p>Exclusive deals and discounts for members</p></div>
+            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="sec-card">
+        <div class="sec-head"><h2>Booking Preferences</h2></div>
+        <div class="pref-rows">
+          <div class="pref-row">
+            <div class="pr-info"><h4>Show Weekly Rates by Default</h4><p>Display weekly pricing on property listings</p></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="pref-row">
+            <div class="pr-info"><h4>Save Payment Method</h4><p>Remember card details for faster checkout</p></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="pref-row">
+            <div class="pr-info"><h4>Auto-fill Guest Details</h4><p>Pre-fill your name, phone and email at checkout</p></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button class="btn-primary" onclick="showToast('Preferences saved!')">Save Preferences</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-bottom-nav">
+  <button class="mbn-item active" id="mbn-overview" onclick="showPanel('overview')"><span class="mbn-ico">🏠</span>Home</button>
+  <button class="mbn-item" id="mbn-bookings" onclick="showPanel('bookings')"><span class="mbn-ico">📅</span>Bookings</button>
+  <button class="mbn-item" id="mbn-notifications" onclick="showPanel('notifications')"><span class="mbn-ico">🔔</span>Alerts</button>
+  <button class="mbn-item" id="mbn-profile" onclick="showPanel('profile')"><span class="mbn-ico">👤</span>Profile</button>
+</nav>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── PANEL SWITCHING ──
+function showPanel(name) {
+  document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.snav-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('[data-panel="' + name + '"]').forEach(i => i.classList.add('active'));
+  document.querySelectorAll('.mbn-item').forEach(i => i.classList.remove('active'));
+  const mbn = document.getElementById('mbn-' + name);
+  if (mbn) mbn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── MOBILE SIDEBAR ──
+function toggleMobSidebar() {
+  document.getElementById('mobSidebar').classList.toggle('open');
+  document.getElementById('mobOverlay').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobSidebar').classList.contains('open') ? 'hidden' : '';
+}
+
+// ── BOOKINGS FILTER ──
+function filterBookings(status, btn) {
+  document.querySelectorAll('#panel-bookings .bi-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes('filterBookings')) {
+      b.classList.remove('primary');
+    }
+  });
+  btn.classList.add('primary');
+  document.querySelectorAll('.booking-item').forEach(item => {
+    const s = item.dataset.status;
+    item.style.display = (status === 'all' || s === status) ? '' : 'none';
+  });
+}
+
+// ── LOAD USER DATA ──
+async function loadDashboard() {
+  const token = localStorage.getItem('haven_token');
+  if (!token) { window.location.href = 'login.html'; return; }
+  try {
+    // Load user profile
+    const userRes = await fetch(API_BASE + '/auth/me', { headers: authHeaders() });
+    if (userRes.status === 401) { window.location.href = 'login.html'; return; }
+    const userData = await userRes.json();
+    const u = userData.user;
+    document.querySelectorAll('.su-name').forEach(el => el.textContent = u.first_name + ' ' + u.last_name);
+    document.querySelectorAll('.user-name').forEach(el => el.textContent = u.first_name);
+    if (document.getElementById('pfFirst')) document.getElementById('pfFirst').value = u.first_name;
+    if (document.getElementById('pfLast')) document.getElementById('pfLast').value = u.last_name;
+    if (document.getElementById('pfEmail')) document.getElementById('pfEmail').value = u.email;
+    if (document.getElementById('pfPhone')) document.getElementById('pfPhone').value = u.phone || '';
+
+    // Load bookings
+    const bookRes = await fetch(API_BASE + '/bookings/my', { headers: authHeaders() });
+    const bookData = await bookRes.json();
+    if (bookData.bookings) renderBookings(bookData.bookings);
+  } catch (err) {
+    console.error('Dashboard load error:', err);
+  }
+}
+
+function renderBookings(bookings) {
+  const list = document.getElementById('bookingsList');
+  if (!list) return;
+  if (!bookings.length) {
+    list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--muted);">No bookings yet. <a href="properties.html">Browse properties →</a></div>';
+    return;
+  }
+  list.innerHTML = bookings.map(b => {
+    const statusClass = { confirmed:'status-confirmed', completed:'status-completed', cancelled:'status-cancelled', pending:'status-pending', checkedin:'status-confirmed' }[b.status] || '';
+    const statusLabel = { confirmed:'✓ Confirmed', completed:'Completed', cancelled:'Cancelled', pending:'Pending Payment', checkedin:'Checked In' }[b.status] || b.status;
+    const checkin = new Date(b.checkin_date).toLocaleDateString('en-NG', {day:'numeric',month:'short',year:'numeric'});
+    const checkout = new Date(b.checkout_date).toLocaleDateString('en-NG', {day:'numeric',month:'short',year:'numeric'});
+    return `<div class="booking-item" data-status="${b.status === 'confirmed' || b.status === 'checkedin' ? 'upcoming' : b.status}">
+      ${b.property_image ? `<img class="bi-img" src="${b.property_image}" alt="${b.property_name}" loading="lazy">` : '<div class="bi-img" style="background:var(--off);"></div>'}
+      <div class="bi-body">
+        <div class="bi-name">${b.property_name}</div>
+        <div class="bi-loc">📍 ${b.property_location || ''}</div>
+        <div class="bi-dates">📅 ${checkin} – ${checkout} · ${b.nights} night${b.nights > 1 ? 's' : ''}</div>
+        <div class="bi-ref">Ref: ${b.booking_ref}</div>
+        <div class="bi-actions">
+          ${b.status === 'confirmed' ? `<button class="bi-btn primary" onclick="viewConfirmation('${b.booking_ref}')">View Confirmation</button>` : ''}
+          ${b.access_code ? `<button class="bi-btn" onclick="copyCode('${b.access_code}')">Access Code</button>` : ''}
+          ${b.payment_status === 'paid' ? `<button class="bi-btn" onclick="downloadReceipt('${b.id}')">Receipt</button>` : ''}
+          ${['confirmed','pending'].includes(b.status) ? `<button class="bi-btn" style="color:var(--red);border-color:var(--red);" onclick="cancelBooking('${b.id}')">Cancel</button>` : ''}
+          ${b.status === 'completed' ? `<a href="reviews.html?booking=${b.id}" class="bi-btn">Leave Review</a>` : ''}
+        </div>
+      </div>
+      <div class="bi-status">
+        <span class="status-badge ${statusClass}">${statusLabel}</span>
+        <div class="bi-amount">₦${(b.total_amount/100).toLocaleString('en-NG')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function viewConfirmation(ref) { window.location.href = 'confirmation.html?ref=' + ref; }
+
+// ── COPY ACCESS CODE ──
+function copyCode(code) {
+  navigator.clipboard.writeText(code || '').then(() => showToast('Access code ' + code + ' copied!'));
+}
+
+// ── DOWNLOAD RECEIPT ──
+async function downloadReceipt(bookingId) {
+  try {
+    showToast('Generating receipt…');
+    const res = await fetch(API_BASE + '/bookings/' + bookingId + '/receipt', { headers: authHeaders() });
+    if (!res.ok) throw new Error('Failed to get receipt');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'HAVEN-Receipt.pdf'; a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) { showToast('Could not download receipt. Try again.'); }
+}
+
+// ── CANCEL BOOKING ──
+async function cancelBooking(bookingId) {
+  if (!confirm('Are you sure you want to cancel this booking?')) return;
+  try {
+    const res = await fetch(API_BASE + '/bookings/' + bookingId + '/cancel', {
+      method: 'POST', headers: authHeaders()
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showToast('Booking cancelled. Check your email for confirmation.');
+    loadDashboard();
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+// ── SAVE PROFILE ──
+async function saveProfile() {
+  try {
+    const res = await fetch(API_BASE + '/users/me', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({
+        first_name: document.getElementById('pfFirst').value,
+        last_name: document.getElementById('pfLast').value,
+        phone: document.getElementById('pfPhone') ? document.getElementById('pfPhone').value : undefined,
+        city: document.getElementById('pfCity') ? document.getElementById('pfCity').value : undefined
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showToast('Profile updated successfully!');
+    document.querySelectorAll('.su-name').forEach(el => el.textContent = data.user.first_name + ' ' + data.user.last_name);
+  } catch (err) { showToast('Error: ' + err.message); }
+}
+
+function markAllRead() {
+  document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+  const dot = document.querySelector('.notif-dot');
+  if (dot) dot.style.display = 'none';
+  showToast('All notifications marked as read');
+}
+
+function confirmSignOut() {
+  if (confirm('Sign out of your HAVEN Lagos account?')) {
+    localStorage.removeItem('haven_token');
+    localStorage.removeItem('haven_refresh');
+    localStorage.removeItem('haven_user');
+    window.location.href = 'login.html';
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Load on page ready
+loadDashboard();
+</script>
+</body>
+</html>
