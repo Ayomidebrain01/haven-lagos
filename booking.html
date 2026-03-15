@@ -866,6 +866,27 @@ async function submitBooking(){
     btn.disabled=false; spinner.classList.remove('show'); text.textContent='Proceed to Payment →';
   }
 }
+
+// ── PRE-FILL FORM FOR LOGGED-IN USERS ──
+(function() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  if (token && user.first_name) {
+    // Pre-fill guest details
+    const fn = document.getElementById('firstName');
+    const ln = document.getElementById('lastName');
+    const em = document.getElementById('email');
+    const ph = document.getElementById('phone');
+    if (fn && !fn.value) fn.value = user.first_name;
+    if (ln && !ln.value) ln.value = user.last_name || '';
+    if (em && !em.value) em.value = user.email || '';
+    if (ph && !ph.value && user.phone) {
+      // Strip +234 prefix for display
+      ph.value = user.phone.replace(/^\+?234/, '0');
+    }
+  }
+})();
+
 </script>
 </body>
 </html>

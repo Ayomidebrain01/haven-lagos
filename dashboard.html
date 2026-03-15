@@ -783,11 +783,11 @@ async function loadDashboard() {
   }
 
   const token = localStorage.getItem('haven_token');
-  if (!token) { window.location.href = 'login.html'; return; }
+  if (!token) { window.location.replace('login.html'); return; }
   try {
     // Load user profile
     const userRes = await fetch(API_BASE + '/auth/me', { headers: authHeaders() });
-    if (userRes.status === 401) { window.location.href = 'login.html'; return; }
+    if (userRes.status === 401) { window.location.replace('login.html'); return; }
     const userData = await userRes.json();
     const u = userData.user;
     document.querySelectorAll('.su-name').forEach(el => el.textContent = u.first_name + ' ' + u.last_name);
@@ -810,7 +810,7 @@ function renderBookings(bookings) {
   const list = document.getElementById('bookingsList');
   if (!list) return;
   if (!bookings.length) {
-    list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--muted);">No bookings yet. <a href="properties.html">Browse properties →</a></div>';
+    list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--muted);"><div style="font-size:2rem;margin-bottom:12px;">🏠</div><div style="font-weight:700;color:var(--heading);margin-bottom:8px;">No bookings yet</div><div style="font-size:0.85rem;margin-bottom:16px;">Browse our properties and book your first stay.</div><a href="properties.html" style="display:inline-block;padding:10px 20px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;font-size:0.82rem;text-decoration:none;">Browse Properties →</a></div>';
     return;
   }
   list.innerHTML = bookings.map(b => {
@@ -908,7 +908,7 @@ function confirmSignOut() {
     localStorage.removeItem('haven_token');
     localStorage.removeItem('haven_refresh');
     localStorage.removeItem('haven_user');
-    window.location.href = 'login.html';
+    window.location.replace('login.html');
   }
 }
 

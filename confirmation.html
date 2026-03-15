@@ -518,6 +518,21 @@ async function downloadReceipt() {
 loadConfirmation();
 
 
+
+// ── SHOW NEW ACCOUNT NOTICE ──
+function checkNewAccountNotice() {
+  const params = new URLSearchParams(window.location.search);
+  const isNew = params.get('new_account');
+  if (isNew === '1') {
+    const notice = document.createElement('div');
+    notice.style.cssText = 'background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:16px;margin-bottom:20px;';
+    notice.innerHTML = '<p style="margin:0 0 6px;font-size:14px;font-weight:700;color:#f97316;">🎉 Your HAVEN Lagos account has been created!</p><p style="margin:0;font-size:13px;color:#374159;">Check your email for your login credentials. You can use them to track this booking and future stays.</p>';
+    const card = document.querySelector('.conf-card, .card, main');
+    if (card) card.prepend(notice);
+  }
+}
+checkNewAccountNotice();
+
 </script>
 </body>
 </html>

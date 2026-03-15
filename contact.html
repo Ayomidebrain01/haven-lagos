@@ -684,5 +684,34 @@ function submitForm() {
   if (!valid) {
     alert.textContent = '⚠️ Please fill in all required fi
 </script>
+<script>
+// ── SMART NAV ──
+(function() {
+  const token = localStorage.getItem('haven_token');
+  const user = JSON.parse(localStorage.getItem('haven_user') || '{}');
+  
+  if (token && user.first_name) {
+    // User is logged in - replace Sign In with Dashboard link
+    document.querySelectorAll('a[href="login.html"]').forEach(el => {
+      // Don't replace if it's in footer or has specific class
+      if (!el.closest('footer') && !el.classList.contains('keep-login')) {
+        el.href = 'dashboard.html';
+        el.textContent = 'My Bookings';
+        if (el.classList.contains('btn-outline')) {
+          el.classList.remove('btn-outline');
+          el.classList.add('btn-primary');
+        }
+      }
+    });
+    // Update any "Guest Login" footer links
+    document.querySelectorAll('a[href="login.html"]').forEach(el => {
+      if (el.textContent.trim() === 'Guest Login') {
+        el.href = 'dashboard.html';
+        el.textContent = 'My Dashboard';
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
