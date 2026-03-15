@@ -226,9 +226,33 @@ input,select,textarea{font-family:inherit;}
 .toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--heading);color:#fff;border-radius:100px;padding:9px 18px;font-size:0.78rem;font-weight:700;box-shadow:var(--sh-m);transition:transform 0.3s;z-index:600;white-space:nowrap;pointer-events:none;}
 @media(min-width:780px){.toast{bottom:24px;}}
 .toast.show{transform:translateX(-50%) translateY(0);}
+
+/* Sign Out Modal */
+.signout-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
+.signout-modal-overlay.show{display:flex;}
+.signout-modal{background:#fff;border-radius:16px;padding:28px 24px;width:100%;max-width:320px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.3);}
+.signout-modal h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:#0d1526;margin-bottom:8px;}
+.signout-modal p{font-size:0.82rem;color:#7a8499;margin-bottom:20px;}
+.signout-modal-btns{display:flex;gap:10px;}
+.signout-modal-btns button{flex:1;padding:11px;border-radius:8px;font-family:'Nunito Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;border:none;}
+.signout-cancel{background:#f5f7fb;color:#374159;}
+.signout-confirm{background:#dc2626;color:#fff;}
+
 </style>
 </head>
 <body>
+
+<!-- Sign Out Modal -->
+<div class="signout-modal-overlay" id="signoutModal">
+  <div class="signout-modal">
+    <h3>Sign Out</h3>
+    <p>Are you sure you want to sign out of the admin panel?</p>
+    <div class="signout-modal-btns">
+      <button class="signout-cancel" onclick="closeSignoutModal()">Cancel</button>
+      <button class="signout-confirm" onclick="doSignOut()">Sign Out</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -721,18 +745,29 @@ loadReviewsFromAPI();
   });
 })();
 
-function adminSignOut() {
-  if (confirm('Sign out of admin panel?')) {
-    localStorage.removeItem('haven_admin_pin');
-    localStorage.removeItem('haven_admin_expiry');
-    localStorage.removeItem('haven_admin_role');
-    localStorage.removeItem('haven_user');
-    window.location.href = './login.html';
-  }
 }
 
 function getAdminRole() {
   return localStorage.getItem('haven_admin_role') || 'concierge';
+}
+
+
+function adminSignOut() {
+  document.getElementById('signoutModal').classList.add('show');
+}
+
+function closeSignoutModal() {
+  document.getElementById('signoutModal').classList.remove('show');
+}
+
+function doSignOut() {
+  localStorage.removeItem('haven_admin_pin');
+  localStorage.removeItem('haven_admin_expiry');
+  localStorage.removeItem('haven_admin_role');
+  localStorage.removeItem('haven_user');
+  localStorage.removeItem('haven_token');
+  localStorage.removeItem('haven_refresh');
+  window.location.replace('./login.html');
 }
 
 </script>
