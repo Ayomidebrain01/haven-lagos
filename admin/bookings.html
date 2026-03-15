@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-NG">
 <head>
-<script src="/config.js"></script>
+<script src="./config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bookings — HAVEN Admin</title>
@@ -671,7 +671,8 @@ function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  s
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
 
 // ── LOAD BOOKINGS FROM API ──
 async function loadBookingsFromAPI() {
@@ -781,8 +782,6 @@ loadBookingsFromAPI();
     });
   });
 })();
-
-}
 
 function getAdminRole() {
   return localStorage.getItem('haven_admin_role') || 'concierge';
