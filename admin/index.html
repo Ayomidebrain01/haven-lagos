@@ -268,9 +268,30 @@ td{padding:10px 14px;vertical-align:middle;}
 .signout-cancel{background:#f5f7fb;color:#374159;}
 .signout-confirm{background:#dc2626;color:#fff;}
 
+
+/* Access Denied Modal */
+.access-denied-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
+.access-denied-overlay.show{display:flex;}
+.access-denied-modal{background:#fff;border-radius:16px;padding:28px 24px;width:100%;max-width:320px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.3);}
+.access-denied-modal .ad-icon{font-size:2.5rem;margin-bottom:12px;}
+.access-denied-modal h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:#dc2626;margin-bottom:8px;}
+.access-denied-modal p{font-size:0.82rem;color:#7a8499;margin-bottom:20px;}
+.access-denied-modal button{width:100%;padding:11px;background:#0f2a5e;color:#fff;border:none;border-radius:8px;font-family:'Nunito Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;}
+
 </style>
 </head>
 <body>
+
+
+<!-- Access Denied Modal -->
+<div class="access-denied-overlay" id="accessDeniedModal">
+  <div class="access-denied-modal">
+    <div class="ad-icon">🚫</div>
+    <h3>Access Denied</h3>
+    <p id="accessDeniedMsg">Your role does not have permission to access this page.</p>
+    <button onclick="document.getElementById('accessDeniedModal').classList.remove('show');window.location.href='./index.html'">Go to Dashboard</button>
+  </div>
+</div>
 
 <!-- Sign Out Modal -->
 <div class="signout-modal-overlay" id="signoutModal">
@@ -728,8 +749,9 @@ loadAdminDashboard();
   }
 
   if (!requiredRoles.includes(role)) {
-    alert('Access denied. Your role (' + role + ') cannot access this page.');
-    window.location.href = './index.html';
+    document.getElementById('accessDeniedMsg').textContent = 'Your role (' + role + ') does not have permission to access this page.';
+    document.getElementById('accessDeniedModal').classList.add('show');
+    return;
     return;
   }
 
