@@ -808,34 +808,52 @@ async function submitBooking(){
     document.getElementById('step3Alert').classList.add('show');
     return;
   }
-  const token = localStorage.getItem('haven_token');
-  if (!token) { window.location.href = 'login.html?redirect=booking'; return; }
   document.getElementById('step3Alert').classList.remove('show');
   const btn=document.getElementById('payBtn');
   const spinner=document.getElementById('paySpinner');
   const text=document.getElementById('payBtnText');
   btn.disabled=true; spinner.classList.add('show'); text.textContent='Processing…';
   try {
-    // Get property ID from URL
     const params = new URLSearchParams(window.location.search);
     const property_id = params.get('property');
-
     const checkinStr = checkIn ? checkIn.toISOString().split('T')[0] : null;
     const checkoutStr = checkOut ? checkOut.toISOString().split('T')[0] : null;
 
+    // Get guest details from step 2 form
+    const firstName = document.getElementById('firstName')?.value?.trim();
+    const lastName = document.getElementById('lastName')?.value?.trim();
+    const email = document.getElementById('email')?.value?.trim();
+    const phone = document.getElementById('phone')?.value?.trim();
+
+    // Check if user is already logged in
+    const token = localStorage.getItem('haven_token');
+    const headers = token
+      ? { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+      : { 'Content-Type': 'application/json' };
+
+    const body = {
+      property_id,
+      checkin_date: checkinStr,
+      checkout_date: checkoutStr,
+      num_adults: parseInt(document.getElementById('guestAdults')?.value || 1),
+      num_children: parseInt(document.getElementById('guestChildren')?.value || 0),
+      arrival_time: document.getElementById('arrival')?.value || null,
+      purpose_of_stay: document.getElementById('purpose')?.value || null,
+      special_requests: document.getElementById('specialReq')?.value || null
+    };
+
+    // Add guest details for guest checkout (not logged in)
+    if (!token) {
+      body.guest_first_name = firstName;
+      body.guest_last_name = lastName;
+      body.guest_email = email;
+      body.guest_phone = phone ? '+234' + phone.replace(/^0/, '') : null;
+    }
+
     const res = await fetch(API_BASE + '/bookings', {
       method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify({
-        property_id,
-        checkin_date: checkinStr,
-        checkout_date: checkoutStr,
-        num_adults: parseInt(document.getElementById('guestAdults')?.value || 1),
-        num_children: parseInt(document.getElementById('guestChildren')?.value || 0),
-        arrival_time: document.getElementById('arrivalTime')?.value || null,
-        purpose_of_stay: document.getElementById('purposeStay')?.value || null,
-        special_requests: document.getElementById('specialRequests')?.value || null
-      })
+      headers,
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Booking failed');
