@@ -44,8 +44,7 @@ input,select,textarea{font-family:inherit;}
 .user-chip:hover{border-color:var(--accent);}
 .user-av{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:800;color:#fff;flex-shrink:0;}
 .user-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:700;color:var(--heading);}
-.mob-menu-btn{display:flex;flex-direction:column;gap:4px;padding:8px;background:none;border:none;cursor:pointer;}
-@media(min-width:800px){.mob-menu-btn{display:none;}}
+.mob-menu-btn{display:none !important;}
 .mob-menu-btn span{display:block;width:20px;height:2px;background:var(--heading);border-radius:2px;transition:all 0.3s;}
 
 /* ── LAYOUT ── */
@@ -234,6 +233,7 @@ input,select,textarea{font-family:inherit;}
         <div class="user-av">A</div>
         <span class="user-name">Adaeze</span>
       </div>
+      <button onclick="confirmSignOut()" title="Sign Out" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:0.75rem;font-weight:700;color:var(--red);cursor:pointer;display:flex;align-items:center;gap:5px;">🚪 Sign Out</button>
       <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobSidebar()" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
@@ -730,6 +730,7 @@ input,select,textarea{font-family:inherit;}
   <button class="mbn-item" id="mbn-bookings" onclick="showPanel('bookings')"><span class="mbn-ico">📅</span>Bookings</button>
   <button class="mbn-item" id="mbn-notifications" onclick="showPanel('notifications')"><span class="mbn-ico">🔔</span>Alerts</button>
   <button class="mbn-item" id="mbn-profile" onclick="showPanel('profile')"><span class="mbn-ico">👤</span>Profile</button>
+  <button class="mbn-item" onclick="confirmSignOut()" style="color:var(--red);"><span class="mbn-ico">🚪</span>Sign Out</button>
 </nav>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
