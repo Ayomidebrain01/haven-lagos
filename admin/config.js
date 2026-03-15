@@ -1,4 +1,4 @@
-const API_BASE = 'https://haven-backend-t7o8.onrender.com/api';
+const API_BASE = 'https://haven-backend-production-758b.up.railway.app/api';
 
 const authHeaders = () => ({
   'Content-Type': 'application/json',
