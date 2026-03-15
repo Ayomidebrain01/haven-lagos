@@ -5,175 +5,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Access — HAVEN Lagos</title>
 <meta name="robots" content="noindex, nofollow">
+<script src="./config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Nunito Sans',sans-serif;background:#0d1526;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-.card{background:#fff;border-radius:16px;padding:40px 32px;width:100%;max-width:360px;box-shadow:0 24px 80px rgba(0,0,0,0.4);text-align:center;}
-.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#0f2a5e;margin-bottom:4px;}
+.card{background:#fff;border-radius:16px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,0.4);}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#0f2a5e;text-align:center;margin-bottom:4px;}
 .logo span{color:#93b8f5;}
-.badge{font-size:0.62rem;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#7a8499;margin-bottom:28px;}
-.title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;color:#0d1526;margin-bottom:6px;}
-.sub{font-size:0.8rem;color:#7a8499;margin-bottom:28px;}
-.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:28px;}
-.dot{width:16px;height:16px;border-radius:50%;border:2px solid #dde3ee;background:#fff;transition:all 0.2s;}
-.dot.filled{background:#0f2a5e;border-color:#0f2a5e;}
-.dot.error{background:#dc2626;border-color:#dc2626;animation:shake 0.3s ease;}
-@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
-.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-.key{padding:16px;border-radius:12px;border:1.5px solid #dde3ee;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:700;color:#0d1526;cursor:pointer;transition:all 0.15s;user-select:none;}
-.key:hover{background:#e8eef9;border-color:#0f2a5e;}
-.key:active{transform:scale(0.94);background:#e8eef9;}
-.key.zero{grid-column:2;}
-.key.del{grid-column:3;font-size:1rem;color:#7a8499;}
-.key.del:hover{background:#fef2f2;border-color:#dc2626;color:#dc2626;}
+.badge{text-align:center;font-size:0.65rem;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#7a8499;margin-bottom:28px;}
+.title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:#0d1526;text-align:center;margin-bottom:6px;}
+.sub{font-size:0.82rem;color:#7a8499;text-align:center;margin-bottom:28px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:0.75rem;font-weight:700;color:#374159;margin-bottom:6px;letter-spacing:0.05em;text-transform:uppercase;}
+.field input{width:100%;padding:12px 14px;border:1.5px solid #dde3ee;border-radius:8px;font-family:'Nunito Sans',sans-serif;font-size:0.9rem;color:#0d1526;outline:none;transition:border 0.2s;}
+.field input:focus{border-color:#0f2a5e;}
+.field input.error{border-color:#dc2626;}
 .alert{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#dc2626;margin-bottom:16px;display:none;}
 .alert.show{display:block;}
-.attempts{font-size:0.72rem;color:#7a8499;margin-top:8px;}
-.attempts span{color:#dc2626;font-weight:700;}
-.loading{display:none;flex-direction:column;align-items:center;gap:12px;padding:20px 0;}
-.loading.show{display:flex;}
-.spinner{width:32px;height:32px;border:3px solid #e8eef9;border-top-color:#0f2a5e;border-radius:50%;animation:spin 0.7s linear infinite;}
+.btn{width:100%;padding:13px;background:#0f2a5e;color:#fff;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:800;letter-spacing:0.05em;cursor:pointer;transition:background 0.2s;margin-top:4px;}
+.btn:hover{background:#0a1f47;}
+.btn:disabled{opacity:0.6;cursor:not-allowed;}
+.divider{display:flex;align-items:center;gap:10px;margin:20px 0;}
+.divider hr{flex:1;border:none;border-top:1px solid #dde3ee;}
+.divider span{font-size:0.72rem;color:#7a8499;font-weight:600;}
+.google-btn{width:100%;padding:11px;background:#fff;color:#374159;border:1.5px solid #dde3ee;border-radius:8px;font-family:'Nunito Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;}
+.google-btn:hover{border-color:#0f2a5e;background:#f5f7fb;}
+.footer{text-align:center;margin-top:20px;font-size:0.75rem;color:#7a8499;}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:none;margin-right:6px;}
+.spinner.show{display:inline-block;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading-text{font-size:0.82rem;color:#7a8499;}
 </style>
 </head>
 <body>
+
 <div class="card">
   <div class="logo">HAVEN<span> Lagos</span></div>
   <div class="badge">Admin Panel</div>
-  <div id="mainView">
-    <div class="title">Enter Admin PIN</div>
-    <div class="sub">4-digit access code</div>
-    <div class="pin-dots" id="pinDots">
-      <div class="dot" id="d1"></div>
-      <div class="dot" id="d2"></div>
-      <div class="dot" id="d3"></div>
-      <div class="dot" id="d4"></div>
-    </div>
-    <div class="alert" id="alert"></div>
-    <div class="keypad">
-      <button class="key" onclick="pressKey('1')">1</button>
-      <button class="key" onclick="pressKey('2')">2</button>
-      <button class="key" onclick="pressKey('3')">3</button>
-      <button class="key" onclick="pressKey('4')">4</button>
-      <button class="key" onclick="pressKey('5')">5</button>
-      <button class="key" onclick="pressKey('6')">6</button>
-      <button class="key" onclick="pressKey('7')">7</button>
-      <button class="key" onclick="pressKey('8')">8</button>
-      <button class="key" onclick="pressKey('9')">9</button>
-      <button class="key zero" onclick="pressKey('0')">0</button>
-      <button class="key del" onclick="deleteKey()">&#9003;</button>
-    </div>
-    <div class="attempts" id="attemptsText"></div>
+  <div class="title">Staff Access</div>
+  <div class="sub">Sign in with your admin credentials</div>
+
+  <div class="alert" id="alert"></div>
+
+  <div class="field">
+    <label>Email Address</label>
+    <input type="email" id="email" placeholder="admin@havenshortlets.com" autocomplete="email">
   </div>
-  <div class="loading" id="loadingView">
-    <div class="spinner"></div>
-    <div class="loading-text">Verifying access&hellip;</div>
+
+  <div class="field">
+    <label>Password</label>
+    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
   </div>
+
+  <button class="btn" id="loginBtn" onclick="adminLogin()">
+    <span class="spinner" id="spinner"></span>
+    <span id="btnText">Sign In to Admin Panel</span>
+  </button>
+
+
+
+  <div class="footer">Access restricted to authorised HAVEN staff only.</div>
 </div>
+
 <script>
-const API_BASE = 'https://haven-backend-production-758b.up.railway.app/api';
+async function adminLogin() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const alert = document.getElementById('alert');
 
-const PIN_MAP = {
-  '0000': { email: 'admin@havenshortlets.com', password: 'password' }
-};
-
-let pin = '';
-let attempts = 0;
-const MAX_ATTEMPTS = 5;
-let locked = false;
-
-function pressKey(num) {
-  if (locked || pin.length >= 4) return;
-  pin += num;
-  updateDots();
-  if (pin.length === 4) setTimeout(verifyPin, 150);
-}
-
-function deleteKey() {
-  if (locked) return;
-  pin = pin.slice(0, -1);
-  updateDots();
-  clearAlert();
-}
-
-function updateDots() {
-  for (let i = 1; i <= 4; i++) {
-    const dot = document.getElementById('d' + i);
-    dot.classList.toggle('filled', i <= pin.length);
-    dot.classList.remove('error');
-  }
-}
-
-function showError(msg) {
-  document.querySelectorAll('.dot').forEach(d => { d.classList.add('error'); d.classList.remove('filled'); });
-  const al = document.getElementById('alert');
-  al.textContent = msg;
-  al.classList.add('show');
-  setTimeout(() => {
-    document.querySelectorAll('.dot').forEach(d => d.classList.remove('error'));
-    clearAlert();
-    pin = '';
-    updateDots();
-  }, 1200);
-}
-
-function clearAlert() {
-  const al = document.getElementById('alert');
-  al.classList.remove('show');
-  al.textContent = '';
-}
-
-async function verifyPin() {
-  if (locked) return;
-  const creds = PIN_MAP[pin];
-  if (!creds) {
-    attempts++;
-    const remaining = MAX_ATTEMPTS - attempts;
-    if (attempts >= MAX_ATTEMPTS) {
-      locked = true;
-      showError('Too many attempts. Try again in 5 minutes.');
-      document.getElementById('attemptsText').innerHTML = '<span>Access locked for 5 minutes.</span>';
-      setTimeout(() => { locked = false; attempts = 0; document.getElementById('attemptsText').textContent = ''; clearAlert(); }, 5 * 60 * 1000);
-      return;
-    }
-    showError('Incorrect PIN. ' + remaining + ' attempt' + (remaining !== 1 ? 's' : '') + ' remaining.');
-    if (remaining <= 2) document.getElementById('attemptsText').innerHTML = '<span>' + remaining + ' attempt' + (remaining !== 1 ? 's' : '') + ' remaining</span>';
+  if (!email || !password) {
+    alert.textContent = 'Please enter your email and password.';
+    alert.classList.add('show');
     return;
   }
-  document.getElementById('mainView').style.display = 'none';
-  document.getElementById('loadingView').classList.add('show');
+
+  document.getElementById('loginBtn').disabled = true;
+  document.getElementById('spinner').classList.add('show');
+  document.getElementById('btnText').textContent = 'Signing in…';
+  alert.classList.remove('show');
+
   try {
-    const res = await fetch(API_BASE + '/auth/login', {
+    const base = typeof API_BASE !== 'undefined' ? API_BASE : 'https://haven-backend-production-758b.up.railway.app/api';
+    const res = await fetch(base + '/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: creds.email, password: creds.password })
+      body: JSON.stringify({ email, password })
     });
+
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Login failed');
-    if (!['admin', 'staff', 'concierge'].includes(data.user.role)) throw new Error('Access denied.');
+
+    // Check if user is admin/staff/concierge
+    if (!['admin', 'staff', 'concierge'].includes(data.user.role)) {
+      throw new Error('Access denied. Admin credentials required.');
+    }
+
     localStorage.setItem('haven_token', data.accessToken);
     localStorage.setItem('haven_refresh', data.refreshToken);
     localStorage.setItem('haven_user', JSON.stringify(data.user));
+
     window.location.href = './index.html';
   } catch (err) {
-    document.getElementById('mainView').style.display = '';
-    document.getElementById('loadingView').classList.remove('show');
-    pin = '';
-    updateDots();
-    showError(err.message);
+    alert.textContent = '⚠️ ' + err.message;
+    alert.classList.add('show');
+    document.getElementById('loginBtn').disabled = false;
+    document.getElementById('spinner').classList.remove('show');
+    document.getElementById('btnText').textContent = 'Sign In to Admin Panel';
   }
 }
 
+function googleAdminLogin() {
+  // Store that this is an admin login attempt
+  sessionStorage.setItem('admin_google_login', '1');
+  window.location.href = API_BASE.replace('/api', '') + '/api/auth/google?admin=1';
+}
+
+// Handle Google callback
+const params = new URLSearchParams(window.location.search);
+const token = params.get('token');
+const refresh = params.get('refresh');
+const userStr = params.get('user');
+
+if (token && refresh && userStr) {
+  try {
+    const user = JSON.parse(decodeURIComponent(userStr));
+    if (['admin', 'staff', 'concierge'].includes(user.role)) {
+      localStorage.setItem('haven_token', token);
+      localStorage.setItem('haven_refresh', refresh);
+      localStorage.setItem('haven_user', JSON.stringify(user));
+      window.location.href = './index.html';
+    } else {
+      const alert = document.getElementById('alert');
+      alert.textContent = '⚠️ Access denied. Admin credentials required.';
+      alert.classList.add('show');
+    }
+  } catch (err) {
+    console.error('Google callback error:', err);
+  }
+}
+
+// Enter key support
 document.addEventListener('keydown', e => {
-  if (e.key >= '0' && e.key <= '9') pressKey(e.key);
-  if (e.key === 'Backspace') deleteKey();
+  if (e.key === 'Enter') adminLogin();
 });
 
-const u = JSON.parse(localStorage.getItem('haven_user') || '{}');
-if (localStorage.getItem('haven_token') && ['admin','staff','concierge'].includes(u.role)) {
+// Check if already logged in as admin
+const existingUser = JSON.parse(localStorage.getItem('haven_user') || '{}');
+if (existingUser.role && ['admin', 'staff', 'concierge'].includes(existingUser.role)) {
   window.location.href = './index.html';
 }
 </script>
