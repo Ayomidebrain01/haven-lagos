@@ -758,11 +758,15 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModalDirect()
 renderCalendar();
 
 
+
+
+
 // ── ROLE-BASED AUTH CHECK ──
-function checkAdminAuth(requiredRoles) {
+(function() {
   const adminPin = localStorage.getItem('haven_admin_pin');
   const adminExpiry = localStorage.getItem('haven_admin_expiry');
   const role = localStorage.getItem('haven_admin_role');
+  const requiredRoles = ['admin', 'staff', 'concierge'];
 
   if (adminPin !== 'verified' || !adminExpiry || Date.now() > parseInt(adminExpiry)) {
     localStorage.removeItem('haven_admin_pin');
@@ -772,17 +776,20 @@ function checkAdminAuth(requiredRoles) {
     return;
   }
 
-  if (requiredRoles && !requiredRoles.includes(role)) {
+  if (!requiredRoles.includes(role)) {
     alert('Access denied. Your role (' + role + ') cannot access this page.');
     window.location.href = './index.html';
     return;
   }
 
-  // Show role badge in sidebar
-  const roleBadge = document.getElementById('adminRoleBadge');
+  // Show role in sidebar
   const roleLabels = { admin: '⭐ Super Admin', staff: '👤 Staff', concierge: '🔑 Concierge' };
-  if (roleBadge) roleBadge.textContent = roleLabels[role] || role;
-}
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.sb-role, .tnav-badge, #adminRoleBadge').forEach(el => {
+      el.textContent = roleLabels[role] || role;
+    });
+  });
+})();
 
 function adminSignOut() {
   if (confirm('Sign out of admin panel?')) {
@@ -797,8 +804,6 @@ function adminSignOut() {
 function getAdminRole() {
   return localStorage.getItem('haven_admin_role') || 'concierge';
 }
-
-checkAdminAuth(['admin', 'staff', 'concierge']);
 
 </script>
 </body>
