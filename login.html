@@ -471,12 +471,40 @@ function clearAlerts() {
 
 // ── SOCIAL AUTH ──
 function socialAuth(provider) {
-  showSuccess(
-    provider + ' sign-in',
-    'Connecting to ' + provider + '... (This would redirect to ' + provider + ' OAuth in production.)',
-    '🔗'
-  );
+  if (provider === 'Google') {
+    window.location.href = 'https://haven-backend-production-758b.up.railway.app/api/auth/google';
+  }
 }
+
+// ── HANDLE GOOGLE CALLBACK TOKEN ──
+function handleGoogleCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+  const refresh = params.get('refresh');
+  const userStr = params.get('user');
+  const error = params.get('error');
+
+  if (error) {
+    const alert = document.getElementById('signinAlert');
+    if (alert) { alert.textContent = '⚠️ Google sign-in failed. Please try again.'; alert.classList.add('show', 'error'); }
+    return;
+  }
+
+  if (token && refresh && userStr) {
+    try {
+      const user = JSON.parse(decodeURIComponent(userStr));
+      localStorage.setItem('haven_token', token);
+      localStorage.setItem('haven_refresh', refresh);
+      localStorage.setItem('haven_user', JSON.stringify(user));
+      showSuccess('Welcome ' + user.first_name + '!', 'Signed in with Google. Redirecting to your dashboard…', '🎉');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+    } catch (err) {
+      console.error('Google callback error:', err);
+    }
+  }
+}
+
+handleGoogleCallback();
 
 // ── PASSWORD TOGGLE ──
 function togglePw(id, btn) {

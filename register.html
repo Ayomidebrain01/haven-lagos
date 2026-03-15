@@ -551,6 +551,11 @@ function showRegister() {
     el.value = ''; el.classList.remove('filled');
   });
 }
+function socialAuth(provider) {
+  if (provider === 'Google') {
+    window.location.href = 'https://haven-backend-production-758b.up.railway.app/api/auth/google';
+  }
+}
 </script>
 </body>
 </html>
