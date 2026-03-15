@@ -768,6 +768,19 @@ function filterBookings(status, btn) {
 
 // ── LOAD USER DATA ──
 async function loadDashboard() {
+  // Handle Google OAuth callback tokens in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlToken = urlParams.get('token');
+  const urlRefresh = urlParams.get('refresh');
+  const urlUser = urlParams.get('user');
+  if (urlToken && urlRefresh && urlUser) {
+    localStorage.setItem('haven_token', urlToken);
+    localStorage.setItem('haven_refresh', urlRefresh);
+    localStorage.setItem('haven_user', decodeURIComponent(urlUser));
+    // Clean URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   const token = localStorage.getItem('haven_token');
   if (!token) { window.location.href = 'login.html'; return; }
   try {
