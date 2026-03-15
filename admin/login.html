@@ -31,47 +31,70 @@ body{font-family:'Nunito Sans',sans-serif;background:#0d1526;min-height:100vh;di
 .key.del:hover{background:#fef2f2;border-color:#dc2626;color:#dc2626;}
 .alert{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#dc2626;margin-bottom:16px;display:none;}
 .alert.show{display:block;}
+.role-badge{display:inline-block;padding:4px 12px;border-radius:100px;font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;display:none;}
+.role-badge.admin{background:#e8eef9;color:#0f2a5e;}
+.role-badge.staff{background:#f0fdf4;color:#16a34a;}
+.role-badge.concierge{background:#fff7ed;color:#f97316;}
 .attempts{font-size:0.72rem;color:#7a8499;margin-top:8px;}
 .attempts span{color:#dc2626;font-weight:700;}
+.loading{display:none;flex-direction:column;align-items:center;gap:12px;padding:20px 0;}
+.loading.show{display:flex;}
+.spinner{width:32px;height:32px;border:3px solid #e8eef9;border-top-color:#0f2a5e;border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{font-size:0.82rem;color:#7a8499;}
 </style>
 </head>
 <body>
 <div class="card">
   <div class="logo">HAVEN<span> Lagos</span></div>
   <div class="badge">Admin Panel</div>
-  <div class="title">Enter Admin PIN</div>
-  <div class="sub">4-digit access code</div>
-  <div class="pin-dots">
-    <div class="dot" id="d1"></div>
-    <div class="dot" id="d2"></div>
-    <div class="dot" id="d3"></div>
-    <div class="dot" id="d4"></div>
+  <div id="mainView">
+    <div class="title">Enter Your PIN</div>
+    <div class="sub">4-digit access code</div>
+    <div class="pin-dots">
+      <div class="dot" id="d1"></div>
+      <div class="dot" id="d2"></div>
+      <div class="dot" id="d3"></div>
+      <div class="dot" id="d4"></div>
+    </div>
+    <div class="role-badge" id="roleBadge"></div>
+    <div class="alert" id="alert"></div>
+    <div class="keypad">
+      <button class="key" onclick="pressKey('1')">1</button>
+      <button class="key" onclick="pressKey('2')">2</button>
+      <button class="key" onclick="pressKey('3')">3</button>
+      <button class="key" onclick="pressKey('4')">4</button>
+      <button class="key" onclick="pressKey('5')">5</button>
+      <button class="key" onclick="pressKey('6')">6</button>
+      <button class="key" onclick="pressKey('7')">7</button>
+      <button class="key" onclick="pressKey('8')">8</button>
+      <button class="key" onclick="pressKey('9')">9</button>
+      <button class="key zero" onclick="pressKey('0')">0</button>
+      <button class="key del" onclick="deleteKey()">&#9003;</button>
+    </div>
+    <div class="attempts" id="attemptsText"></div>
   </div>
-  <div class="alert" id="alert"></div>
-  <div class="keypad">
-    <button class="key" onclick="pressKey('1')">1</button>
-    <button class="key" onclick="pressKey('2')">2</button>
-    <button class="key" onclick="pressKey('3')">3</button>
-    <button class="key" onclick="pressKey('4')">4</button>
-    <button class="key" onclick="pressKey('5')">5</button>
-    <button class="key" onclick="pressKey('6')">6</button>
-    <button class="key" onclick="pressKey('7')">7</button>
-    <button class="key" onclick="pressKey('8')">8</button>
-    <button class="key" onclick="pressKey('9')">9</button>
-    <button class="key zero" onclick="pressKey('0')">0</button>
-    <button class="key del" onclick="deleteKey()">&#9003;</button>
+  <div class="loading" id="loadingView">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Verifying access&hellip;</div>
   </div>
-  <div class="attempts" id="attemptsText"></div>
 </div>
 
 <script>
-// ── CHANGE THIS PIN TO WHATEVER YOU WANT ──
-const ADMIN_PIN = '1234';
-// ──────────────────────────────────────────
+// ── PIN TO ROLE MAP ──
+const PIN_MAP = {
+  '9999': 'admin',      // Super Admin — full access
+  '1111': 'staff',      // Staff — bookings, guests, reviews
+  '0000': 'concierge'   // Concierge — view only
+};
 
-// Admin session duration in hours
+const ROLE_LABELS = {
+  admin: '⭐ Super Admin',
+  staff: '👤 Staff',
+  concierge: '🔑 Concierge'
+};
+
 const SESSION_HOURS = 8;
-
 let pin = '';
 let attempts = 0;
 const MAX_ATTEMPTS = 5;
@@ -89,6 +112,7 @@ function deleteKey() {
   pin = pin.slice(0, -1);
   updateDots();
   clearAlert();
+  hideBadge();
 }
 
 function updateDots(state) {
@@ -103,14 +127,11 @@ function updateDots(state) {
 
 function showError(msg) {
   updateDots('error');
+  hideBadge();
   const al = document.getElementById('alert');
   al.textContent = msg;
   al.classList.add('show');
-  setTimeout(() => {
-    clearAlert();
-    pin = '';
-    updateDots();
-  }, 1200);
+  setTimeout(() => { clearAlert(); pin = ''; updateDots(); }, 1200);
 }
 
 function clearAlert() {
@@ -119,24 +140,22 @@ function clearAlert() {
   al.textContent = '';
 }
 
+function showRoleBadge(role) {
+  const badge = document.getElementById('roleBadge');
+  badge.textContent = ROLE_LABELS[role];
+  badge.className = 'role-badge ' + role;
+  badge.style.display = 'inline-block';
+}
+
+function hideBadge() {
+  document.getElementById('roleBadge').style.display = 'none';
+}
+
 function checkPin() {
   if (locked) return;
+  const role = PIN_MAP[pin];
 
-  if (pin === ADMIN_PIN) {
-    // Correct PIN
-    updateDots('success');
-    // Set admin session with expiry
-    const expiry = Date.now() + SESSION_HOURS * 60 * 60 * 1000;
-    localStorage.setItem('haven_admin_pin', 'verified');
-    localStorage.setItem('haven_admin_expiry', expiry.toString());
-    localStorage.setItem('haven_user', JSON.stringify({
-      first_name: 'Admin',
-      last_name: '',
-      email: 'admin@havenshortlets.com',
-      role: 'admin'
-    }));
-    setTimeout(() => { window.location.href = './index.html'; }, 500);
-  } else {
+  if (!role) {
     attempts++;
     const remaining = MAX_ATTEMPTS - attempts;
     if (attempts >= MAX_ATTEMPTS) {
@@ -144,8 +163,7 @@ function checkPin() {
       showError('Too many attempts. Locked for 5 minutes.');
       document.getElementById('attemptsText').innerHTML = '<span>Locked for 5 minutes</span>';
       setTimeout(() => {
-        locked = false;
-        attempts = 0;
+        locked = false; attempts = 0;
         document.getElementById('attemptsText').textContent = '';
         clearAlert();
       }, 5 * 60 * 1000);
@@ -153,9 +171,34 @@ function checkPin() {
     }
     showError('Wrong PIN. ' + remaining + ' attempt' + (remaining !== 1 ? 's' : '') + ' left.');
     if (remaining <= 2) {
-      document.getElementById('attemptsText').innerHTML = '<span>' + remaining + ' attempt' + (remaining !== 1 ? 's' : '') + ' left</span>';
+      document.getElementById('attemptsText').innerHTML = '<span>' + remaining + ' left</span>';
     }
+    return;
   }
+
+  // Correct PIN — show role badge and loading
+  updateDots('success');
+  showRoleBadge(role);
+
+  setTimeout(() => {
+    document.getElementById('mainView').style.display = 'none';
+    document.getElementById('loadingView').classList.add('show');
+    document.getElementById('loadingText').textContent = 'Welcome, ' + ROLE_LABELS[role] + '…';
+
+    // Set session
+    const expiry = Date.now() + SESSION_HOURS * 60 * 60 * 1000;
+    localStorage.setItem('haven_admin_pin', 'verified');
+    localStorage.setItem('haven_admin_role', role);
+    localStorage.setItem('haven_admin_expiry', expiry.toString());
+    localStorage.setItem('haven_user', JSON.stringify({
+      first_name: role === 'admin' ? 'Super Admin' : role === 'staff' ? 'Staff' : 'Concierge',
+      last_name: '',
+      email: 'admin@havenshortlets.com',
+      role: role
+    }));
+
+    setTimeout(() => { window.location.href = './index.html'; }, 800);
+  }, 400);
 }
 
 // Keyboard support

@@ -470,6 +470,7 @@ td input[type="checkbox"]{accent-color:var(--accent);width:14px;height:14px;curs
   <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
   <button class="mbn" onclick="window.location.href='calendar.html'"><span class="mbn-ico">🗓️</span>Calendar</button>
   <button class="mbn" onclick="window.location.href='settings.html'"><span class="mbn-ico">⚙️</span>Settings</button>
+  <button class="mbn" onclick="adminSignOut()" style="color:#f87171;"><span class="mbn-ico">🚪</span>Sign Out</button>
 </nav>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
@@ -723,17 +724,48 @@ async function cancelBooking(ref) {
 
 loadBookingsFromAPI();
 
-// ── ADMIN AUTH CHECK ──
-function checkAdminAuth() {
+
+// ── ROLE-BASED AUTH CHECK ──
+function checkAdminAuth(requiredRoles) {
   const adminPin = localStorage.getItem('haven_admin_pin');
   const adminExpiry = localStorage.getItem('haven_admin_expiry');
+  const role = localStorage.getItem('haven_admin_role');
+
   if (adminPin !== 'verified' || !adminExpiry || Date.now() > parseInt(adminExpiry)) {
     localStorage.removeItem('haven_admin_pin');
     localStorage.removeItem('haven_admin_expiry');
+    localStorage.removeItem('haven_admin_role');
+    window.location.href = './login.html';
+    return;
+  }
+
+  if (requiredRoles && !requiredRoles.includes(role)) {
+    alert('Access denied. Your role (' + role + ') cannot access this page.');
+    window.location.href = './index.html';
+    return;
+  }
+
+  // Show role badge in sidebar
+  const roleBadge = document.getElementById('adminRoleBadge');
+  const roleLabels = { admin: '⭐ Super Admin', staff: '👤 Staff', concierge: '🔑 Concierge' };
+  if (roleBadge) roleBadge.textContent = roleLabels[role] || role;
+}
+
+function adminSignOut() {
+  if (confirm('Sign out of admin panel?')) {
+    localStorage.removeItem('haven_admin_pin');
+    localStorage.removeItem('haven_admin_expiry');
+    localStorage.removeItem('haven_admin_role');
+    localStorage.removeItem('haven_user');
     window.location.href = './login.html';
   }
 }
-checkAdminAuth();
+
+function getAdminRole() {
+  return localStorage.getItem('haven_admin_role') || 'concierge';
+}
+
+checkAdminAuth(['admin', 'staff', 'concierge']);
 
 </script>
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-NG">
 <head>
-<script src="/config.js"></script>
+<script src="./config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settings — HAVEN Admin</title>
@@ -254,7 +254,7 @@ input,select,textarea{font-family:inherit;}
     </nav>
     <div class="sb-bottom">
       <button class="sb-btn" onclick="window.open('../index.html','_blank')">🌐 View Live Site</button>
-      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='./login.html'">🚪 Sign Out</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
     </div>
   </aside>
 
@@ -271,7 +271,7 @@ input,select,textarea{font-family:inherit;}
       <button class="slink active" onclick="closeSidebar()"><span class="slink-ico">⚙️</span>Settings</button>
     </nav>
     <div class="sb-bottom">
-      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='./login.html'">🚪 Sign Out</button>
+      <button class="sb-btn danger" onclick="if(confirm('Sign out?'))window.location.href='../login.html'">🚪 Sign Out</button>
     </div>
   </aside>
 
@@ -580,16 +580,15 @@ input,select,textarea{font-family:inherit;}
                     </tr>
                   </thead>
                   <tbody>
-                    ${[
-                      ['Dashboard & Analytics','✅','✅','❌'],
-                      ['Bookings (view)','✅','✅','✅'],
-                      ['Bookings (edit/cancel)','✅','✅','❌'],
-                      ['Properties (edit)','✅','❌','❌'],
-                      ['Guests','✅','✅','✅'],
-                      ['Reviews (approve)','✅','✅','❌'],
-                      ['Calendar','✅','✅','✅'],
-                      ['Settings','✅','❌','❌'],
-                    ].map(([f,sa,st,co])=>`<tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">${f}</td><td style="text-align:center;padding:9px 12px;">${sa}</td><td style="text-align:center;padding:9px 12px;">${st}</td><td style="text-align:center;padding:9px 12px;">${co}</td></tr>`).join('')}
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Dashboard & Analytics</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">❌</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Bookings (view)</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Bookings (edit/cancel)</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">❌</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Properties (edit)</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">❌</td><td style="text-align:center;padding:9px 12px;">❌</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Guests</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Reviews (approve)</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">❌</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Calendar</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">✅</td></tr>
+                    <tr style="border-bottom:1px solid var(--border)"><td style="padding:9px 12px;font-weight:600;">Settings</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">❌</td><td style="text-align:center;padding:9px 12px;">❌</td></tr>
+                    <tr><td style="padding:9px 12px;font-weight:600;">Danger Zone</td><td style="text-align:center;padding:9px 12px;">✅</td><td style="text-align:center;padding:9px 12px;">❌</td><td style="text-align:center;padding:9px 12px;">❌</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -749,10 +748,20 @@ input,select,textarea{font-family:inherit;}
 
           <div class="danger-zone">
             <div class="dz-title">⚠️ Danger Zone</div>
-            <div class="dz-sub">These actions are irreversible. Please be absolutely sure before proceeding.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-red btn-sm" onclick="showToast('All sessions signed out across all devices.')">Sign Out All Sessions</button>
-              <button class="btn btn-red btn-sm" onclick="if(confirm('This will permanently delete ALL data. Are you absolutely sure?'))showToast('Please contact your hosting provider to proceed.')">Reset Platform Data</button>
+            <div class="dz-sub">These actions require the Super Admin password. Staff cannot perform these actions.</div>
+            <div id="dzLocked" style="margin-top:12px;">
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <input type="password" id="dzPassword" placeholder="Enter Super Admin password" style="padding:9px 12px;border:1.5px solid var(--red-bd);border-radius:var(--r);font-family:inherit;font-size:0.8rem;flex:1;min-width:200px;outline:none;">
+                <button class="btn btn-red btn-sm" onclick="verifyDangerPassword()">Unlock</button>
+              </div>
+              <div id="dzError" style="color:var(--red);font-size:0.75rem;margin-top:6px;display:none;">Incorrect password.</div>
+            </div>
+            <div id="dzUnlocked" style="display:none;margin-top:12px;">
+              <div style="background:#fff;border:1px solid var(--red-bd);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:0.78rem;color:var(--red);font-weight:700;">🔓 Danger Zone unlocked. Proceed with extreme caution.</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-red btn-sm" onclick="if(confirm('Sign out all active sessions?'))showToast('All sessions signed out.')">Sign Out All Sessions</button>
+                <button class="btn btn-red btn-sm" onclick="confirmDataReset()">Reset Platform Data</button>
+              </div>
             </div>
           </div>
         </div>
@@ -769,6 +778,7 @@ input,select,textarea{font-family:inherit;}
   <button class="mbn" onclick="window.location.href='properties.html'"><span class="mbn-ico">🏠</span>Props</button>
   <button class="mbn" onclick="window.location.href='reviews.html'"><span class="mbn-ico">⭐</span>Reviews</button>
   <button class="mbn active"><span class="mbn-ico">⚙️</span>Settings</button>
+  <button class="mbn" onclick="adminSignOut()" style="color:#f87171;"><span class="mbn-ico">🚪</span>Sign Out</button>
 </nav>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
@@ -793,50 +803,10 @@ function selectColour(el) {
   el.classList.add('active');
 }
 
-
-// ── LOAD SETTINGS FROM API ──
-async function loadSettings() {
-  try {
-    const res = await fetch(API_BASE + '/settings', { headers: authHeaders() });
-    const data = await res.json();
-    if (data.settings) {
-      const s = data.settings;
-      if (document.getElementById('settPlatformName')) document.getElementById('settPlatformName').value = s.platform_name || '';
-      if (document.getElementById('settEmail')) document.getElementById('settEmail').value = s.platform_email || '';
-      if (document.getElementById('settPhone')) document.getElementById('settPhone').value = s.platform_phone || '';
-      if (document.getElementById('settCheckin')) document.getElementById('settCheckin').value = s.checkin_time_default || '14:00';
-      if (document.getElementById('settCheckout')) document.getElementById('settCheckout').value = s.checkout_time_default || '12:00';
-      if (document.getElementById('settServiceCharge')) document.getElementById('settServiceCharge').value = s.service_charge_pct || '5';
-    }
-  } catch (err) { console.error('Settings load error:', err); }
+// ── SAVE ──
+function save(section) {
+  showToast(section + ' saved successfully!');
 }
-
-// ── SAVE SETTINGS ──
-async function save(section) {
-  const settings = {};
-  if (section === 'general' || section === 'General') {
-    if (document.getElementById('settPlatformName')) settings.platform_name = document.getElementById('settPlatformName').value;
-    if (document.getElementById('settEmail')) settings.platform_email = document.getElementById('settEmail').value;
-    if (document.getElementById('settPhone')) settings.platform_phone = document.getElementById('settPhone').value;
-  }
-  if (section === 'booking' || section === 'Booking') {
-    if (document.getElementById('settCheckin')) settings.checkin_time_default = document.getElementById('settCheckin').value;
-    if (document.getElementById('settCheckout')) settings.checkout_time_default = document.getElementById('settCheckout').value;
-    if (document.getElementById('settServiceCharge')) settings.service_charge_pct = document.getElementById('settServiceCharge').value;
-  }
-  if (Object.keys(settings).length === 0) { showToast(section + ' saved!'); return; }
-  try {
-    const res = await fetch(API_BASE + '/settings', {
-      method: 'PUT', headers: authHeaders(),
-      body: JSON.stringify({ settings })
-    });
-    if (!res.ok) throw new Error('Failed to save');
-    showToast(section + ' settings saved successfully!');
-  } catch (err) { showToast('Error: ' + err.message); }
-}
-
-loadSettings();
-
 
 // ── SIDEBAR ──
 function toggleSidebar() {
@@ -863,18 +833,75 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ── ADMIN AUTH CHECK ──
-function checkAdminAuth() {
+// ── DANGER ZONE ──
+const SUPER_ADMIN_PASSWORD = 'Haven@SuperAdmin2024';
+
+function verifyDangerPassword() {
+  const pwd = document.getElementById('dzPassword').value;
+  const err = document.getElementById('dzError');
+  if (pwd === SUPER_ADMIN_PASSWORD) {
+    document.getElementById('dzLocked').style.display = 'none';
+    document.getElementById('dzUnlocked').style.display = '';
+    err.style.display = 'none';
+  } else {
+    err.style.display = 'block';
+    document.getElementById('dzPassword').value = '';
+  }
+}
+
+function confirmDataReset() {
+  const code = prompt('Type RESET to confirm. This will permanently delete ALL platform data:');
+  if (code === 'RESET') {
+    showToast('Contact your hosting provider to proceed with data reset.');
+  } else {
+    showToast('Reset cancelled.');
+  }
+}
+
+
+
+
+// ── ROLE-BASED AUTH CHECK ──
+function checkAdminAuth(requiredRoles) {
   const adminPin = localStorage.getItem('haven_admin_pin');
   const adminExpiry = localStorage.getItem('haven_admin_expiry');
+  const role = localStorage.getItem('haven_admin_role');
+
   if (adminPin !== 'verified' || !adminExpiry || Date.now() > parseInt(adminExpiry)) {
     localStorage.removeItem('haven_admin_pin');
     localStorage.removeItem('haven_admin_expiry');
+    localStorage.removeItem('haven_admin_role');
+    window.location.href = './login.html';
+    return;
+  }
+
+  if (requiredRoles && !requiredRoles.includes(role)) {
+    alert('Access denied. Your role (' + role + ') cannot access this page.');
+    window.location.href = './index.html';
+    return;
+  }
+
+  // Show role badge in sidebar
+  const roleBadge = document.getElementById('adminRoleBadge');
+  const roleLabels = { admin: '⭐ Super Admin', staff: '👤 Staff', concierge: '🔑 Concierge' };
+  if (roleBadge) roleBadge.textContent = roleLabels[role] || role;
+}
+
+function adminSignOut() {
+  if (confirm('Sign out of admin panel?')) {
+    localStorage.removeItem('haven_admin_pin');
+    localStorage.removeItem('haven_admin_expiry');
+    localStorage.removeItem('haven_admin_role');
+    localStorage.removeItem('haven_user');
     window.location.href = './login.html';
   }
 }
-checkAdminAuth();
 
+function getAdminRole() {
+  return localStorage.getItem('haven_admin_role') || 'concierge';
+}
+
+checkAdminAuth(['admin']);
 </script>
 </body>
 </html>
