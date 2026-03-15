@@ -744,8 +744,8 @@ input,select,textarea{font-family:inherit;}
             <div class="sc-head"><div class="sc-title">Admin Activity Log</div></div>
             <div class="log-list">
               <div class="log-item"><div class="log-ico">🔑</div><div class="log-body"><div class="log-action">Admin login</div><div class="log-detail">Tunde Adesanya · Chrome, Mac · Lagos, NG</div></div><div class="log-time">Just now</div></div>
-              <div class="log-item"><div class="log-ico">✅</div><div class="log-body"><div class="log-action">Review approved</div><div class="log-detail">Adaeze Okonkwo · Signature Suite · 5★</div></div><div class="log-time">2h ago</div></div>
-              <div class="log-item"><div class="log-ico">📅</div><div class="log-body"><div class="log-action">Booking confirmed</div><div class="log-detail">HAVEN-4821 · Adaeze Okonkwo · ₦393,000</div></div><div class="log-time">2h ago</div></div>
+              <div class="log-item"><div class="log-ico">✅</div><div class="log-body"><div class="log-action">Review approved</div><div class="log-detail">Admin User · Signature Suite · 5★</div></div><div class="log-time">2h ago</div></div>
+              <div class="log-item"><div class="log-ico">📅</div><div class="log-body"><div class="log-action">Booking confirmed</div><div class="log-detail">HAVEN-4821 · Admin User · ₦393,000</div></div><div class="log-time">2h ago</div></div>
               <div class="log-item"><div class="log-ico">🏠</div><div class="log-body"><div class="log-action">Property updated</div><div class="log-detail">Signature Suite — nightly rate changed to ₦120,000</div></div><div class="log-time">Yesterday</div></div>
               <div class="log-item"><div class="log-ico">👥</div><div class="log-body"><div class="log-action">Team member invited</div><div class="log-detail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2c4c3d6cbcfc3e2cac3d4c7ccd1cacdd0d6cec7d6d18cc1cdcf">[email&#160;protected]</a> — Concierge role</div></div><div class="log-time">3 days ago</div></div>
               <div class="log-item"><div class="log-ico">⚙️</div><div class="log-body"><div class="log-action">Settings updated</div><div class="log-detail">Pricing — service charge updated to 5%</div></div><div class="log-time">5 days ago</div></div>
@@ -960,6 +960,15 @@ function doSignOut() {
   localStorage.removeItem('haven_token');
   localStorage.removeItem('haven_refresh');
   window.location.replace('./login.html');
+}
+
+
+function authHeaders() {
+  const token = localStorage.getItem('haven_token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + (token || '')
+  };
 }
 
 </script>

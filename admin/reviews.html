@@ -447,20 +447,15 @@ input,select,textarea{font-family:inherit;}
 
 <script>
 // ── DATA ──
-const REVIEWS = [
-  {id:1,guest:'Chioma Okafor',email:'chioma@email.com',apt:'Signature Suite',ref:'HAVEN-4810',date:'3 days ago',rating:5,text:"Finally a shortlet platform that actually works. I stopped chasing DMs, stopped sending money to strangers and hoping for the best. I booked on the website, got my confirmation instantly, and the apartment was exactly as described. Zero surprises. This is the only way I will ever book a shortlet in Lagos.",status:'pending',verified:true,flagged:false,reply:'',color:'#f97316',catRatings:{cleanliness:5,accuracy:5,location:5,value:5,checkin:5}},
-  {id:2,guest:'David Olu',email:'david@email.com',apt:'VI Executive',ref:'HAVEN-4819',date:'2 days ago',rating:4,text:"Good stay overall. The apartment was clean and the WiFi was fast enough for calls. Check-in was simple with the smart lock. Only minor thing — the parking was a little tight. Would come back.",status:'pending',verified:true,flagged:false,reply:'',color:'#0891b2',catRatings:{cleanliness:5,accuracy:4,location:4,value:4,checkin:5}},
-  {id:3,guest:'Kemi Fashola',email:'kemi@email.com',apt:'Lekki Palms',ref:'HAVEN-4820',date:'1 day ago',rating:5,text:"Perfect apartment for our team. The concierge arranged everything before we arrived. Had all 3 invoices ready for expense claims the next morning. This is the shortlet platform for serious people.",status:'pending',verified:true,flagged:false,reply:'',color:'#dc2626',catRatings:{cleanliness:5,accuracy:5,location:5,value:4,checkin:5}},
-  {id:4,guest:'Anonymous User',email:'anon@mail.com',apt:'Signature Suite',ref:'',date:'4 days ago',rating:1,text:"terrible place dont waste ur money",status:'pending',verified:false,flagged:true,reply:'',color:'#7a8499',catRatings:{}},
-  {id:5,guest:'Marcus Obi',email:'marcus@email.com',apt:'Lekki Skyview',ref:'HAVEN-4816',date:'5 days ago',rating:4,text:"Good value for solo travel. The studio was compact but well laid out. City view from the 12th floor was great. Smart lock worked perfectly. Would recommend for a budget-conscious solo traveller.",status:'pending',verified:true,flagged:false,reply:'',color:'#f97316',catRatings:{cleanliness:4,accuracy:4,location:5,value:5,checkin:5}},
-  {id:6,guest:'Adaeze Okonkwo',email:'adaeze@email.com',apt:'Signature Suite',ref:'HAVEN-3214',date:'10 Nov 2024',rating:5,text:"Third time staying with HAVEN and somehow it keeps getting better. The apartment was spotless, the concierge team sorted restaurant bookings without me even asking twice. The rooftop pool at sunset is something else.",status:'approved',verified:true,flagged:false,reply:"Thank you so much Adaeze! We love having you with us — hope to welcome you back very soon.",color:'#7c3aed',catRatings:{cleanliness:5,accuracy:5,location:5,value:5,checkin:5}},
-  {id:7,guest:'Emeka Nwachukwu',email:'emeka@email.com',apt:'VI Executive',ref:'HAVEN-3890',date:'15 Nov 2024',rating:5,text:"Best shortlet in Lagos, full stop. I travel monthly for work and HAVEN is the only place I book. Instant confirmation, clean apartment, receipt in my inbox. No drama, no DMs, no waiting. Professional from start to finish.",status:'approved',verified:true,flagged:false,reply:"Emeka, you're one of our favourite guests! Thank you for the kind words — see you next month.",color:'#0f2a5e',catRatings:{cleanliness:5,accuracy:5,location:4,value:5,checkin:5}},
-  {id:8,guest:'Ngozi Eze',email:'ngozi@email.com',apt:'Ikoyi Manor',ref:'HAVEN-2400',date:'20 Sep 2024',rating:3,text:"The apartment itself was nice but I had a problem with my booking that took a while to sort. Eventually resolved but I expected faster support. The space was clean and the location was good.",status:'approved',verified:true,flagged:false,reply:"Thank you for your honest feedback, Ngozi. We're sorry your support experience wasn't faster — we've since increased our response team. We hope to welcome you back and show you what we're capable of.",color:'#dc2626',catRatings:{cleanliness:4,accuracy:3,location:5,value:3,checkin:4}},
-  {id:9,guest:'Spam Bot 5000',email:'deals@promo.xyz',apt:'Signature Suite',ref:'',date:'6 days ago',rating:5,text:"Amazing place! Click here to get 50% off your next booking: promo-deals.xyz/haven-lagos",status:'rejected',verified:false,flagged:true,reply:'',color:'#7a8499',catRatings:{}},
-  {id:10,guest:'Funke Balogun',email:'funke@email.com',apt:'Signature Suite',ref:'HAVEN-4815',date:'2 Jan 2025',rating:5,text:"My partner was completely blown away by the anniversary setup the concierge arranged. Flowers, groceries, the whole thing already in the apartment when we arrived. It made the entire trip special. Five stars is not enough.",status:'approved',verified:true,flagged:false,reply:'',color:'#16a34a',catRatings:{cleanliness:5,accuracy:5,location:5,value:4,checkin:5}},
-];
+const REVIEWS = []; // Loaded from API
 
 let activeStatus = 'pending';
+
+document.addEventListener('DOMContentLoaded', function() {
+  const list = document.getElementById('reviewsList');
+  if (list) list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);">Loading reviews...</div>';
+  loadReviewsFromAPI();
+});
 let selectedIds = new Set();
 
 // ── RENDER ──

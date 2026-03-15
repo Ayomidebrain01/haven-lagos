@@ -506,16 +506,32 @@ const MONTHS = ['January','February','March','April','May','June','July','August
 const TODAY = new Date(2026, 2, 14); // March 14 2026
 
 // ── BOOKING DATA ──
-const BOOKINGS = [
-  {id:'HAVEN-4821',guest:'Adaeze Okonkwo',apt:'Signature Suite',ci:new Date(2025,0,17),co:new Date(2025,0,20),amount:'₦393,000',status:'confirmed'},
-  {id:'HAVEN-4820',guest:'Kemi Fashola',apt:'Lekki Palms',ci:new Date(2025,0,15),co:new Date(2025,0,19),amount:'₦360,000',status:'confirmed'},
-  {id:'HAVEN-4819',guest:'David Olu',apt:'VI Executive',ci:new Date(2025,0,10),co:new Date(2025,0,14),amount:'₦340,000',status:'pending'},
-  {id:'HAVEN-4818',guest:'Sola Martins',apt:'Ikoyi Penthouse',ci:new Date(2025,0,5),co:new Date(2025,0,9),amount:'₦638,000',status:'completed'},
-  {id:'HAVEN-4816',guest:'Marcus Obi',apt:'Lekki Skyview',ci:new Date(2025,0,3),co:new Date(2025,0,6),amount:'₦195,000',status:'checkedin'},
-  {id:'HAVEN-4815',guest:'Funke Balogun',apt:'Signature Suite',ci:new Date(2025,0,28),co:new Date(2025,0,31),amount:'₦393,000',status:'confirmed'},
-  {id:'HAVEN-4814',guest:'Bola Adeleke',apt:'Chevron Gardens',ci:new Date(2025,0,22),co:new Date(2025,0,25),amount:'₦225,000',status:'confirmed'},
-  {id:'HAVEN-4813',guest:'Ria Okonkwo',apt:'Lekki Palms',ci:new Date(2025,0,20),co:new Date(2025,0,27),amount:'₦595,000',status:'confirmed'},
-];
+const BOOKINGS = []; // Loaded from API
+
+async function loadCalendarBookings() {
+  try {
+    const res = await fetch(API_BASE + '/bookings?limit=100', { headers: authHeaders() });
+    const data = await res.json();
+    if (data.bookings) {
+      data.bookings.forEach(b => {
+        BOOKINGS.push({
+          ref: b.booking_ref,
+          apt: b.property_name,
+          guest: b.first_name + ' ' + b.last_name,
+          ci: new Date(b.checkin_date),
+          co: new Date(b.checkout_date),
+          status: b.status,
+          nights: b.nights,
+          amount: b.total_amount / 100
+        });
+      });
+      renderCalendar();
+      renderUpcoming();
+    }
+  } catch(err) { console.error('Calendar load error:', err); }
+}
+
+document.addEventListener('DOMContentLoaded', loadCalendarBookings);
 const BLOCKED = [
   {apt:'VI Executive',from:new Date(2025,0,16),to:new Date(2025,0,18),reason:'Maintenance'},
   {apt:'Ikoyi Manor',from:new Date(2025,0,8),to:new Date(2025,0,10),reason:'Owner Use'},
@@ -858,6 +874,15 @@ function doSignOut() {
   localStorage.removeItem('haven_token');
   localStorage.removeItem('haven_refresh');
   window.location.replace('./login.html');
+}
+
+
+function authHeaders() {
+  const token = localStorage.getItem('haven_token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + (token || '')
+  };
 }
 
 </script>

@@ -345,7 +345,7 @@ td{padding:11px 14px;vertical-align:middle;font-size:0.8rem;}
   <main class="main">
 
     <div class="pg-head">
-      <div><div class="pg-title">Guest Database</div><div class="pg-sub">All registered guests and booking history</div></div>
+      <div><div class="pg-title">Guest Database</div><div class="pg-sub">All bookinged guests and booking history</div></div>
       <div class="pg-actions">
         <button class="btn btn-o btn-sm" onclick="exportGuests()">↓ Export CSV</button>
         <button class="btn btn-p btn-sm" onclick="showToast('Invite sent!')">+ Invite Guest</button>
@@ -446,68 +446,7 @@ td{padding:11px 14px;vertical-align:middle;font-size:0.8rem;}
 
 <script>
 // ── GUEST DATA ──
-const GUESTS = [
-  {id:1,name:'Adaeze Okonkwo',email:'adaeze@email.com',phone:'+234 801 234 5678',loc:'Lagos',joined:'Jan 2025',lastStay:'17–20 Jan 2025',stays:3,spent:1386000,type:'repeat',flagged:false,note:'Prefers Lekki Phase 1. Usually books for business.',color:'#7c3aed',bookings:[
-    {apt:'Signature Suite',dates:'17–20 Jan 2025',amt:'₦393,000',ref:'HAVEN-4821',status:'confirmed'},
-    {apt:'VI Executive',dates:'3–7 Nov 2024',amt:'₦355,000',ref:'HAVEN-3214',status:'completed'},
-    {apt:'Ikoyi Penthouse',dates:'15–18 Aug 2024',amt:'₦638,000',ref:'HAVEN-1847',status:'completed'},
-  ]},
-  {id:2,name:'Emeka Nwachukwu',email:'emeka@email.com',phone:'+234 810 123 4567',loc:'Abuja',joined:'Oct 2024',lastStay:'15–18 Dec 2024',stays:7,spent:2940000,type:'vip',flagged:false,note:'Monthly business traveller. Always pays by bank transfer. VIP treatment.',color:'#0f2a5e',bookings:[
-    {apt:'VI Executive',dates:'15–18 Dec 2024',amt:'₦255,000',ref:'HAVEN-4812',status:'completed'},
-    {apt:'Signature Suite',dates:'10–13 Nov 2024',amt:'₦393,000',ref:'HAVEN-3890',status:'completed'},
-    {apt:'Lekki Palms',dates:'8–11 Oct 2024',amt:'₦270,000',ref:'HAVEN-3100',status:'completed'},
-  ]},
-  {id:3,name:'Tunde Adeyemi',email:'tunde@email.com',phone:'+234 811 234 5678',loc:'UK',joined:'Sep 2024',lastStay:'10–14 Dec 2024',stays:4,spent:2548000,type:'vip',flagged:false,note:'Flies in from London regularly. Always requests airport pickup.',color:'#16a34a',bookings:[
-    {apt:'Ikoyi Penthouse',dates:'10–14 Dec 2024',amt:'₦800,000',ref:'HAVEN-4811',status:'completed'},
-    {apt:'Ikoyi Penthouse',dates:'5–8 Oct 2024',amt:'₦600,000',ref:'HAVEN-3050',status:'completed'},
-  ]},
-  {id:4,name:'Chioma Okafor',email:'chioma@email.com',phone:'+234 812 345 6789',loc:'Lagos',joined:'Nov 2024',lastStay:'1–5 Dec 2024',stays:2,spent:903000,type:'repeat',flagged:false,note:'',color:'#f97316',bookings:[
-    {apt:'Signature Suite',dates:'1–5 Dec 2024',amt:'₦510,000',ref:'HAVEN-4810',status:'completed'},
-    {apt:'Lekki Skyview',dates:'12–15 Nov 2024',amt:'₦393,000',ref:'HAVEN-3700',status:'completed'},
-  ]},
-  {id:5,name:'Kemi Fashola',email:'kemi@email.com',phone:'+234 802 345 6789',loc:'Abuja',joined:'Jan 2025',lastStay:'15–19 Jan 2025',stays:1,spent:360000,type:'new',flagged:false,note:'First time guest. Corporate booking.',color:'#dc2626',bookings:[
-    {apt:'Lekki Palms',dates:'15–19 Jan 2025',amt:'₦360,000',ref:'HAVEN-4820',status:'confirmed'},
-  ]},
-  {id:6,name:'Sola Martins',email:'sola@email.com',phone:'+234 804 567 8901',loc:'Canada',joined:'Dec 2024',lastStay:'5–9 Jan 2025',stays:2,spent:1276000,type:'repeat',flagged:false,note:'Diaspora guest. Books for family reunions. Group of 6–10 always.',color:'#7c3aed',bookings:[
-    {apt:'Ikoyi Penthouse',dates:'5–9 Jan 2025',amt:'₦638,000',ref:'HAVEN-4818',status:'completed'},
-    {apt:'Lekki Premium Villa',dates:'22–27 Dec 2024',amt:'₦638,000',ref:'HAVEN-4750',status:'completed'},
-  ]},
-  {id:7,name:'David Olu',email:'david@email.com',phone:'+234 803 456 7890',loc:'US',joined:'Jan 2025',lastStay:'10–14 Jan 2025',stays:1,spent:340000,type:'new',flagged:false,note:'Business trip. Had payment issues — follow up if books again.',color:'#f97316',bookings:[
-    {apt:'VI Executive',dates:'10–14 Jan 2025',amt:'₦340,000',ref:'HAVEN-4819',status:'pending'},
-  ]},
-  {id:8,name:'Funke Balogun',email:'funke@email.com',phone:'+234 807 890 1234',loc:'Lagos',joined:'Aug 2024',lastStay:'28–31 Dec 2024',stays:3,spent:1179000,type:'repeat',flagged:false,note:'Books for special occasions. Loves the Signature Suite.',color:'#16a34a',bookings:[
-    {apt:'Signature Suite',dates:'28–31 Dec 2024',amt:'₦393,000',ref:'HAVEN-4815',status:'completed'},
-    {apt:'Signature Suite',dates:'14–17 Oct 2024',amt:'₦393,000',ref:'HAVEN-3200',status:'completed'},
-    {apt:'Lekki Palms',dates:'20–22 Aug 2024',amt:'₦393,000',ref:'HAVEN-2000',status:'completed'},
-  ]},
-  {id:9,name:'Bola Adeleke',email:'bola@email.com',phone:'+234 808 901 2345',loc:'Lagos',joined:'Dec 2024',lastStay:'22–25 Dec 2024',stays:1,spent:225000,type:'new',flagged:false,note:'Family stay. Quiet, no issues.',color:'#0f2a5e',bookings:[
-    {apt:'Chevron Gardens',dates:'22–25 Dec 2024',amt:'₦225,000',ref:'HAVEN-4814',status:'completed'},
-  ]},
-  {id:10,name:'Ria Okonkwo',email:'ria@email.com',phone:'+234 809 012 3456',loc:'Lagos',joined:'Dec 2024',lastStay:'20–27 Dec 2024',stays:2,spent:915000,type:'repeat',flagged:false,note:'Remote worker. Prefers quiet estates.',color:'#7c3aed',bookings:[
-    {apt:'Lekki Palms',dates:'20–27 Dec 2024',amt:'₦595,000',ref:'HAVEN-4813',status:'completed'},
-    {apt:'Chevron Comfort',dates:'1–8 Nov 2024',amt:'₦320,000',ref:'HAVEN-3600',status:'completed'},
-  ]},
-  {id:11,name:'Marcus Obi',email:'marcus@email.com',phone:'+234 806 789 0123',loc:'Lagos',joined:'Jan 2025',lastStay:'3–6 Jan 2025',stays:1,spent:195000,type:'new',flagged:false,note:'Solo traveller on a budget. Left 4-star review.',color:'#f97316',bookings:[
-    {apt:'Lekki Skyview',dates:'3–6 Jan 2025',amt:'₦195,000',ref:'HAVEN-4816',status:'checkedin'},
-  ]},
-  {id:12,name:'Ngozi Eze',email:'ngozi@email.com',phone:'+234 805 678 9012',loc:'Port Harcourt',joined:'Sep 2024',lastStay:'1–4 Jan 2025',stays:2,spent:570000,type:'repeat',flagged:true,note:'⚑ Cancelled a booking within 24hrs. Refund disputed. Monitor future bookings.',color:'#dc2626',bookings:[
-    {apt:'Ikoyi Manor',dates:'1–4 Jan 2025',amt:'₦285,000',ref:'HAVEN-4817',status:'cancelled'},
-    {apt:'VI Executive',dates:'15–18 Sep 2024',amt:'₦285,000',ref:'HAVEN-2400',status:'completed'},
-  ]},
-  {id:13,name:'Kola Abiodun',email:'kola@corpmail.com',phone:'+234 813 456 7890',loc:'Lagos',joined:'Nov 2024',lastStay:'5–10 Dec 2024',stays:5,spent:2100000,type:'corporate',flagged:false,note:'Corporate account — Zenith Bank. Books for visiting executives. Requires VAT invoice each time.',color:'#0f2a5e',bookings:[
-    {apt:'Ikoyi Penthouse',dates:'5–10 Dec 2024',amt:'₦1,000,000',ref:'HAVEN-4780',status:'completed'},
-    {apt:'Signature Suite',dates:'1–5 Nov 2024',amt:'₦510,000',ref:'HAVEN-3680',status:'completed'},
-  ]},
-  {id:14,name:'Amaka Osei',email:'amaka@email.com',phone:'+234 814 567 8901',loc:'UK',joined:'Oct 2024',lastStay:'8–12 Nov 2024',stays:2,spent:816000,type:'repeat',flagged:false,note:'London-based. Books during school holidays.',color:'#16a34a',bookings:[
-    {apt:'Lekki Palms',dates:'8–12 Nov 2024',amt:'₦360,000',ref:'HAVEN-3720',status:'completed'},
-    {apt:'Chevron Gardens',dates:'10–13 Aug 2024',amt:'₦456,000',ref:'HAVEN-1980',status:'completed'},
-  ]},
-  {id:15,name:'Yemi Bankole',email:'yemi@bankole.com',phone:'+234 815 678 9012',loc:'Abuja',joined:'Aug 2024',lastStay:'22–26 Oct 2024',stays:4,spent:1728000,type:'vip',flagged:false,note:'High-value repeat guest. Always books Ikoyi or VI. Prefers penthouse.',color:'#7c3aed',bookings:[
-    {apt:'Ikoyi Penthouse',dates:'22–26 Oct 2024',amt:'₦800,000',ref:'HAVEN-3300',status:'completed'},
-    {apt:'Ikoyi Penthouse',dates:'5–9 Aug 2024',amt:'₦800,000',ref:'HAVEN-1860',status:'completed'},
-    {apt:'VI Executive',dates:'12–15 Jun 2024',amt:'₦128,000',ref:'HAVEN-1200',status:'completed'},
-  ]},
-];
+const GUESTS = []; // Loaded from API
 
 const TYPE_MAP = {
   new:{cls:'sp-new',label:'New'},
@@ -518,6 +457,14 @@ const TYPE_MAP = {
 const AVATAR_COLORS = ['#0f2a5e','#16a34a','#7c3aed','#f97316','#dc2626','#0891b2'];
 
 let activeType = 'all';
+
+document.addEventListener('DOMContentLoaded', function() {
+  const tbody = document.getElementById('guestsTbody');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading guests...</td></tr>';
+  }
+  loadGuestsFromAPI();
+});
 
 // ── RENDER ──
 function renderGuests(data) {

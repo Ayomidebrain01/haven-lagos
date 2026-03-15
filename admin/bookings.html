@@ -520,20 +520,7 @@ td input[type="checkbox"]{accent-color:var(--accent);width:14px;height:14px;curs
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── DATA ──
-const BOOKINGS = [
-  {id:'HAVEN-2025-4821',apt:'Signature Suite',loc:'Lekki Phase 1',guest:'Adaeze Okonkwo',email:'adaeze@email.com',phone:'+234 801 234 5678',ci:'17 Jan 2025',co:'20 Jan 2025',nights:3,guests:'2 Adults',booked:'8 Jan 2025',amount:393000,nightly:120000,method:'Card ···4821',status:'confirmed'},
-  {id:'HAVEN-2025-4820',apt:'Lekki Palms',loc:'Lekki Phase 1',guest:'Kemi Fashola',email:'kemi@email.com',phone:'+234 802 345 6789',ci:'15 Jan 2025',co:'19 Jan 2025',nights:4,guests:'3 Adults',booked:'7 Jan 2025',amount:360000,nightly:85000,method:'Bank Transfer',status:'confirmed'},
-  {id:'HAVEN-2025-4819',apt:'VI Executive',loc:'Victoria Island',guest:'David Olu',email:'david@email.com',phone:'+234 803 456 7890',ci:'10 Jan 2025',co:'14 Jan 2025',nights:4,guests:'1 Adult',booked:'5 Jan 2025',amount:340000,nightly:80000,method:'Card ···9902',status:'pending'},
-  {id:'HAVEN-2025-4818',apt:'Ikoyi Penthouse',loc:'Ikoyi',guest:'Sola Martins',email:'sola@email.com',phone:'+234 804 567 8901',ci:'5 Jan 2025',co:'9 Jan 2025',nights:4,guests:'6 Adults',booked:'28 Dec 2024',amount:638000,nightly:150000,method:'Bank Transfer',status:'completed'},
-  {id:'HAVEN-2025-4817',apt:'Ikoyi Manor',loc:'Ikoyi',guest:'Ngozi Eze',email:'ngozi@email.com',phone:'+234 805 678 9012',ci:'1 Jan 2025',co:'4 Jan 2025',nights:3,guests:'2 Adults',booked:'26 Dec 2024',amount:285000,nightly:90000,method:'Card ···5511',status:'cancelled'},
-  {id:'HAVEN-2025-4816',apt:'Lekki Skyview',loc:'Lekki Phase 1',guest:'Marcus Obi',email:'marcus@email.com',phone:'+234 806 789 0123',ci:'3 Jan 2025',co:'6 Jan 2025',nights:3,guests:'1 Adult',booked:'27 Dec 2024',amount:195000,nightly:65000,method:'USSD',status:'checkedin'},
-  {id:'HAVEN-2025-4815',apt:'Signature Suite',loc:'Lekki Phase 1',guest:'Funke Balogun',email:'funke@email.com',phone:'+234 807 890 1234',ci:'28 Dec 2024',co:'31 Dec 2024',nights:3,guests:'2 Adults',booked:'20 Dec 2024',amount:393000,nightly:120000,method:'Bank Transfer',status:'checkedin'},
-  {id:'HAVEN-2024-4814',apt:'Chevron Gardens',loc:'Chevron',guest:'Bola Adeleke',email:'bola@email.com',phone:'+234 808 901 2345',ci:'22 Dec 2024',co:'25 Dec 2024',nights:3,guests:'4 Adults',booked:'15 Dec 2024',amount:225000,nightly:75000,method:'Card ···3344',status:'confirmed'},
-  {id:'HAVEN-2024-4813',apt:'Lekki Palms',loc:'Lekki Phase 1',guest:'Ria Okonkwo',email:'ria@email.com',phone:'+234 809 012 3456',ci:'20 Dec 2024',co:'27 Dec 2024',nights:7,guests:'2 Adults',booked:'10 Dec 2024',amount:595000,nightly:90000,method:'Bank Transfer',status:'confirmed'},
-  {id:'HAVEN-2024-4812',apt:'VI Executive',loc:'Victoria Island',guest:'Emeka Nwachukwu',email:'emeka@email.com',phone:'+234 810 123 4567',ci:'15 Dec 2024',co:'18 Dec 2024',nights:3,guests:'1 Adult',booked:'8 Dec 2024',amount:255000,nightly:80000,method:'Card ···7788',status:'confirmed'},
-  {id:'HAVEN-2024-4811',apt:'Ikoyi Penthouse',loc:'Ikoyi',guest:'Tunde Adeyemi',email:'tunde@email.com',phone:'+234 811 234 5678',ci:'10 Dec 2024',co:'14 Dec 2024',nights:4,guests:'2 Adults',booked:'2 Dec 2024',amount:638000,nightly:150000,method:'Bank Transfer',status:'confirmed'},
-  {id:'HAVEN-2024-4810',apt:'Signature Suite',loc:'Lekki Phase 1',guest:'Chioma Okafor',email:'chioma@email.com',phone:'+234 812 345 6789',ci:'1 Dec 2024',co:'5 Dec 2024',nights:4,guests:'3 Adults',booked:'25 Nov 2024',amount:510000,nightly:120000,method:'Card ···2233',status:'confirmed'},
-];
+const BOOKINGS = []; // Loaded from API
 
 const STATUS_MAP = {
   confirmed:{cls:'sp-c',label:'Confirmed'},
@@ -545,6 +532,15 @@ const STATUS_MAP = {
 
 let activeStatus = 'all';
 let selectedRows = new Set();
+
+// Show loading state on init
+document.addEventListener('DOMContentLoaded', function() {
+  const tbody = document.getElementById('bookingsTbody');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted);">Loading bookings...</td></tr>';
+  }
+  loadBookingsFromAPI();
+});
 
 // ── RENDER TABLE ──
 function renderTable(data) {
