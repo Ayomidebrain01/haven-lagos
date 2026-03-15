@@ -4,7 +4,7 @@
 <script src="./config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In or Create Account — HAVEN Lagos</title>
+<title>Sign In — HAVEN Lagos</title>
 <meta name="description" content="Sign in to your HAVEN Lagos account to view bookings, receipts and manage your stays. New guest? Create a free account in seconds.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://www.havenshortlets.com/login.html">
@@ -245,13 +245,12 @@ input{font-family:inherit;}
         <!-- Tabs -->
         <div class="auth-tabs">
           <button class="auth-tab active" id="tabSignIn" onclick="switchTab('signin')">Sign In</button>
-          <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Create Account</button>
         </div>
 
         <!-- ── SIGN IN FORM ── -->
         <div id="signinPanel">
           <h1 class="auth-title">Welcome back</h1>
-          <p class="auth-sub">Don't have an account? <a href="#" onclick="switchTab('register');return false;">Create one free →</a></p>
+          <p class="auth-sub">Your account is created automatically when you book. <a href="properties.html">Browse properties →</a></p>
 
           <!-- Social -->
           <div class="social-btns">
@@ -290,11 +289,11 @@ input{font-family:inherit;}
             <span class="spinner" id="signinSpinner"></span>
             <span id="signinText">Sign In →</span>
           </button>
-          <div class="auth-footer">No account yet? <a href="#" onclick="switchTab('register');return false;">Create one free</a></div>
+          <div class="auth-footer">Book a property to get your account. <a href="properties.html">Browse now →</a></div>
         </div>
 
         <!-- ── REGISTER FORM ── -->
-        <div id="registerPanel" style="display:none;">
+        <div id="registerPanel" style="display:none !important;">
           <h1 class="auth-title">Create your account</h1>
           <p class="auth-sub">Already have an account? <a href="#" onclick="switchTab('signin');return false;">Sign in →</a></p>
 
@@ -737,8 +736,8 @@ function setLoading(btnId, spinnerId, textId, loading, loadingText) {
   });
 });
 
-// Handle URL params — auto-switch to register tab
-if (window.location.search.includes('register')) switchTab('register');
+// Redirect register attempts to properties page
+if (window.location.search.includes('register')) window.location.href = 'properties.html';
 </script>
 </body>
 </html>
